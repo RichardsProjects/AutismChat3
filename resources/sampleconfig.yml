@@ -1,0 +1,38 @@
+# -------------------------- #
+# AutismChat v3.0            #
+# Designed by Adam Harper  #
+# Programmed by Dev_Richard   #
+# -------------------------- #
+#
+# The following template is for settings that players start with.
+# If partyID is blank in the template, then a new partyID is generated for each new player.
+templateForFirstLogin:
+  partyID: 0
+  color: WHITE
+  globalChat: true
+# Make entries for this comma-separated with no spaces (harpereaves,RichardPlaysYT)
+  yellowList: ''
+#
+# Players login/logoff messages are not displayed to red players
+redhidesloginnotify: false
+#
+# Message of the day that is displayed to users when they first join
+motd:
+  - '&7This server is running AutismChat 3.0.'
+  - '&7Messages typed into chat go to party chat instead of global chat.'
+  - '&7You are always in a party, even if it"s only with yourself.'
+  - '&7Parties have no leaders.'
+  - '&7To join another party, type "/join &oplayername&7" and you will join the party &oplayername&7 is in.'
+  - '&7To leave that party and be on your own again, type "/leave".'
+  - '&7To send a message to global chat (which players may or may not be listening to), type "/g &oyour message&7".'
+  - '&7For more advanced commands, read the guide at http://beeminecraftserver.weebly.com/autismchat.html'
+#
+# Changes whether the MOTD is displayed every join or just on the first one
+firstJoin: false
+#
+# If this setting is enabled it will display all the user's settings to them when they login
+loginreport: true
+#
+# Chat formats for both party and global
+partyChatFormat: "&6[&3Party&6] &f%name%: %message%"
+globalChatFormat: "&6[&3Global&6] &f%name%: %message%"

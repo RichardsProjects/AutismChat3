@@ -1,0 +1,57 @@
+name: AutismChat3
+main: net.richardprojects.autismchat3.AutismChat3
+version: 1.0.0
+permissions:
+  autismchat.admin.blue:
+    description: Allows an admin to use the blue command
+    default: op
+  autismchat.admin.reload:
+    description: Allows an admin to use reload the plugins config.
+    default: op
+commands:
+  join:
+    description: Leave your current party and join the specified player's party.
+    usage: /<command> <player>
+    aliases: [j]
+  leave:
+    description: Leaves your current party and creates a new one with only you in it.
+    usage: /<command>
+    aliases: [l]
+  global:
+    description: Sends a message to global chat
+    usage: /<command> <message>
+    aliases: [g]
+  yellow:
+    description: Allows you to manage your yellow list.
+    usage: /<command> [add|remove <player>]|[list]
+  green:
+    description: Sets your status to green - tells people you want them to join a party with you.
+    usage: /<command>
+  gc:
+    description: Turn global chat on or off
+    usage: /<command> [on|off]
+  red:
+    description: Sets your status to red - which prevents people from messaging you or joing a party with you.
+    usage: /<command>
+  white:
+    description: Restores you to the default settings and color.
+    usage: /<command>
+  blue:
+    description: Sets your status to blue - meaning you are on duty as a member of staff
+    usage: /<command>
+  msg:
+    description: Sends a private message to an online player.
+    usage: /<command> <player> <message>
+  tell:
+    description: Sends a private message to an online player.
+    usage: /<command> <player> <message>
+  w:
+    description: Sends a private message to an online player.
+    usage: /<command> <player> <message>
+  autismchat:
+    description: 'Manage the autismchat plugin. Just "/autismchat" displays a help menu and "/autismchat reload" reloads the plugin'
+    usage: /<command> [reload]
+    aliases: [ac]
+  me:
+    description: Displays a message about yourself.
+    usage: /me <message>
