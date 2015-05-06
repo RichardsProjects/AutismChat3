@@ -139,10 +139,25 @@ private AutismChat3 plugin;
 											Player cPlayer = plugin.getServer().getPlayer(playerId);
 											if(cPlayer != null) {
 												String msg = Messages.message_leaveParty;
-												msg = msg.replace("{PLAYER}", player.getName());
+												msg = msg.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
 												msg = msg.replace(" {PLAYERS} {REASON}", " because they have joined another party.");
 												cPlayer.sendMessage(Utils.colorCodes(msg));
 											}
+										} else {
+											String msg = Messages.message_leaveParty;
+											String partyMemberString2 = "";
+											//Create party list
+											for(UUID member : currentPartyMembers) {
+												String playerName = plugin.getName(member);
+												if(playerName != null) {
+													playerName = Color.colorCode(PlayerData.getPlayerColor(member)) + playerName;
+													partyMemberString2 = partyMemberString2 + ", " + playerName;
+												}
+											}
+											partyMemberString2 = partyMemberString2.substring(2);
+											msg = msg.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + "You&r");
+											msg = msg.replace("{PLAYERS} {REASON}", partyMemberString2);
+											player.sendMessage(Utils.colorCodes(msg));
 										}
 									}
 								} else {
