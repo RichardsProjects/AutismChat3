@@ -150,6 +150,9 @@ public class LeaveCommand implements CommandExecutor {
 								player.sendMessage(Utils.colorCodes(Messages.prefix_Bad + Messages.message_onlyOneInParty));
 							}
 						}
+					} else {
+						String msg = Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs);
+						player.sendMessage(msg);
 					}
 				}
 			});

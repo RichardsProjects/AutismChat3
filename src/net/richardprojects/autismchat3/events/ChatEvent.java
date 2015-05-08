@@ -37,7 +37,7 @@ public class ChatEvent implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void ChatEvent(AsyncPlayerChatEvent e) {
-		String chatMsg = ChatColor.RESET + e.getMessage();
+		String chatMsg = e.getMessage();
 		e.setCancelled(true);
 		Player player2 = (Player) e.getPlayer();
 		UUID uuid1 = player2.getUniqueId();
@@ -51,7 +51,7 @@ public class ChatEvent implements Listener {
 				Player cPlayer = plugin.getServer().getPlayer(uuid);
 				if(cPlayer != null) {
 					String msg = Config.partyChatFormat;
-					msg = msg.replace("%name%", playerName);
+					msg = msg.replace("%name%", playerName + ChatColor.RESET);
 					msg = msg.replace("%message%", chatMsg);
 					msg = Utils.colorCodes(msg);
 					cPlayer.sendMessage(msg);
