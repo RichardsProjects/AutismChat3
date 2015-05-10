@@ -25,6 +25,7 @@ import net.richardprojects.autismchat3.commands.LeaveCommand;
 import net.richardprojects.autismchat3.commands.MeCommand;
 import net.richardprojects.autismchat3.commands.PrivateMessageCommands;
 import net.richardprojects.autismchat3.commands.RedCommand;
+import net.richardprojects.autismchat3.commands.StatusCommand;
 import net.richardprojects.autismchat3.commands.WhiteCommand;
 import net.richardprojects.autismchat3.commands.YellowCommand;
 import net.richardprojects.autismchat3.events.ChatEvent;
@@ -58,28 +59,28 @@ public class AutismChat3 extends JavaPlugin {
 	
 	
 	public void onEnable() {
-		
-		//Setup Teams
-		manager = Bukkit.getScoreboardManager();
-		board = manager.getNewScoreboard();
-		yellowTeam = board.registerNewTeam("yellowTeam");
-		yellowTeam.setPrefix(ChatColor.GOLD + "");
-		blueTeam = board.registerNewTeam("blueTeam");
-		blueTeam.setPrefix(ChatColor.DARK_AQUA + "");
-		redTeam = board.registerNewTeam("redTeam");
-		redTeam.setPrefix(ChatColor.DARK_RED + "");
-		greenTeam = board.registerNewTeam("greenTeam");
-		greenTeam.setPrefix(ChatColor.GREEN + "");
-		
-		//Setup Everything else
+		//Initialize Everything
 		dataFolder = getDataFolder();
 		pm = this.getServer().getPluginManager();
 		log = this.getLogger();
 		uuids.load("uuids.yml");
 		
+		//Check files and register everything
 		checkFiles();
 		registerEvents();
 		registerCommands();
+		
+		//Setup Teams
+		manager = Bukkit.getScoreboardManager();
+		board = manager.getNewScoreboard();
+		yellowTeam = board.registerNewTeam("yellowTeam");
+		yellowTeam.setPrefix(Utils.colorCodes(Messages.color_yellow));
+		blueTeam = board.registerNewTeam("blueTeam");
+		blueTeam.setPrefix(Utils.colorCodes(Messages.color_blue));
+		redTeam = board.registerNewTeam("redTeam");
+		redTeam.setPrefix(Utils.colorCodes(Messages.color_red));
+		greenTeam = board.registerNewTeam("greenTeam");
+		greenTeam.setPrefix(Utils.colorCodes(Messages.color_green));
 	}
 	
 	public void onDisable() {
@@ -150,6 +151,7 @@ public class AutismChat3 extends JavaPlugin {
 		getCommand("green").setExecutor(new GreenCommand(this));
 		getCommand("join").setExecutor(new JoinCommand(this));
 		getCommand("autismchat").setExecutor(new AutismChatCommand(this));
+		getCommand("status").setExecutor(new StatusCommand(this));
 		
 		//Override Vanilla private message commands
 		getCommand("w").setExecutor(new PrivateMessageCommands(this));

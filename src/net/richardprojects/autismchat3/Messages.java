@@ -13,12 +13,21 @@ package net.richardprojects.autismchat3;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.libs.jline.internal.Log;
 
 public class Messages {
-
+	public static String color_red;
+	public static String color_yellow;
+	public static String color_blue;
+	public static String color_green;
+	public static String status_colorSetting;
+	public static String status_yellowList;
+	public static String status_globalChat;
+	public static String status_partyMembers;
 	public static String prefix_Bad;
 	public static String prefix_Good;
 	public static String prefix_Message;
@@ -55,6 +64,9 @@ public class Messages {
 	public static String message_leaveParty;
 	public static String message_onlyOneInParty;
 	public static String message_loadingSettings;
+	public static String partyChatFormat;
+	public static String globalChatFormat;
+	public static List<String> motd = new ArrayList<String>();
 	
 	private static YamlConfiguration messagesConfig;
 	
@@ -63,7 +75,6 @@ public class Messages {
 			PrintWriter out = new PrintWriter(AutismChat3.messages);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					AutismChat3.class.getResourceAsStream("/samplemessages.yml")));
-
 			String currentLine;
 			while ((currentLine = reader.readLine()) != null) {
 				out.append(currentLine + "\n");
@@ -121,7 +132,25 @@ public class Messages {
 			error_JoinParty3 = messagesConfig.getString("partyJoinErrorMessages.3");
 			error_JoinParty4 = messagesConfig.getString("partyJoinErrorMessages.4");
 			error_JoinParty5 = messagesConfig.getString("partyJoinErrorMessages.5");
-			error_JoinParty6 = messagesConfig.getString("partyJoinErrorMessages.6");		
+			error_JoinParty6 = messagesConfig.getString("partyJoinErrorMessages.6");
+			
+			//Load Chat Formats
+			partyChatFormat = messagesConfig.getString("partyChatFormat");
+			globalChatFormat = messagesConfig.getString("globalChatFormat");
+			
+			motd = messagesConfig.getStringList("motd");
+			
+			//Load Colors
+			color_blue = messagesConfig.getString("blue");
+			color_yellow = messagesConfig.getString("yellow");
+			color_red = messagesConfig.getString("red");
+			color_green = messagesConfig.getString("green");
+			
+			//Load Status Messages
+			status_colorSetting = messagesConfig.getString("status.colourSetting");
+			status_yellowList = messagesConfig.getString("status.yellowList");
+			status_globalChat = messagesConfig.getString("status.globalChat");
+			status_partyMembers = messagesConfig.getString("status.partyMembers");
 		} catch(Exception e) {
 			AutismChat3.log.info("There was an error while loading data from the messages...");
 			e.printStackTrace();

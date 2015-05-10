@@ -52,7 +52,7 @@ public class GlobalMessageCommand implements CommandExecutor {
 				for(Player player2 : plugin.getServer().getOnlinePlayers()) {
 					UUID uuid = player2.getUniqueId();
 					if(PlayerData.globalChatEnabled(uuid)) {
-						String msg = Config.globalChatFormat;
+						String msg = Messages.globalChatFormat;
 						msg = msg.replace("%name%", playerName);
 						msg = msg.replace("%message%", chatMsg);
 						msg = Utils.colorCodes(msg);

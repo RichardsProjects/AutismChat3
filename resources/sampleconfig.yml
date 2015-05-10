@@ -16,23 +16,11 @@ templateForFirstLogin:
 # Players login/logoff messages are not displayed to red players
 redhidesloginnotify: false
 #
-# Message of the day that is displayed to users when they first join
-motd:
-  - '&7This server is running AutismChat 3.0. Source code is available at https://github.com/RichardsProjects/AutismChat3.'
-  - '&7Messages typed into chat go to party chat, not global chat.'
-  - '&7BASICS COMMANDS'
-  - '&7/join &oplayername&7 - you join &oplayername&7 in a party.'
-  - '&7/g &oyour message&7 - sends &omessage&7 to global chat (which players may or may not be listening to).'
-  - '&7/leave - you leave the party and be on your own again.'
-  - '&7Full guide at http://beeminecraftserver.weebly.com/autismchat.html'
-#
 # Changes whether the MOTD is displayed every join or just on the first one
 firstJoin: false
 #
 # If this setting is enabled it will display all the user's settings to them when they login
-loginreport: true
+showLoginReport: true
 #
-# Chat formats for both party and global
-partyChatFormat: "%name%&f:  %message%"
-globalChatFormat: "&6[&3Global&6] &f<%name%&f>  %message%"
-                                                   
+status: 'globalChat,partyMembers'
+loginReport: 'colourSetting,yellowList,globalChat,partyMembers'

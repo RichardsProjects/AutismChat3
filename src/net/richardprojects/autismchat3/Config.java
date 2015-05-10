@@ -11,18 +11,11 @@
 package net.richardprojects.autismchat3;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import net.md_5.bungee.api.ChatColor;
 
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.libs.jline.internal.Log;
 
@@ -36,13 +29,12 @@ public class Config {
 	public static Color template_color;
 	public static boolean template_globalChat;
 	public static String[] template_yellowList;
-	public static List<String> motd = new ArrayList<String>();
 	public static boolean displayLoginMesagesToRedPlayers;
 	public static boolean firstJoin;
-	public static String partyChatFormat;
-	public static String globalChatFormat;
 	public static boolean redHidesLoginNotification = false;
 	public static boolean loginReport = true;
+	public static String loginReportStatuses;
+	public static String statusStatuses;
 	
 	private static YamlConfiguration config;
 	
@@ -75,14 +67,9 @@ public class Config {
 	
 			displayLoginMesagesToRedPlayers = !config.getBoolean("redhidesloginnotify");
 			
-			motd = config.getStringList("motd");
 			redHidesLoginNotification = config.getBoolean("redhidesloginnotify");
-			loginReport = config.getBoolean("loginreport");
-			
-			//Load Chat Formats
-			partyChatFormat = config.getString("partyChatFormat");
-			globalChatFormat = config.getString("globalChatFormat");
-			
+			loginReport = config.getBoolean("showLoginReport");
+						
 			template_partyID = config.getInt("templateForFirstLogin.partyID");
 			template_color = Color.parseString(config.getString("templateForFirstLogin.color"));
 			template_globalChat = config.getBoolean("templateForFirstLogin.globalChat");
@@ -90,6 +77,10 @@ public class Config {
 			
 			//First join value sets if the motd should only be displayed on first join
 			firstJoin = config.getBoolean("firstJoin");
+			
+			//Load Statuses
+			loginReportStatuses = config.getString("loginReport");
+			statusStatuses = config.getString("status");
 		} catch(Exception e) {
 			AutismChat3.log.info("There was an error while loading data from the configuration...");
 			e.printStackTrace();

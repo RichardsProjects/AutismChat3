@@ -49,13 +49,13 @@ public enum Color {
 	
 	public static String colorCode(Color color) {
 		if(color == Color.YELLOW) {
-			return ChatColor.GOLD + "";
+			return Utils.colorCodes(Messages.color_yellow);
 		} else if(color == Color.BLUE) {
-			return ChatColor.DARK_AQUA + "";
+			return Utils.colorCodes(Messages.color_blue);
 		} else if(color == Color.GREEN) {
-			return ChatColor.GREEN + "";
+			return Utils.colorCodes(Messages.color_green);
 		} else if(color == Color.RED) {
-			return ChatColor.DARK_RED + "";
+			return Utils.colorCodes(Messages.color_red);
 		} else if(color == Color.WHITE) {
 			return ChatColor.WHITE + "";
 		} else {

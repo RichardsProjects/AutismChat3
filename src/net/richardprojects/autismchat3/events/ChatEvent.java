@@ -15,7 +15,6 @@ import java.util.UUID;
 import net.md_5.bungee.api.ChatColor;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Color;
-import net.richardprojects.autismchat3.Config;
 import net.richardprojects.autismchat3.Messages;
 import net.richardprojects.autismchat3.PartyUtils;
 import net.richardprojects.autismchat3.PlayerData;
@@ -36,7 +35,7 @@ public class ChatEvent implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void ChatEvent(AsyncPlayerChatEvent e) {
+	public void chatEvent(AsyncPlayerChatEvent e) {
 		String chatMsg = e.getMessage();
 		e.setCancelled(true);
 		Player player2 = (Player) e.getPlayer();
@@ -50,7 +49,7 @@ public class ChatEvent implements Listener {
 			for(UUID uuid : PartyUtils.partyMembers(partyID)) {
 				Player cPlayer = plugin.getServer().getPlayer(uuid);
 				if(cPlayer != null) {
-					String msg = Config.partyChatFormat;
+					String msg = Messages.partyChatFormat;
 					msg = msg.replace("%name%", playerName + ChatColor.RESET);
 					msg = msg.replace("%message%", chatMsg);
 					msg = Utils.colorCodes(msg);
