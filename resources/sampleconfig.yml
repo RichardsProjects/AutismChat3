@@ -18,14 +18,13 @@ redhidesloginnotify: false
 #
 # Message of the day that is displayed to users when they first join
 motd:
-  - '&7This server is running AutismChat 3.0.'
-  - '&7Messages typed into chat go to party chat instead of global chat.'
-  - '&7You are always in a party, even if it"s only with yourself.'
-  - '&7Parties have no leaders.'
-  - '&7To join another party, type "/join &oplayername&7" and you will join the party &oplayername&7 is in.'
-  - '&7To leave that party and be on your own again, type "/leave".'
-  - '&7To send a message to global chat (which players may or may not be listening to), type "/g &oyour message&7".'
-  - '&7For more advanced commands, read the guide at http://beeminecraftserver.weebly.com/autismchat.html'
+  - '&7This server is running AutismChat 3.0. Source code is available at https://github.com/RichardsProjects/AutismChat3.'
+  - '&7Messages typed into chat go to party chat, not global chat.'
+  - '&7BASICS COMMANDS'
+  - '&7/join &oplayername&7 - you join &oplayername&7 in a party.'
+  - '&7/g &oyour message&7 - sends &omessage&7 to global chat (which players may or may not be listening to).'
+  - '&7/leave - you leave the party and be on your own again.'
+  - '&7Full guide at http://beeminecraftserver.weebly.com/autismchat.html'
 #
 # Changes whether the MOTD is displayed every join or just on the first one
 firstJoin: false
@@ -34,5 +33,6 @@ firstJoin: false
 loginreport: true
 #
 # Chat formats for both party and global
-partyChatFormat: "&6[&3Party&6] &f%name%: %message%"
-globalChatFormat: "&6[&3Global&6] &f%name%: %message%"
+partyChatFormat: "%name%&f:  %message%"
+globalChatFormat: "&6[&3Global&6] &f<%name%&f>  %message%"
+                                                   
