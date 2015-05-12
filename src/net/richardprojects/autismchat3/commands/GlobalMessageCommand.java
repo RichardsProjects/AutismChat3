@@ -40,7 +40,7 @@ public class GlobalMessageCommand implements CommandExecutor {
 			String playerName = Color.colorCode(PlayerData.getPlayerColor(uuid1)) + player.getName();
 			if(args.length == 0)
 			{
-				String msg = Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_noMessage);
+				String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_noMessage);
 				player.sendMessage(msg);
 				return true;
 			} else {

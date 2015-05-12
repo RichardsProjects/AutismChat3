@@ -42,7 +42,7 @@ public class MeCommand implements CommandExecutor {
 							for(UUID uuid : partyMembers) {
 								Player cPlayer = plugin.getServer().getPlayer(uuid);
 								if(cPlayer != null) {
-									cPlayer.sendMessage(player.getName() + " " + msg);
+									cPlayer.sendMessage(player.getName() + " " +  msg);
 								}
 							}
 						}

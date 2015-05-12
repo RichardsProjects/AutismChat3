@@ -29,7 +29,7 @@ public class BlueCommand implements CommandExecutor {
 				if(args.length == 0)
 				{
 					PlayerData.setColor(player.getUniqueId(), Color.BLUE);
-					String msg = Utils.colorCodes(Messages.prefix_Good + " " + Messages.message_setBlue);
+					String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_setBlue);
 					player.sendMessage(msg);
 					Team playerTeam = AutismChat3.board.getPlayerTeam(player);
 					if(playerTeam != null) {
@@ -49,12 +49,12 @@ public class BlueCommand implements CommandExecutor {
 						cPlayer.setScoreboard(AutismChat3.board);
 					}
 				} else {
-					String msg = Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs);
+					String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs);
 					player.sendMessage(msg);
 					return false;
 				}
 			} else {
-				String msg = Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_noPermission);
+				String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_noPermission);
 				player.sendMessage(msg);
 			}
 		} else {

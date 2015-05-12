@@ -30,7 +30,7 @@ public class PrivateMessageCommands implements CommandExecutor {
 			if(cmd.getName().equalsIgnoreCase("msg")) {
 				//Msg command
 				if(args.length < 2) {
-					String msg = Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs);
+					String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs);
 					player.sendMessage(msg);
 					return false;
 				} else {
@@ -98,13 +98,13 @@ public class PrivateMessageCommands implements CommandExecutor {
 						//Send Message
 						if(sendMessage) {
 							//Show messge for recipient
-							String msg1 = Messages.prefix_Message + " " + message;
+							String msg1 = Messages.prefix_Message + message;
 							msg1 = msg1.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
 							msg1 = msg1.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + "Me");
 							recipient.sendMessage(Utils.colorCodes(msg1));
 							
 							//Show message for sender
-							String msg2 = Messages.prefix_Message + " " + message;
+							String msg2 = Messages.prefix_Message + message;
 							msg2 = msg2.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + "You");
 							msg2 = msg2.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
 							player.sendMessage(Utils.colorCodes(msg2));							
@@ -118,7 +118,7 @@ public class PrivateMessageCommands implements CommandExecutor {
 				//tell command
 				//Msg command
 				if(args.length < 2) {
-					String msg = Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs);
+					String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs);
 					player.sendMessage(msg);
 					return false;
 				} else {
@@ -186,13 +186,13 @@ public class PrivateMessageCommands implements CommandExecutor {
 						//Send Message
 						if(sendMessage) {
 							//Show messge for recipient
-							String msg1 = Messages.prefix_Message + " " + message;
+							String msg1 = Messages.prefix_Message + message;
 							msg1 = msg1.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
 							msg1 = msg1.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + "Me");
 							recipient.sendMessage(Utils.colorCodes(msg1));
 							
 							//Show message for sender
-							String msg2 = Messages.prefix_Message + " " + message;
+							String msg2 = Messages.prefix_Message + message;
 							msg2 = msg2.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + "You");
 							msg2 = msg2.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
 							player.sendMessage(Utils.colorCodes(msg2));							
@@ -206,7 +206,7 @@ public class PrivateMessageCommands implements CommandExecutor {
 				//w command
 				//Msg command
 				if(args.length < 2) {
-					String msg = Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs);
+					String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs);
 					player.sendMessage(msg);
 					return false;
 				} else {
@@ -274,13 +274,13 @@ public class PrivateMessageCommands implements CommandExecutor {
 						//Send Message
 						if(sendMessage) {
 							//Show messge for recipient
-							String msg1 = Messages.prefix_Message + " " + message;
+							String msg1 = Messages.prefix_Message + message;
 							msg1 = msg1.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
 							msg1 = msg1.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + "Me");
 							recipient.sendMessage(Utils.colorCodes(msg1));
 							
 							//Show message for sender
-							String msg2 = Messages.prefix_Message + " " + message;
+							String msg2 = Messages.prefix_Message + message;
 							msg2 = msg2.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + "You");
 							msg2 = msg2.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
 							player.sendMessage(Utils.colorCodes(msg2));							

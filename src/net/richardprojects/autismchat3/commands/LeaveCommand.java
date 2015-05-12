@@ -117,42 +117,13 @@ public class LeaveCommand implements CommandExecutor {
 									e.printStackTrace();
 								}
 							} else {
-								/*try {
-									//Create a new party
-									int newPartyId = PartyUtils.createParty(player.getName(), player.getUniqueId());
-									
-									//Update party id
-									File xml = new File(AutismChat3.dataFolder + File.separator + "userdata" + File.separator + player.getUniqueId().toString() + ".xml");
-									DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-									DocumentBuilder docBuilder = docFactory.newDocumentBuilder();			
-									Document doc = docBuilder.parse(xml);
-									
-									NodeList nList = doc.getElementsByTagName("party");
-									Node tempNode = nList.item(0);
-									tempNode.setTextContent(newPartyId + "");
-											
-									//Save
-									TransformerFactory transformerFactory = TransformerFactory.newInstance();
-									Transformer transformer = transformerFactory.newTransformer();
-									DOMSource source = new DOMSource(doc);
-									StreamResult result = new StreamResult(xml);
-									transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-									transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-									transformer.transform(source, result);
-									
-									//Delete the old party
-									File oldParty = new File(AutismChat3.dataFolder + File.separator + "parties" + File.separator + partyId + ".xml");
-									oldParty.delete();
-								} catch (Exception e) {
-									e.printStackTrace();
-									player.sendMessage(Utils.colorCodes(Messages.prefix_Bad + " There was an error while attempting to leave the party."));
-								}*/
 								player.sendMessage(Utils.colorCodes(Messages.prefix_Bad + Messages.message_onlyOneInParty));
 							}
 						}
 					} else {
-						String msg = Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs);
+						String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs);
 						player.sendMessage(msg);
+						player.sendMessage("/leave");
 					}
 				}
 			});

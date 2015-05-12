@@ -67,7 +67,7 @@ public class YellowCommand implements CommandExecutor {
 						}
 					}
 				}
-				String msg = Utils.colorCodes(Messages.prefix_Good + " " + Messages.message_setYellow);
+				String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_setYellow);
 				msg = msg.replace("{yellow_list}", yellowList);
 				player.sendMessage(msg);
 				Team playerTeam = AutismChat3.board.getPlayerTeam(player);
@@ -185,7 +185,7 @@ public class YellowCommand implements CommandExecutor {
 						player.sendMessage(Utils.colorCodes(msg));
 						return true;
 					} else {
-						sender.sendMessage(Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs));
+						sender.sendMessage(Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs));
 						return false;
 					}
 				} else if(args.length == 2) {
@@ -267,11 +267,11 @@ public class YellowCommand implements CommandExecutor {
 							return true;
 						}
 					} else {
-						sender.sendMessage(Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs));
+						sender.sendMessage(Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs));
 						return false;
 					}
 				} else {
-					sender.sendMessage(Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs));
+					sender.sendMessage(Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs));
 					return false;
 				}
 			}

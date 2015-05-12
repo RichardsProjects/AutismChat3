@@ -54,7 +54,7 @@ public class RedCommand implements CommandExecutor {
 			if(args.length == 0)
 			{
 				PlayerData.setColor(player.getUniqueId(), Color.RED);
-				String msg = Utils.colorCodes(Messages.prefix_Good + " " + Messages.message_setRed);
+				String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_setRed);
 				Team playerTeam = AutismChat3.board.getPlayerTeam(player);
 				if(playerTeam != null) {
 					String name = playerTeam.getName();
@@ -138,7 +138,7 @@ public class RedCommand implements CommandExecutor {
 					}
 				});
 			} else {
-				String msg = Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs);
+				String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs);
 				player.sendMessage(msg);
 				return false;
 			}

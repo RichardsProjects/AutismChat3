@@ -38,7 +38,7 @@ public class WhiteCommand implements CommandExecutor {
 			if(args.length == 0)
 			{
 				PlayerData.setColor(player.getUniqueId(), Color.WHITE);
-				String msg = Utils.colorCodes(Messages.prefix_Good + " " + Messages.message_setWhite);
+				String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_setWhite);
 				player.sendMessage(msg);
 				Team playerTeam = AutismChat3.board.getPlayerTeam(player);
 				if(playerTeam != null) {
@@ -57,7 +57,7 @@ public class WhiteCommand implements CommandExecutor {
 					cPlayer.setScoreboard(AutismChat3.board);
 				}
 			} else {
-				String msg = Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs);
+				String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs);
 				player.sendMessage(msg);
 				return false;
 			}

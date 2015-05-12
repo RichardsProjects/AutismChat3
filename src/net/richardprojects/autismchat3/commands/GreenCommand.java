@@ -38,7 +38,7 @@ public class GreenCommand implements CommandExecutor {
 			if(args.length == 0)
 			{
 				PlayerData.setColor(player.getUniqueId(), Color.GREEN);
-				String msg = Utils.colorCodes(Messages.prefix_Good + " " + Messages.message_setGreen);
+				String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_setGreen);
 				player.sendMessage(msg);
 				Team playerTeam = AutismChat3.board.getPlayerTeam(player);
 				if(playerTeam != null) {
@@ -58,7 +58,7 @@ public class GreenCommand implements CommandExecutor {
 					cPlayer.setScoreboard(AutismChat3.board);
 				}
 			} else {
-				String msg = Utils.colorCodes(Messages.prefix_Bad + " " + Messages.error_invalidArgs);
+				String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs);
 				player.sendMessage(msg);
 				return false;
 			}

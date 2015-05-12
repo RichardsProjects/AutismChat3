@@ -1,6 +1,6 @@
 name: AutismChat3
 main: net.richardprojects.autismchat3.AutismChat3
-version: 1.0.0
+version: 0011
 permissions:
   autismchat.admin.blue:
     description: Allows an admin to use the blue command
