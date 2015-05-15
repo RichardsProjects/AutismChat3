@@ -29,65 +29,66 @@
 # Yellow status color is &6
 #
 # Status Color Codes
-yellow: '&6'  
-blue: '&1'
+yellow: '&e'  
+blue: '&9'
 green: '&2' 
 red: '&4'
 #
 # Messages
 #
-prefixBad: '&6[&9AutismChat&6] &5'
-prefixGood: '&6[&9AutismChat&6] &7'
-prefixMessage: '&6[PLAYER1&6->PLAYER2&6] &r'
-errNoPerm: '&dYou do not have permission to use that command!'
+prefixBad: '&c'
+prefixGood: '&6'
+prefixMessage: '&6[PLAYER1&6->PLAYER2&6] &7'
+errNoPerm: 'You do not have permission to use that command!'
 yellowAdd: '{TARGET} added to yellow list.'
 yellowDuplicate: '{TARGET} cannot be added because they are already on your yellow list.'
 yellowRemove: '{TARGET} removed from yellow list'
 yellowNoMatch: '{TARGET} cannot be removed because they are not on your yellow list.'
-statusSetBlue: "You switched to &1Blue&7. This lets other players know you are a staff member."
-statusSetYellow: 'You switched to &6Yellow&7. Only players on your yellow list have permission to be in your party and message you: {yellow_list}'
-statusSetRed: 'You switched to &4Red&7. Players can neither message you nor join your party, and vice versa.'
-statusSetWhite: 'You switched to &fWhite&7. Any player can message you or join your party.'
-statusSetGreen: 'You switched to &2Green&7. Players are encouraged to message you or join your party.'
+statusSetBlue: "You switched to &9Blue&6. This lets other players know you are a staff member."
+statusSetYellow: 'You switched to &eYellow&6. Only {yellow_list} have permission to be in your party and message you.'
+statusSetRed: 'You switched to &4Red&6. Players can neither message you nor join your party, and vice versa.'
+statusSetWhite: 'You switched to &fWhite&6. Any player can message you or join your party.'
+statusSetGreen: 'You switched to &2Green&6. Players are encouraged to message you or join your party.'
 notValidPlayer: "Can't find {TARGET}! Either you mispelled their name, or they haven't logged in since AutismChat was installed."
 globalChatOff: 'Global chat messages will not be displayed.'
 globalChatOn: 'Global chat messages will be displayed.'
-noAcceptingRed: '&5You cannot send {RECEIVER} messages because they are &4RED&5!'
-noAcceptingYellow: '&5You cannot send {RECEIVER} messages because they are &6YELLOW&5 and you are not on their list!'
-noSendingRed: '&5You cannot send messages because you are &4RED&5!'
-noSendingYellow: '&5You cannot send {RECEIVER} messages because you are &6YELLOW&5 and they are not on your list!'
-invalidArgs: 'Your command included invalid arguments:'
+noAcceptingRed: '&5You cannot send {RECEIVER} messages because they are &4RED&c!'
+noAcceptingYellow: '&5You cannot send {RECEIVER} messages because they are &6YELLOW&c and you are not on their list!'
+noSendingRed: '&5You cannot send messages because you are &4RED&c!'
+noSendingYellow: '&5You cannot send {RECEIVER} messages because you are &6YELLOW&c and they are not on your list!'
+invalidArgs: 'Your command included invalid arguments. Usage:'
 noMessageEntered: 'You must enter a message to send to global chat.'
-nobodyHeardMessage: 'There are no other online players in your party so nobody heard your message. Consider joining another player in a party (/join <playername>) or sending a message to global chat (/g <message>)'
+nobodyHeardMessage: 'There are no other online players in your party so nobody heard your message. Consider joining another player in a party (/join ) or sending a message to global chat (/g )'
 gcAutoEnabled: 'Global Chat has been automatically enabled so that you can see the response to your message.'
 partyJoinErrorMessages:
-    1: '&7That player is red and you cannot join their party.'
-    2: '&7There are players in {MEMBERS}&r who are yellow and you are not on their yellow list.'
-    3: '&7You are &4RED&7 and you cannot join a party while you are red.'
-    4: '&7You are yellow and there are players in that party who are not on your yellow list.'
-    5: '&7That player is already in your party.'
-    6: '&7The player you entered is you.' 
-joinParty: '&7{PLAYER} &rhas joined the party {MEMBERS}&r.'
-leaveParty: '&7{PLAYER} &rhas left the party {PLAYERS} {REASON}.'
+    1: 'That player is red and you cannot join their party.'
+    2: 'There are players in {MEMBERS}&c who are yellow and you are not on their yellow list.'
+    3: 'You are &4RED&c and you cannot join a party while you are red.'
+    4: 'You are yellow and there are players in that party who are not on your yellow list.'
+    5: '{PLAYER} is already in your party.'
+    6: 'The player you entered is you.' 
+joinParty: '{PLAYER} &6has joined the party {MEMBERS}&6.'
+leaveParty: '{PLAYER} &6has left the party {PLAYERS} {REASON}&6.'
 leavingPartyWithOnlyOnePersonInIt: 'Since you are the only member in your party please consider joining another party directly. You cannot leave.'
-loadingSettingsMsg: 'Loading Settings...'
+loadingSettingsMsg: '&6Loading Settings...'
 status:
-  colourSetting: 'Your colour status: {COLORSTATUS}'
-  yellowList: 'Your yellow list: {yellow_list}'
-  globalChat: 'Display global chat: {yesno}'
-  partyMembers: 'Players in party with you: {PARTYMEMBERS} of which {ONLINEPARTYMEMBERS} are online.'
+  colourSetting: '&6Your colour status: {COLORSTATUS}'
+  yellowList: '&6Your yellow list: &r{yellow_list}'
+  globalChat: '&6Display global chat: &r{yesno}'
+  partyMembers: '&6Players in party with you: &r{PARTYMEMBERS}&6 - of which &r{ONLINEPARTYMEMBERS}&6 are online.'
 #
 # Message of the day that is displayed to users when they first join
 motd:
-  - '&7This server is running AutismChat 3.0.'
-  - '&7Messages typed into chat go to party chat instead of global chat.'
-  - '&7You are always in a party, even if it"s only with yourself.'
-  - '&7Parties have no leaders.'
-  - '&7To join another party, type "/join &oplayername&7" and you will join the party &oplayername&7 is in.'
-  - '&7To leave that party and be on your own again, type "/leave".'
-  - '&7To send a message to global chat (which players may or may not be listening to), type "/g &oyour message&7".'
-  - '&7For more advanced commands, read the guide at http://beeminecraftserver.weebly.com/autismchat.html'
+  - '&f-MESSAGE OF THE DAY-'
+  - '&fThis server is running AutismChat 3.0. Source code is available at https://github.com/RichardsProjects/AutismChat3.'
+  - '&fMessages typed into chat go to party chat, not global chat.'
+  - '&fBASICS COMMANDS'
+  - '&f/join &oplayername&f - you join &oplayername&f in a party.'
+  - '&f/g &oyour message&f - sends &omessage&f to global chat (which players may or may not be listening to).'
+  - '&f/leave - you leave the party and be on your own again.'
+  - '&fFull guide at http://beeminecraftserver.weebly.com/autismchat.html'
 #
 # Chat formats for both party and global
-partyChatFormat: "&6[&3Party&6] &f%name%: %message%"
-globalChatFormat: "&6[&3Global&6] &f%name%: %message%"
+partyChatFormat: "%name%  &7%message%"
+globalChatFormat: "&3[Global] %name%  &7%message%"
+                                                         
