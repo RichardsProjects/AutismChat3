@@ -38,7 +38,6 @@ red: '&4'
 #
 prefixBad: '&c'
 prefixGood: '&6'
-prefixMessage: '&6[PLAYER1&6->PLAYER2&6] &7'
 errNoPerm: 'You do not have permission to use that command!'
 yellowAdd: '{TARGET} added to yellow list.'
 yellowDuplicate: '{TARGET} cannot be added because they are already on your yellow list.'
@@ -61,11 +60,11 @@ noMessageEntered: 'You must enter a message to send to global chat.'
 nobodyHeardMessage: 'There are no other online players in your party so nobody heard your message. Consider joining another player in a party (/join ) or sending a message to global chat (/g )'
 gcAutoEnabled: 'Global Chat has been automatically enabled so that you can see the response to your message.'
 partyJoinErrorMessages:
-    1: 'That player is red and you cannot join their party.'
-    2: 'There are players in {MEMBERS}&c who are yellow and you are not on their yellow list.'
-    3: 'You are &4RED&c and you cannot join a party while you are red.'
-    4: 'You are yellow and there are players in that party who are not on your yellow list.'
-    5: '{PLAYER} is already in your party.'
+    1: '{PLAYER}&r is red and you cannot join their party.'
+    2: 'There are players in {MEMBERS}&r who are yellow and you are not on their yellow list.'
+    3: 'You are &4RED&r and you cannot join a party while you are red.'
+    4: 'You are yellow and there are players in {MEMBERS}&r who are not on your yellow list.'
+    5: '{PLAYER}&r is already in your party.'
     6: 'The player you entered is you.' 
 joinParty: '{PLAYER} &6has joined the party {MEMBERS}&6.'
 leaveParty: '{PLAYER} &6has left the party {PLAYERS} {REASON}&6.'
@@ -91,4 +90,9 @@ motd:
 # Chat formats for both party and global
 partyChatFormat: "%name%  &7%message%"
 globalChatFormat: "&3[Global] %name%  &7%message%"
+#
+# Private Message Prefixes
+prefixMessageSending: '&6[You&6->PLAYER&6] &r'
+prefixMessageReceiving: '&6[PLAYER&6->You&6] &r'
+
                                                          

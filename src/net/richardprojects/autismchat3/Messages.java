@@ -30,7 +30,8 @@ public class Messages {
 	public static String status_partyMembers;
 	public static String prefix_Bad;
 	public static String prefix_Good;
-	public static String prefix_Message;
+	public static String prefix_MessageReceiving;
+	public static String prefix_MessageSending;
 	public static String error_noPermission;
 	public static String error_notValidPlayer;
 	public static String error_noAcceptingRed;
@@ -97,7 +98,8 @@ public class Messages {
 			
 			prefix_Bad = messagesConfig.getString("prefixBad");
 			prefix_Good = messagesConfig.getString("prefixGood");
-			prefix_Message = messagesConfig.getString("prefixMessage");
+			prefix_MessageSending = messagesConfig.getString("prefixMessageSending");
+			prefix_MessageReceiving = messagesConfig.getString("prefixMessageReceiving");
 			error_noPermission = messagesConfig.getString("errNoPerm");
 			error_notValidPlayer = messagesConfig.getString("notValidPlayer");
 			message_yellowAdd = messagesConfig.getString("yellowAdd");

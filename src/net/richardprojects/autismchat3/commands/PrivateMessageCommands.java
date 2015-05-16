@@ -98,15 +98,13 @@ public class PrivateMessageCommands implements CommandExecutor {
 						//Send Message
 						if(sendMessage) {
 							//Show messge for recipient
-							String msg1 = Messages.prefix_Message + message;
-							msg1 = msg1.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
-							msg1 = msg1.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + "Me");
+							String msg1 = Messages.prefix_MessageReceiving + message;
+							msg1 = msg1.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
 							recipient.sendMessage(Utils.colorCodes(msg1));
 							
 							//Show message for sender
-							String msg2 = Messages.prefix_Message + message;
-							msg2 = msg2.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + "You");
-							msg2 = msg2.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
+							String msg2 = Messages.prefix_MessageSending + message;
+							msg2 = msg2.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
 							player.sendMessage(Utils.colorCodes(msg2));							
 						}
 					} else {
@@ -186,15 +184,13 @@ public class PrivateMessageCommands implements CommandExecutor {
 						//Send Message
 						if(sendMessage) {
 							//Show messge for recipient
-							String msg1 = Messages.prefix_Message + message;
-							msg1 = msg1.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
-							msg1 = msg1.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + "Me");
+							String msg1 = Messages.prefix_MessageReceiving + message;
+							msg1 = msg1.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
 							recipient.sendMessage(Utils.colorCodes(msg1));
 							
 							//Show message for sender
-							String msg2 = Messages.prefix_Message + message;
-							msg2 = msg2.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + "You");
-							msg2 = msg2.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
+							String msg2 = Messages.prefix_MessageSending + message;
+							msg2 = msg2.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
 							player.sendMessage(Utils.colorCodes(msg2));							
 						}
 					} else {
@@ -274,15 +270,13 @@ public class PrivateMessageCommands implements CommandExecutor {
 						//Send Message
 						if(sendMessage) {
 							//Show messge for recipient
-							String msg1 = Messages.prefix_Message + message;
-							msg1 = msg1.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
-							msg1 = msg1.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + "Me");
+							String msg1 = Messages.prefix_MessageReceiving + message;
+							msg1 = msg1.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
 							recipient.sendMessage(Utils.colorCodes(msg1));
 							
 							//Show message for sender
-							String msg2 = Messages.prefix_Message + message;
-							msg2 = msg2.replace("PLAYER1", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + "You");
-							msg2 = msg2.replace("PLAYER2", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
+							String msg2 = Messages.prefix_MessageSending + message;
+							msg2 = msg2.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
 							player.sendMessage(Utils.colorCodes(msg2));							
 						}
 					} else {

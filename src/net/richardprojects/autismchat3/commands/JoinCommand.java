@@ -49,6 +49,8 @@ private AutismChat3 plugin;
 							if(PlayerData.getPlayerColor(newUUID) == Color.RED) {
 								joinParty = false;
 								String msg = Messages.prefix_Bad + Messages.error_JoinParty1;
+								String pName = Color.toString(Color.RED) + plugin.getName(newUUID);
+								msg = msg.replace("{PLAYER}", pName);
 								player.sendMessage(Utils.colorCodes(msg));
 								return;
 							}
@@ -96,6 +98,7 @@ private AutismChat3 plugin;
 							}
 							
 							//Check 4
+							String membersNotOnYellowList = "";
 							if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.YELLOW) {
 								List<UUID> yellowListMembers = PlayerData.getYellowListMembers(player.getUniqueId());
 								joinParty = false;
@@ -104,12 +107,18 @@ private AutismChat3 plugin;
 										joinParty = true;
 									} else {
 										joinParty = false;
+										String pName = Color.toString(PlayerData.getPlayerColor(uuid)) + plugin.getName(uuid);
+										membersNotOnYellowList = membersNotOnYellowList + ", " + pName;
 									}
-									if(!joinParty) {
-										String msg = Messages.prefix_Bad + Messages.error_JoinParty4;
-										player.sendMessage(Utils.colorCodes(msg));
-										return;
-									}
+								}
+								if(membersNotOnYellowList.length() > 0) {
+									membersNotOnYellowList = membersNotOnYellowList.substring(2);
+								}
+								if(!joinParty) {
+									String msg = Messages.prefix_Bad + Messages.error_JoinParty4;
+									msg = msg.replace("{MEMBERS}", membersNotOnYellowList);
+									player.sendMessage(Utils.colorCodes(msg));
+									return;
 								}
 							}
 							
@@ -121,7 +130,9 @@ private AutismChat3 plugin;
 									if(uuid.equals(newUUID)) joinParty = false;
 								}
 								if(!joinParty) {
+									String pName = plugin.getName(newUUID);
 									String msg = Messages.prefix_Bad + Messages.error_JoinParty5;
+									msg = msg.replace("{PLAYER}", pName);
 									player.sendMessage(Utils.colorCodes(msg));
 									return;
 								}
