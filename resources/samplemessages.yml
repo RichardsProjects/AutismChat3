@@ -51,21 +51,21 @@ statusSetGreen: 'You switched to &2Green&6. Players are encouraged to message yo
 notValidPlayer: "Can't find {TARGET}! Either you mispelled their name, or they haven't logged in since AutismChat was installed."
 globalChatOff: 'Global chat messages will not be displayed.'
 globalChatOn: 'Global chat messages will be displayed.'
-noAcceptingRed: '&5You cannot send {RECEIVER} messages because they are &4RED&c!'
-noAcceptingYellow: '&5You cannot send {RECEIVER} messages because they are &6YELLOW&c and you are not on their list!'
-noSendingRed: '&5You cannot send messages because you are &4RED&c!'
-noSendingYellow: '&5You cannot send {RECEIVER} messages because you are &6YELLOW&c and they are not on your list!'
+noAcceptingRed: 'You cannot send {RECEIVER} messages because they are &4RED&c!'
+noAcceptingYellow: 'You cannot send {RECEIVER} messages because they are &6YELLOW&c and you are not on their list!'
+noSendingRed: 'You cannot send messages because you are &4RED&c!'
+noSendingYellow: 'You cannot send {RECEIVER} messages because you are &6YELLOW&c and they are not on your list!'
 invalidArgs: 'Your command included invalid arguments. Usage:'
 noMessageEntered: 'You must enter a message to send to global chat.'
 nobodyHeardMessage: 'There are no other online players in your party so nobody heard your message. Consider joining another player in a party (/join ) or sending a message to global chat (/g )'
 gcAutoEnabled: 'Global Chat has been automatically enabled so that you can see the response to your message.'
 partyJoinErrorMessages:
-    1: '{PLAYER}&r is red and you cannot join their party.'
-    2: 'There are players in {MEMBERS}&r who are yellow and you are not on their yellow list.'
-    3: 'You are &4RED&r and you cannot join a party while you are red.'
-    4: 'You are yellow and there are players in {MEMBERS}&r who are not on your yellow list.'
-    5: '{PLAYER}&r is already in your party.'
-    6: 'The player you entered is you.' 
+    1: 'You cannot join {PLAYER}&c in a party because they are red.'
+    2: 'You cannot join the party {MEMBERS}&c because one or more of them is yellow and you do not have permission'
+    3: 'You cannot join a party while you are red.'
+    4: 'You cannot join the party {MEMBERS}&c because you are yellow and one or more players in that party does not have your permission to be in a party with you.'
+    5: 'You cannot join {PLAYER}&c because you are already in a party with them.'
+    6: 'You cannot join yourself.' 
 joinParty: '{PLAYER} &6has joined the party {MEMBERS}&6.'
 leaveParty: '{PLAYER} &6has left the party {PLAYERS} {REASON}&6.'
 leavingPartyWithOnlyOnePersonInIt: 'Since you are the only member in your party please consider joining another party directly. You cannot leave.'
@@ -89,10 +89,10 @@ motd:
 #
 # Chat formats for both party and global
 partyChatFormat: "%name%  &7%message%"
-globalChatFormat: "&3[Global] %name%  &7%message%"
+globalChatFormat: "&6[Global %name%&6]  &7%message%"
 #
 # Private Message Prefixes
-prefixMessageSending: '&6[You&6->PLAYER&6] &r'
-prefixMessageReceiving: '&6[PLAYER&6->You&6] &r'
+prefixMessageSending: '&6[You->PLAYER&6] &7'
+prefixMessageReceiving: '&6[PLAYER&6->You] &7'
 
                                                          
