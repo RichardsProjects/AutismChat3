@@ -38,20 +38,8 @@ public class LoginEvent implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void loginEvent(final PlayerJoinEvent e) {
-		if (Config.redHidesLoginNotification) {
-			String msg = e.getJoinMessage();
-			e.setJoinMessage("");
-
-			for (Player p : plugin.getServer().getOnlinePlayers()) {
-				if (PlayerData.getPlayerColor(p.getUniqueId()) == Color.RED) {
-
-				} else {
-					p.sendMessage(msg);
-				}
-			}
-		}
 		Player player = e.getPlayer();
-
+		
 		// Update the UUID's file every time a player joins
 		plugin.updateUUID(player.getName(), player.getUniqueId());
 
@@ -128,6 +116,39 @@ public class LoginEvent implements Listener {
 			String[] loginReport = Config.loginReportStatuses.split(",");
 			for (int i = 0; i < loginReport.length; i++) {
 				Utils.sendStatus(loginReport[i], player.getUniqueId(), plugin);
+			}
+		}
+		
+		//Send join message to all players
+		String playerName = Color.colorCode(PlayerData.getPlayerColor(e.getPlayer().getUniqueId())) + player.getName();
+		
+		for(Player cPlayer : plugin.getServer().getOnlinePlayers()) {
+			boolean displayMessage = true;
+			
+			if(Config.redHidesLoginNotification) {
+				if(PlayerData.getPlayerColor(cPlayer.getUniqueId()) == Color.RED) {
+					displayMessage = false;
+				}
+			}
+			
+			if(displayMessage) {				
+				int cPlayerPartyId = PlayerData.getPartyID(cPlayer.getUniqueId());
+				if(cPlayerPartyId > 0) {
+					List<UUID> partyMembers = PartyUtils.partyMembers(cPlayerPartyId);
+					if(partyMembers.contains(e.getPlayer().getUniqueId())) {
+						String msg = Messages.message_joinMessageParty;
+						msg = msg.replace("{PLAYER}", playerName);
+						cPlayer.sendMessage(msg);
+					} else {
+						String msg = Messages.message_joinMessage;
+						msg = msg.replace("{PLAYER}", playerName);
+						cPlayer.sendMessage(msg);
+					}
+				} else {
+					String msg = Messages.message_joinMessage;
+					msg = msg.replace("{PLAYER}", playerName);
+					cPlayer.sendMessage(msg);
+				}
 			}
 		}
 	}

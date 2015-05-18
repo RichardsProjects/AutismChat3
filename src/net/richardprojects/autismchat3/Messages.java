@@ -65,6 +65,8 @@ public class Messages {
 	public static String message_leaveParty;
 	public static String message_onlyOneInParty;
 	public static String message_loadingSettings;
+	public static String message_joinMessage;
+	public static String message_joinMessageParty;
 	public static String partyChatFormat;
 	public static String globalChatFormat;
 	public static List<String> motd = new ArrayList<String>();
@@ -153,6 +155,10 @@ public class Messages {
 			status_yellowList = messagesConfig.getString("status.yellowList");
 			status_globalChat = messagesConfig.getString("status.globalChat");
 			status_partyMembers = messagesConfig.getString("status.partyMembers");
+			
+			//Load Join Messages
+			message_joinMessage = messagesConfig.getString("joinMessage");
+			message_joinMessageParty = messagesConfig.getString("joinMessageParty");
 		} catch(Exception e) {
 			AutismChat3.log.info("There was an error while loading data from the messages...");
 			e.printStackTrace();

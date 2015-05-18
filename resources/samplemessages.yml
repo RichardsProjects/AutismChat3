@@ -94,5 +94,8 @@ globalChatFormat: "&6[Global %name%&6]  &7%message%"
 # Private Message Prefixes
 prefixMessageSending: '&6[You->PLAYER&6] &7'
 prefixMessageReceiving: '&6[PLAYER&6->You] &7'
-
+#
+# Login Messages:
+joinMessage: '{PLAYER} &ehas joined the game.'
+joinMessageParty: '{PLAYER} &ehas joined the game and is in your party.'
                                                          
