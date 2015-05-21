@@ -67,11 +67,11 @@ public class YellowCommand implements CommandExecutor {
 						}
 					}
 				}
-				if(yellowList.length() > 0) {
-					yellowList = yellowList.substring(2);
-				} else {
+				
+				if(yellowList.length() == 0) {
 					yellowList = "NONE";
 				}
+				
 				String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_setYellow);
 				msg = msg.replace("{yellow_list}", yellowList);
 				player.sendMessage(msg);

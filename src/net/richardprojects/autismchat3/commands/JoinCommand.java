@@ -49,7 +49,7 @@ private AutismChat3 plugin;
 							if(PlayerData.getPlayerColor(newUUID) == Color.RED) {
 								joinParty = false;
 								String msg = Messages.prefix_Bad + Messages.error_JoinParty1;
-								String pName = Color.toString(Color.RED) + plugin.getName(newUUID);
+								String pName = Color.colorCode(Color.RED) + plugin.getName(newUUID);
 								msg = msg.replace("{PLAYER}", pName);
 								player.sendMessage(Utils.colorCodes(msg));
 								return;
@@ -107,7 +107,7 @@ private AutismChat3 plugin;
 										joinParty = true;
 									} else {
 										joinParty = false;
-										String pName = Color.toString(PlayerData.getPlayerColor(uuid)) + plugin.getName(uuid);
+										String pName = Color.colorCode(PlayerData.getPlayerColor(uuid)) + plugin.getName(uuid);
 										membersNotOnYellowList = membersNotOnYellowList + ", " + pName;
 									}
 								}

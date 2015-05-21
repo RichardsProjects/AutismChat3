@@ -38,6 +38,7 @@ public class LoginEvent implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void loginEvent(final PlayerJoinEvent e) {
+		e.setJoinMessage("");
 		Player player = e.getPlayer();
 		
 		// Update the UUID's file every time a player joins
@@ -131,23 +132,30 @@ public class LoginEvent implements Listener {
 				}
 			}
 			
-			if(displayMessage) {				
-				int cPlayerPartyId = PlayerData.getPartyID(cPlayer.getUniqueId());
-				if(cPlayerPartyId > 0) {
-					List<UUID> partyMembers = PartyUtils.partyMembers(cPlayerPartyId);
-					if(partyMembers.contains(e.getPlayer().getUniqueId())) {
-						String msg = Messages.message_joinMessageParty;
-						msg = msg.replace("{PLAYER}", playerName);
-						cPlayer.sendMessage(msg);
+			if(displayMessage) {
+
+				if(cPlayer.getUniqueId().equals(e.getPlayer().getUniqueId())) {
+					String msg = Messages.message_joinMessage;
+					msg = msg.replace("{PLAYER}", playerName);
+					cPlayer.sendMessage(Utils.colorCodes(msg));
+				} else {
+					int cPlayerPartyId = PlayerData.getPartyID(cPlayer.getUniqueId());
+					if(cPlayerPartyId > 0) {
+						List<UUID> partyMembers = PartyUtils.partyMembers(cPlayerPartyId);
+						if(partyMembers.contains(e.getPlayer().getUniqueId())) {
+							String msg = Messages.message_joinMessageParty;
+							msg = msg.replace("{PLAYER}", playerName);
+							cPlayer.sendMessage(Utils.colorCodes(msg));
+						} else {
+							String msg = Messages.message_joinMessage;
+							msg = msg.replace("{PLAYER}", playerName);
+							cPlayer.sendMessage(Utils.colorCodes(msg));
+						}
 					} else {
 						String msg = Messages.message_joinMessage;
 						msg = msg.replace("{PLAYER}", playerName);
-						cPlayer.sendMessage(msg);
+						cPlayer.sendMessage(Utils.colorCodes(msg));
 					}
-				} else {
-					String msg = Messages.message_joinMessage;
-					msg = msg.replace("{PLAYER}", playerName);
-					cPlayer.sendMessage(msg);
 				}
 			}
 		}
