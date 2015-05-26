@@ -68,7 +68,7 @@ partyJoinErrorMessages:
     6: 'You cannot join yourself.' 
 joinParty: '{PLAYER} &6has joined the party {MEMBERS}&6.'
 leaveParty: '{PLAYER} &6has left the party {PLAYERS} {REASON}&6.'
-leavingPartyWithOnlyOnePersonInIt: 'Since you are the only member in your party please consider joining another party directly. You cannot leave.'
+leavingPartyWithOnlyOnePersonInIt: 'You are not in a party with any other players, so there is nobody to leave.'
 loadingSettingsMsg: '&6Your current AutismChat settings are...'
 status:
   colourSetting: '&6Colour status: {COLORSTATUS}'
