@@ -57,7 +57,7 @@ noSendingRed: 'You cannot send messages because you are &4RED&c!'
 noSendingYellow: 'You cannot send {RECEIVER} messages because you are &6YELLOW&c and they are not on your list!'
 invalidArgs: 'Your command included invalid arguments. Usage:'
 noMessageEntered: 'You must enter a message to send to global chat.'
-nobodyHeardMessage: 'There are no other online players in your party so nobody heard your message. Consider joining another player in a party (/join ) or sending a message to global chat (/g )'
+nobodyHeardMessage: 'There are no other online players in your party so nobody heard your message. To join another player in a party use /join <player>. To send a message to global chat use /g <message>.'
 gcAutoEnabled: 'Global Chat has been automatically enabled so that you can see the response to your message.'
 partyJoinErrorMessages:
     1: 'You cannot join {PLAYER}&c in a party because they are red.'
@@ -69,33 +69,27 @@ partyJoinErrorMessages:
 joinParty: '{PLAYER} &6has joined the party {MEMBERS}&6.'
 leaveParty: '{PLAYER} &6has left the party {PLAYERS} {REASON}&6.'
 leavingPartyWithOnlyOnePersonInIt: 'Since you are the only member in your party please consider joining another party directly. You cannot leave.'
-loadingSettingsMsg: '&6Loading Settings...'
+loadingSettingsMsg: '&6Your current AutismChat settings are...'
 status:
-  colourSetting: '&6Your colour status: {COLORSTATUS}'
-  yellowList: '&6Your yellow list: &r{yellow_list}'
+  colourSetting: '&6Colour status: {COLORSTATUS}'
+  yellowList: '&6yellow list: &r{yellow_list}'
   globalChat: '&6Display global chat: &r{yesno}'
-  partyMembers: '&6Players in party with you: &r{PARTYMEMBERS}&6 - of which &r{ONLINEPARTYMEMBERS}&6 are online.'
+  partyMembers: '&6You are in a party with &r{PARTYMEMBERS}&6 - of which &r{ONLINEPARTYMEMBERS}&6 are online.'
 #
 # Message of the day that is displayed to users when they first join
 motd:
-  - '&f-MESSAGE OF THE DAY-'
-  - '&fThis server is running AutismChat 3.0. Source code is available at https://github.com/RichardsProjects/AutismChat3.'
-  - '&fMessages typed into chat go to party chat, not global chat.'
-  - '&fBASICS COMMANDS'
-  - '&f/join &oplayername&f - you join &oplayername&f in a party.'
-  - '&f/g &oyour message&f - sends &omessage&f to global chat (which players may or may not be listening to).'
-  - '&f/leave - you leave the party and be on your own again.'
-  - '&fFull guide at http://beeminecraftserver.weebly.com/autismchat.html'
+  - '&9This server is running AutismChat, an experimental plugin that changes how chat works. Please find the User Guide and submit feedback at http://beeminecraftserver.weebly.com/autismchat.html'
 #
 # Chat formats for both party and global
 partyChatFormat: "%name%  &7%message%"
-globalChatFormat: "&6[Global %name%&6]  &7%message%"
+globalChatFormat: "&3[Global] %name%  &7%message%"
 #
 # Private Message Prefixes
-prefixMessageSending: '&6[You->PLAYER&6] &7'
-prefixMessageReceiving: '&6[PLAYER&6->You] &7'
+prefixMessageSending: '&3[You->PLAYER&3] &7'
+prefixMessageReceiving: '&3[PLAYER&3->You] &7'
 #
 # Login Messages:
 joinMessage: '{PLAYER} &ehas joined the game.'
 joinMessageParty: '{PLAYER} &ehas joined the game and is in your party.'
                                                          
+   
