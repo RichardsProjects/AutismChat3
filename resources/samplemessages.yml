@@ -78,7 +78,7 @@ status:
 #
 # Message of the day that is displayed to users when they first join
 motd:
-  - '&9This server is running AutismChat, an experimental plugin that changes how chat works. Please find the User Guide and submit feedback at http://beeminecraftserver.weebly.com/autismchat.html'
+  - '&9This server is running AutismChat, an experimental plugin that changes how chat works. Please find the User Guide and feedback form at http://beeminecraftserver.weebly.com/autismchat.html'
 #
 # Chat formats for both party and global
 partyChatFormat: "%name%  &7%message%"
