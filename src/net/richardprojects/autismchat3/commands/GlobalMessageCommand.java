@@ -44,7 +44,7 @@ public class GlobalMessageCommand implements CommandExecutor {
 				player.sendMessage(msg);
 				return true;
 			} else {
-				String chatMsg = ChatColor.RESET + "";
+				String chatMsg = "";
 				for(int i = 0; i < args.length; i++) {
 					chatMsg = chatMsg + args[i] + " ";
 				}
@@ -53,7 +53,7 @@ public class GlobalMessageCommand implements CommandExecutor {
 					UUID uuid = player2.getUniqueId();
 					if(PlayerData.globalChatEnabled(uuid)) {
 						String msg = Messages.globalChatFormat;
-						msg = msg.replace("%name%", playerName);
+						msg = msg.replace("%name%", playerName + ChatColor.RESET);
 						msg = msg.replace("%message%", chatMsg);
 						msg = Utils.colorCodes(msg);
 						player2.sendMessage(msg);

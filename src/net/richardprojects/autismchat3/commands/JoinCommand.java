@@ -211,8 +211,7 @@ private AutismChat3 plugin;
 										}
 										partyMemberlist = partyMemberlist.substring(2);
 										
-										String msg = Messages.message_joinParty;
-										msg = msg.replace("{PLAYER}", "You");
+										String msg = Messages.message_youJoinParty;
 										msg = msg.replace("has", "have");
 										msg = msg.replace("{MEMBERS}", partyMemberlist);
 										cPlayer.sendMessage(Utils.colorCodes(msg));

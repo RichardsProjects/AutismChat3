@@ -106,8 +106,7 @@ public class LeaveCommand implements CommandExecutor {
 									}
 									partyMemberlist = partyMemberlist.substring(2);
 									
-									String msg = Messages.message_leaveParty;
-									msg = msg.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + "You");
+									String msg = Messages.message_youLeaveParty;
 									msg = msg.replace("has", "have");
 									msg = msg.replace("{PLAYERS}", partyMemberlist);
 									msg = msg.replace(" {REASON}", "");

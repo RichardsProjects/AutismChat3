@@ -88,7 +88,7 @@ public class RedCommand implements CommandExecutor {
 										if(cPlayer != null) {
 											String msg2 = Messages.message_leaveParty;
 											msg2 = msg2.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
-											msg2 = msg2.replace(" {PLAYERS} {REASON}", " because they switched to &4Red&7");
+											msg2 = msg2.replace("{PLAYERS} {REASON}", Messages.reasonLeaveRed);
 											cPlayer.sendMessage(Utils.colorCodes(msg2));
 										}
 									} else {
@@ -98,11 +98,9 @@ public class RedCommand implements CommandExecutor {
 										}
 										partyMemberlist = partyMemberlist.substring(2);
 										
-										String msg2 = Messages.message_leaveParty;
-										msg2 = msg2.replace("{PLAYER}", "You");
-										msg2 = msg2.replace("has", "have");
+										String msg2 = Messages.message_youLeaveParty;
 										msg2 = msg2.replace("{PLAYERS}", partyMemberlist);
-										msg2 = msg2.replace("{REASON}", "because you switched to &4Red&7");
+										msg2 = msg2.replace("{REASON}", Messages.reasonYouRed);
 										player.sendMessage(Utils.colorCodes(msg2));
 									}
 								}

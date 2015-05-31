@@ -22,6 +22,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import net.md_5.bungee.api.ChatColor;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Color;
 import net.richardprojects.autismchat3.Messages;
@@ -121,7 +122,7 @@ public class YellowCommand implements CommandExecutor {
 										if(cPlayer != null) {
 											String msg2 = Messages.message_leaveParty;
 											msg2 = msg2.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
-											msg2 = msg2.replace(" {PLAYERS} {REASON}", " because they switched to &6Yellow&7");
+											msg2 = msg2.replace(" {PLAYERS} {REASON}", Messages.reasonLeaveYellow);
 											cPlayer.sendMessage(Utils.colorCodes(msg2));
 										}
 									} else {
@@ -131,11 +132,10 @@ public class YellowCommand implements CommandExecutor {
 										}
 										partyMemberlist = partyMemberlist.substring(2);
 										
-										String msg2 = Messages.message_leaveParty;
-										msg2 = msg2.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + "You");
+										String msg2 = Messages.message_youLeaveParty;
 										msg2 = msg2.replace("has", "have");
 										msg2 = msg2.replace("{PLAYERS}", partyMemberlist);
-										msg2 = msg2.replace("{REASON}", "because you switched to &6Yellow&7");
+										msg2 = msg2.replace("{REASON}", Messages.reasonYouYellow);
 										player.sendMessage(Utils.colorCodes(msg2));
 									}
 								}
@@ -253,6 +253,78 @@ public class YellowCommand implements CommandExecutor {
 									notification = notification.replace("{TARGET}", playerName);
 									PlayerData.removePlayerFromYellowList(player.getUniqueId(), newUUID);
 									player.sendMessage(Utils.colorCodes(notification));
+									
+									//Check if the player is set to yellow and they are currently in a party withe person they just removed
+									if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.YELLOW) {
+										int partyId = PlayerData.getPartyID(player.getUniqueId());
+										if(partyId > 0) {
+											List<UUID> partyMembers = PartyUtils.partyMembers(partyId);
+											if(partyMembers.contains(newUUID)) {
+												try {
+													//Create a new party
+													int newPartyId = PartyUtils.createParty(player.getName(), player.getUniqueId());
+													
+													//Update party id
+													File xml = new File(AutismChat3.dataFolder + File.separator + "userdata" + File.separator + player.getUniqueId().toString() + ".xml");
+													DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+													DocumentBuilder docBuilder = docFactory.newDocumentBuilder();			
+													Document doc = docBuilder.parse(xml);
+													
+													NodeList nList = doc.getElementsByTagName("party");
+													Node tempNode = nList.item(0);
+													tempNode.setTextContent(newPartyId + "");
+													
+													//Save
+													TransformerFactory transformerFactory = TransformerFactory.newInstance();
+													Transformer transformer = transformerFactory.newTransformer();
+													DOMSource source = new DOMSource(doc);
+													StreamResult result = new StreamResult(xml);
+													transformer.setOutputProperty(OutputKeys.INDENT, "no");
+													transformer.transform(source, result);
+													
+													//Remove player from old party
+													PartyUtils.removePlayerParty(partyId, player.getUniqueId());
+													
+													//Notify old party member that they have left the party
+													for(UUID uuid2 : partyMembers) {
+														if(!uuid2.equals(player.getUniqueId())) {
+															Player cPlayer = plugin.getServer().getPlayer(uuid2);
+															if(cPlayer != null) {
+																//Leave party message
+																String msg = Messages.message_leaveParty;
+																msg = msg.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
+																String reason = Messages.reasonNotOnYellowList;
+																reason = reason.replace("{Player}", Color.colorCode(PlayerData.getPlayerColor(newUUID)) + playerName);
+																msg = msg.replace(" {PLAYERS} {REASON}", ChatColor.RESET + reason);
+																cPlayer.sendMessage(Utils.colorCodes(msg));
+															}
+														}
+													}
+													
+													//Send Message to player who just left
+													String partyMemberlist = "";
+													for(UUID playerUUID : partyMembers) {
+														if(!playerUUID.equals(player.getUniqueId()))
+														partyMemberlist = partyMemberlist + ", " + Color.colorCode(PlayerData.getPlayerColor(playerUUID)) + plugin.getName(playerUUID);
+													}
+													partyMemberlist = partyMemberlist.substring(2);
+													
+													String msg = Messages.message_youLeaveParty;
+													msg = msg.replace("has", "have");
+													msg = msg.replace("{PLAYERS}", partyMemberlist);
+													String reason = Messages.reasonNotOnYellowList;
+													reason = reason.replace("{Player}", Color.colorCode(PlayerData.getPlayerColor(newUUID)) + playerName);
+													reason = reason.replace("their", "your");
+													msg = msg.replace("{REASON}", ChatColor.RESET + reason);
+													player.sendMessage(Utils.colorCodes(msg));
+													
+												} catch(Exception e) {
+													e.printStackTrace();
+												}												
+											}
+										}
+									}
+									
 									return true;
 								} else {
 									String notification = Messages.prefix_Bad + Messages.error_yellowNoMatch;

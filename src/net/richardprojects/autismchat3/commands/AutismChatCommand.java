@@ -19,18 +19,9 @@ private AutismChat3 plugin;
 	public boolean onCommand(final CommandSender s, Command arg1, String arg2,
 			String[] args) {
 		if(args.length == 0) {
-			s.sendMessage(Utils.colorCodes("&3&m================&9&l AutismChat &3&m================"));
-			s.sendMessage(Utils.colorCodes("&7/white &f- Set your status to white"));
-			s.sendMessage(Utils.colorCodes("&7/yellow &f- Set your status to yellow"));
-			s.sendMessage(Utils.colorCodes("&7/yellow add <player> &f- Add a player to your yellow list"));
-			s.sendMessage(Utils.colorCodes("&7/yellow remove &f- Remove a player from your yellow list"));
-			s.sendMessage(Utils.colorCodes("&7/green &f- Set your status to green"));
-			s.sendMessage(Utils.colorCodes("&7/red &f- Set your status to red"));
-			s.sendMessage(Utils.colorCodes("&7/join <player> &f- Join that player's party"));
-			s.sendMessage(Utils.colorCodes("&7/leave &f- Leave your current party"));
-			s.sendMessage(Utils.colorCodes("&7/gc (<on|off>)&f- Toggle your global chat"));
-			s.sendMessage(Utils.colorCodes("&7/msg &8player &f- Send a private message"));
-			s.sendMessage(Utils.colorCodes("&4/autismchat reload &c- Reload the plugin"));
+			for(String value : Messages.help) {
+				s.sendMessage(Utils.colorCodes(value));
+			}
 			return true;
 		} else if(args.length == 1) {
 			if(args[0].equalsIgnoreCase("reload")) {
@@ -39,7 +30,7 @@ private AutismChat3 plugin;
 						@Override
 						public void run() {
 							plugin.reloadPlugin();
-							s.sendMessage(Utils.colorCodes(Messages.prefix_Good + "&7Configuration Reloaded!"));						
+							s.sendMessage(Utils.colorCodes(Messages.prefix_Good + Messages.message_reload));						
 						}					
 					});
 				} else {

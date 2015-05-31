@@ -67,9 +67,18 @@ public class Messages {
 	public static String message_loadingSettings;
 	public static String message_joinMessage;
 	public static String message_joinMessageParty;
+	public static String message_reload;
 	public static String partyChatFormat;
 	public static String globalChatFormat;
+	public static String reasonLeaveRed;
+	public static String reasonLeaveYellow;
+	public static String reasonNotOnYellowList;
+	public static String reasonYouRed;
+	public static String reasonYouYellow;
+	public static String message_youJoinParty;
+	public static String message_youLeaveParty;
 	public static List<String> motd = new ArrayList<String>();
+	public static List<String> help = new ArrayList<String>();
 	
 	private static YamlConfiguration messagesConfig;
 	
@@ -111,6 +120,7 @@ public class Messages {
 			message_setWhite = messagesConfig.getString("statusSetWhite");
 			message_setGreen = messagesConfig.getString("statusSetGreen");
 			message_setBlue = messagesConfig.getString("statusSetBlue");
+			message_reload = messagesConfig.getString("reload");
 			message_globalChatOff = messagesConfig.getString("globalChatOff");
 			message_globalChatOn = messagesConfig.getString("globalChatOn");
 			error_noAcceptingRed = messagesConfig.getString("noAcceptingRed");
@@ -127,6 +137,8 @@ public class Messages {
 			message_gcAutoEnabled = messagesConfig.getString("gcAutoEnabled");
 			message_joinParty = messagesConfig.getString("joinParty");
 			message_leaveParty = messagesConfig.getString("leaveParty");
+			message_youLeaveParty = messagesConfig.getString("youLeaveParty");
+			message_youJoinParty = messagesConfig.getString("youJoinParty");
 			message_loadingSettings = messagesConfig.getString("loadingSettingsMsg");
 			
 			message_onlyOneInParty = messagesConfig.getString("leavingPartyWithOnlyOnePersonInIt");
@@ -143,6 +155,7 @@ public class Messages {
 			globalChatFormat = messagesConfig.getString("globalChatFormat");
 			
 			motd = messagesConfig.getStringList("motd");
+			help = messagesConfig.getStringList("help");
 			
 			//Load Colors
 			color_blue = messagesConfig.getString("blue");
@@ -159,6 +172,13 @@ public class Messages {
 			//Load Join Messages
 			message_joinMessage = messagesConfig.getString("joinMessage");
 			message_joinMessageParty = messagesConfig.getString("joinMessageParty");
+			
+			//Reasons
+			reasonLeaveRed = messagesConfig.getString("reasons.red");
+			reasonLeaveYellow = messagesConfig.getString("reasons.yellow");
+			reasonNotOnYellowList = messagesConfig.getString("reasons.notOnYellowList");
+			reasonYouRed = messagesConfig.getString("reasons.youRed");
+			reasonYouYellow = messagesConfig.getString("reasons.youYellow");
 		} catch(Exception e) {
 			AutismChat3.log.info("There was an error while loading data from the messages...");
 			e.printStackTrace();
