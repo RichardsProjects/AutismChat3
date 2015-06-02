@@ -83,6 +83,7 @@ status:
   yellowList: '&6yellow list: &r{yellow_list}'
   globalChat: '&6Display global chat: &r{yesno}'
   partyMembers: '&6You are in a party with &r{PARTYMEMBERS}&6 - of which &r{ONLINEPARTYMEMBERS}&6 are online.'
+reload: 'AutismChat configuration and messages reloaded.'
 #
 # Message of the day that is displayed to users when they first join
 motd:
@@ -102,15 +103,15 @@ joinMessageParty: '{PLAYER} &ehas joined the game and is in your party.'
 #
 # Help Menu
 help:
-  - '&3&m================&9&l AutismChat &3&m================'
-  - '&7/white &f- Set your status to white'
-  - '&7/yellow &f- Set your status to yellow'
-  - '&7/yellow add <player> &f- Add a player to your yellow list'
-  - '&7/yellow remove &f- Remove a player from your yellow list'
-  - '&7/green &f- Set your status to green'
-  - '&7/red &f- Set your status to red'
-  - '&7/join <player> &f- Join that player's party'
-  - '&7/leave &f- Leave your current party'
-  - '&7/gc (<on|off>)&f- Toggle your global chat'
-  - '&7/msg &8player &f- Send a private message'
-  - '&4/autismchat reload &c- Reload the plugin'
+  - "&3&m================&9&l AutismChat &3&m================"
+  - "&7/white &f- Set your status to white"
+  - "&7/yellow &f- Set your status to yellow"
+  - "&7/yellow add <player> &f- Add a player to your yellow list"
+  - "&7/yellow remove &f- Remove a player from your yellow list"
+  - "&7/green &f- Set your status to green"
+  - "&7/red &f- Set your status to red"
+  - "&7/join <player> &f- Join that player's party"
+  - "&7/leave &f- Leave your current party"
+  - "&7/gc (<on|off>)&f- Toggle your global chat"
+  - "&7/msg &8player &f- Send a private message"
+  - "&4/autismchat reload &c- Reload the plugin"
