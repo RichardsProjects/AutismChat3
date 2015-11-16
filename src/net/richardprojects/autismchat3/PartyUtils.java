@@ -193,9 +193,7 @@ public class PartyUtils {
 				NodeList nList = doc.getElementsByTagName("member");
 				for(int i = 0; i < nList.getLength(); i++) {
 					UUID uuid = UUID.fromString(nList.item(i).getTextContent());
-					System.out.println(uuid.toString());
 					if(uuid.equals(player)) {
-						System.out.println("test1");
 						Node node = nList.item(i);
 						node.getParentNode().removeChild(node);
 					}

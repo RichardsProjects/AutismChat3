@@ -46,8 +46,7 @@ public class YellowCommand implements CommandExecutor {
 	public YellowCommand(AutismChat3 plugin) {
 		this.plugin = plugin;
 	}
-	
-	@Override
+
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2,
 			String[] args) {
 		if(sender instanceof Player)
@@ -95,7 +94,7 @@ public class YellowCommand implements CommandExecutor {
 				}
 				
 				plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-					@Override
+
 					public void run() {
 						//Check if there are people in the party who are not yellow
 						boolean stayInParty = true;

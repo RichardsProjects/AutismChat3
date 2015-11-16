@@ -43,7 +43,7 @@ public class PDeathEvent implements Listener {
 		final Player player = e.getEntity();
 		
 		plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-			@Override
+
 			public void run() {
 				int partyID = PlayerData.getPartyID(player.getUniqueId());
 				

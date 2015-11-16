@@ -28,7 +28,6 @@ public class Config {
 	public static int template_partyID;
 	public static Color template_color;
 	public static boolean template_globalChat;
-	public static String[] template_yellowList;
 	public static boolean displayLoginMesagesToRedPlayers;
 	public static boolean firstJoin;
 	public static boolean redHidesLoginNotification = false;
@@ -73,7 +72,6 @@ public class Config {
 			template_partyID = config.getInt("templateForFirstLogin.partyID");
 			template_color = Color.parseString(config.getString("templateForFirstLogin.color"));
 			template_globalChat = config.getBoolean("templateForFirstLogin.globalChat");
-			template_yellowList = config.getString("templateForFirstLogin.yellowList").split(",");
 			
 			//First join value sets if the motd should only be displayed on first join
 			firstJoin = config.getBoolean("firstJoin");

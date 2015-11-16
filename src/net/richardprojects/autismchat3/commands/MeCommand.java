@@ -22,13 +22,11 @@ public class MeCommand implements CommandExecutor {
 		this.plugin = plugin;
 	}
 
-	@Override
 	public boolean onCommand(final CommandSender sender, Command arg1, String arg2,
 			final String[] args) {
 		if(sender instanceof Player) {
 			if(args.length > 0) {
 				plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-					@Override
 					public void run() {
 						Player player = (Player) sender;
 						String msg = "";

@@ -46,13 +46,11 @@ public class LeaveCommand implements CommandExecutor {
 		this.plugin = plugin;		
 	}
 	
-	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2,
 			final String[] args) {
 		if(sender instanceof Player) {
 			final Player player = (Player) sender;
 			this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, new Runnable() {
-				@Override
 				public void run() {
 					if(args.length == 0) {
 						int partyId = PlayerData.getPartyID(player.getUniqueId());

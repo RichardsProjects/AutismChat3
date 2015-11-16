@@ -17,13 +17,12 @@ public class StatusCommand implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	
-	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2,
 			String[] args) {
 		if(sender instanceof Player) {
 			final Player player = (Player) sender;
 			plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-				@Override
+
 				public void run() {
 					//Send Statuses for status
 					String[] statuses = Config.statusStatuses.split(",");

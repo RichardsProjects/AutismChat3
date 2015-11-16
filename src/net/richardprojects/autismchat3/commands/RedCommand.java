@@ -46,7 +46,6 @@ public class RedCommand implements CommandExecutor {
 		this.plugin = plugin;		
 	}
 	
-	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2,
 			String[] args) {
 		if(sender instanceof Player) {
@@ -74,7 +73,6 @@ public class RedCommand implements CommandExecutor {
 					cPlayer.setScoreboard(AutismChat3.board);
 				}
 				plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-					@Override
 					public void run() {
 						//Remove player from their party if there is more than just them in it
 						int currentPartyId = PlayerData.getPartyID(player.getUniqueId());

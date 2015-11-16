@@ -30,7 +30,6 @@ public class WhiteCommand implements CommandExecutor {
 		this.plugin = plugin;		
 	}
 	
-	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2,
 			String[] args) {
 		if(sender instanceof Player) {

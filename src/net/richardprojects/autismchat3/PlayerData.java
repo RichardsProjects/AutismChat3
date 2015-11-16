@@ -62,15 +62,6 @@ public class PlayerData {
 			
 			//Add the yellow list
 			Element yellowList = doc.createElement("yellowlist");
-			//Add the members in the yellowlist in the config
-			/*String[] yellowListTemplate = Config.template_yellowList;
-			if(yellowListTemplate.length > 0) {
-				for(String member : yellowListTemplate) {
-					UUID memberUUID = 
-					Node node = doc.createElement("member");
-					node.
-				}
-			}*/
 			user.appendChild(yellowList);
 			
 			//Add the party element to the end document`
@@ -262,9 +253,7 @@ public class PlayerData {
 				NodeList nList = doc.getElementsByTagName("member");
 				for(int i = 0; i < nList.getLength(); i++) {
 					UUID uuid = UUID.fromString(nList.item(i).getTextContent());
-					System.out.println(uuid.toString());
 					if(uuid.equals(remove)) {
-						System.out.println("test1");
 						Node node = nList.item(i);
 						node.getParentNode().removeChild(node);
 					}

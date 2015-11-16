@@ -15,7 +15,6 @@ private AutismChat3 plugin;
 		this.plugin = plugin;
 	}
 	
-	@Override
 	public boolean onCommand(final CommandSender s, Command arg1, String arg2,
 			String[] args) {
 		if(args.length == 0) {
@@ -27,7 +26,6 @@ private AutismChat3 plugin;
 			if(args[0].equalsIgnoreCase("reload")) {
 				if(s.hasPermission("autismchat.admin.reload")) {
 					plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-						@Override
 						public void run() {
 							plugin.reloadPlugin();
 							s.sendMessage(Utils.colorCodes(Messages.prefix_Good + Messages.message_reload));						

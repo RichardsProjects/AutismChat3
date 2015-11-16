@@ -24,14 +24,12 @@ private AutismChat3 plugin;
 		this.plugin = plugin;		
 	}
 	
-	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2,
 			final String[] args) {
 		if(sender instanceof Player) {
 			final Player player = (Player) sender;
 			if(args.length == 1) {
 				plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-					@Override
 					public void run() {
 						UUID newUUID = plugin.getUUID(args[0]);
 						if(newUUID != null) {
@@ -221,6 +219,7 @@ private AutismChat3 plugin;
 							
 						} else {
 							String msg = Messages.prefix_Bad + Messages.error_notValidPlayer;
+							msg = msg.replace("{TARGET}", args[0]);
 							player.sendMessage(Utils.colorCodes(msg));
 						}
 					}

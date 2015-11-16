@@ -22,7 +22,6 @@ public class PrivateMessageCommands implements CommandExecutor {
 		this.plugin = plugin;		
 	}
 	
-	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2,
 			String[] args) {
 		if(sender instanceof Player) {

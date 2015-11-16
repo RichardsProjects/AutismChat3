@@ -10,7 +10,6 @@
 
 package net.richardprojects.autismchat3.events;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -136,7 +135,7 @@ public class LoginEvent implements Listener {
 
 				if(cPlayer.getUniqueId().equals(e.getPlayer().getUniqueId())) {
 					String msg = Messages.message_joinMessage;
-					msg = msg.replace("{PLAYER}", playerName);
+					msg = msg.replace("{PLAYER}", player.getName());
 					cPlayer.sendMessage(Utils.colorCodes(msg));
 				} else {
 					int cPlayerPartyId = PlayerData.getPartyID(cPlayer.getUniqueId());
