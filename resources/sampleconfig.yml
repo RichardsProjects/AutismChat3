@@ -10,8 +10,6 @@ templateForFirstLogin:
   partyID: 0
   color: WHITE
   globalChat: true
-# Make entries for this comma-separated with no spaces (harpereaves,RichardPlaysYT)
-  yellowList: ''
 #
 # Players login/logoff messages are not displayed to red players
 redhidesloginnotify: false
