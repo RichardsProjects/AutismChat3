@@ -147,12 +147,12 @@ public class LoginEvent implements Listener {
 							cPlayer.sendMessage(Utils.colorCodes(msg));
 						} else {
 							String msg = Messages.message_joinMessage;
-							msg = msg.replace("{PLAYER}", playerName);
+							msg = msg.replace("{PLAYER}", player.getName());
 							cPlayer.sendMessage(Utils.colorCodes(msg));
 						}
 					} else {
 						String msg = Messages.message_joinMessage;
-						msg = msg.replace("{PLAYER}", playerName);
+						msg = msg.replace("{PLAYER}", player.getName());
 						cPlayer.sendMessage(Utils.colorCodes(msg));
 					}
 				}

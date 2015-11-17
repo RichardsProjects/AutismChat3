@@ -98,7 +98,7 @@ prefixMessageSending: '&3[You->PLAYER&3] &7'
 prefixMessageReceiving: '&3[PLAYER&3->You] &7'
 #
 # Login Messages:
-joinMessage: '{PLAYER} &ehas joined the game.'
+joinMessage: '&e{PLAYER} has joined the game.'
 joinMessageParty: '{PLAYER} &ehas joined the game and is in your party.'
 #
 # Help Menu

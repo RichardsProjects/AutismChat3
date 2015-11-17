@@ -46,7 +46,6 @@ public class PartyUtils {
 			int currentId;
 			try {
 				String fileName = file.getName();
-				AutismChat3.log.info(fileName);
 				fileName = fileName.replace(".xml", "");
 				currentId = Integer.parseInt(fileName);
 				if (currentId > highestId) {
