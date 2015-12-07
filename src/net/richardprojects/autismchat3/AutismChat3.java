@@ -163,6 +163,18 @@ public class AutismChat3 extends JavaPlugin {
 	}
 	
 	public void updateUUID(String name, UUID uuid) {
+		boolean keyNeedsToBeUpdated = false;
+		String oldUsername = "";
+		for(String key : uuids.getConfig().getKeys(true)) {
+			UUID keyUUID = UUID.fromString(uuids.getConfig().getString(key));
+			if(uuid.equals(keyUUID)) {
+				keyNeedsToBeUpdated = true;
+				oldUsername = key;
+			}
+		}
+		if(keyNeedsToBeUpdated) {
+			uuids.getConfig().set(oldUsername, null);
+		}
 		uuids.getConfig().set(name, uuid.toString());
 		uuids.save();
 	}

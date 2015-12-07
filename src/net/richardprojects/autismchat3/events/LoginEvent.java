@@ -119,8 +119,6 @@ public class LoginEvent implements Listener {
 			}
 		}
 		
-		//Send join message to all players
-		String playerName = Color.colorCode(PlayerData.getPlayerColor(e.getPlayer().getUniqueId())) + player.getName();
 		
 		for(Player cPlayer : plugin.getServer().getOnlinePlayers()) {
 			boolean displayMessage = true;
@@ -143,7 +141,7 @@ public class LoginEvent implements Listener {
 						List<UUID> partyMembers = PartyUtils.partyMembers(cPlayerPartyId);
 						if(partyMembers.contains(e.getPlayer().getUniqueId())) {
 							String msg = Messages.message_joinMessageParty;
-							msg = msg.replace("{PLAYER}", playerName);
+							msg = msg.replace("{PLAYER}", player.getName());
 							cPlayer.sendMessage(Utils.colorCodes(msg));
 						} else {
 							String msg = Messages.message_joinMessage;
