@@ -1,7 +1,9 @@
 package net.richardprojects.autismchat3.commands;
 
+import net.md_5.bungee.api.ChatColor;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Config;
+import net.richardprojects.autismchat3.Messages;
 import net.richardprojects.autismchat3.Utils;
 
 import org.bukkit.command.Command;
@@ -18,19 +20,41 @@ public class StatusCommand implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2,
-			String[] args) {
+			final String[] args) {
 		if(sender instanceof Player) {
 			final Player player = (Player) sender;
-			plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+			
+			if(args.length > 0) {
+				if(args.length > 1) return false;
+				
+				if(plugin.getUUID(args[0]) == null) {
+					String msg = Messages.prefix_Bad + Messages.error_notValidPlayer;
+					msg = msg.replace("{TARGET}", args[0]);
+					player.sendMessage(Utils.colorCodes(msg));
+				} else {
+					plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 
-				public void run() {
-					//Send Statuses for status
-					String[] statuses = Config.statusStatuses.split(",");
-					for(int i = 0; i < statuses.length; i++) {
-						Utils.sendStatus(statuses[i], player.getUniqueId(), plugin);
-					}					
+						public void run() {
+							//Send Statuses for status
+							String[] statuses = Config.statusStatuses.split(",");
+							for(int i = 0; i < statuses.length; i++) {
+								Utils.sendStatus(statuses[i], player, plugin.getUUID(args[0]), plugin);
+							}					
+						}
+					});
 				}
-			});
+			} else {
+				plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+
+					public void run() {
+						//Send Statuses for status
+						String[] statuses = Config.statusStatuses.split(",");
+						for(int i = 0; i < statuses.length; i++) {
+							Utils.sendStatus(statuses[i], player.getUniqueId(), plugin);
+						}					
+					}
+				});
+			}
 		} else {
 			sender.sendMessage("Only a player can execute this command.");
 		}		

@@ -100,18 +100,32 @@ private AutismChat3 plugin;
 							if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.YELLOW) {
 								List<UUID> yellowListMembers = PlayerData.getYellowListMembers(player.getUniqueId());
 								joinParty = false;
+								
+								// 0 - hasn't been determined
+								// 1 - They can join
+								// 2 - They can't join
+								int canJoinParty = 0;
 								for(UUID uuid : partyMembers) {
 									if(yellowListMembers.contains(uuid)) {
-										joinParty = true;
+										if(canJoinParty == 0 || canJoinParty == 1) 
+											canJoinParty = 1;
 									} else {
-										joinParty = false;
+										if(canJoinParty == 0 || canJoinParty == 1)
+											canJoinParty = 2;
 										String pName = Color.colorCode(PlayerData.getPlayerColor(uuid)) + plugin.getName(uuid);
 										membersNotOnYellowList = membersNotOnYellowList + ", " + pName;
 									}
 								}
+								
+								// Removes ", " from the end
 								if(membersNotOnYellowList.length() > 0) {
 									membersNotOnYellowList = membersNotOnYellowList.substring(2);
 								}
+								
+								// Set joinParty variable from canJoinParty
+								if(canJoinParty == 1) joinParty = true;
+								if(canJoinParty == 2) joinParty = false;
+								
 								if(!joinParty) {
 									String msg = Messages.prefix_Bad + Messages.error_JoinParty4;
 									msg = msg.replace("{MEMBERS}", membersNotOnYellowList);

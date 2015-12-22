@@ -253,7 +253,7 @@ public class YellowCommand implements CommandExecutor {
 									PlayerData.removePlayerFromYellowList(player.getUniqueId(), newUUID);
 									player.sendMessage(Utils.colorCodes(notification));
 									
-									//Check if the player is set to yellow and they are currently in a party withe person they just removed
+									//Check if the player is set to yellow and they are currently in a party with the person they just removed
 									if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.YELLOW) {
 										int partyId = PlayerData.getPartyID(player.getUniqueId());
 										if(partyId > 0) {
@@ -311,9 +311,8 @@ public class YellowCommand implements CommandExecutor {
 													String msg = Messages.message_youLeaveParty;
 													msg = msg.replace("has", "have");
 													msg = msg.replace("{PLAYERS}", partyMemberlist);
-													String reason = Messages.reasonNotOnYellowList;
+													String reason = Messages.reasonNotOnYourYellowList;
 													reason = reason.replace("{Player}", Color.colorCode(PlayerData.getPlayerColor(newUUID)) + playerName);
-													reason = reason.replace("their", "your");
 													msg = msg.replace("{REASON}", ChatColor.RESET + reason);
 													player.sendMessage(Utils.colorCodes(msg));
 													

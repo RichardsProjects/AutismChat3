@@ -57,4 +57,4 @@ commands:
     usage: /me <message>
   status:
     description: Displays some of your current settings in the AutismChat3 plugin
-    usage: /<command>
+    usage: /<command> [player]

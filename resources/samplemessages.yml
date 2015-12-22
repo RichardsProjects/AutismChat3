@@ -76,13 +76,14 @@ reasons:
     youRed: 'because you switched to &4red'
     youYellow: 'because you switched to &6Yellow'
     notOnYellowList: '&6 because {Player}&6 is no longer on their yellow list'
+    notOnYourYellowList: '&6 because {Player}&6 is no longer on your yellow list'
 leavingPartyWithOnlyOnePersonInIt: 'You are not in a party with any other players, so there is nobody to leave.'
 loadingSettingsMsg: '&6Your current AutismChat settings are...'
 status:
   colourSetting: '&6Colour status: {COLORSTATUS}'
   yellowList: '&6yellow list: &r{yellow_list}'
   globalChat: '&6Display global chat: &r{yesno}'
-  partyMembers: '&6You are in a party with &r{PARTYMEMBERS}&6 - of which &r{ONLINEPARTYMEMBERS}&6 are online.'
+  partyMembers: '&6{TARGET} {BEINGVERB} in a party with &r{PARTYMEMBERS}&6 - of which &r{ONLINEPARTYMEMBERS}&6 are online.'
 reload: 'AutismChat configuration and messages reloaded.'
 #
 # Message of the day that is displayed to users when they first join

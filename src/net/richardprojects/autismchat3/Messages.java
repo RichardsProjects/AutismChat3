@@ -75,6 +75,7 @@ public class Messages {
 	public static String reasonNotOnYellowList;
 	public static String reasonYouRed;
 	public static String reasonYouYellow;
+	public static String reasonNotOnYourYellowList;
 	public static String message_youJoinParty;
 	public static String message_youLeaveParty;
 	public static List<String> motd = new ArrayList<String>();
@@ -177,6 +178,7 @@ public class Messages {
 			reasonLeaveRed = messagesConfig.getString("reasons.red");
 			reasonLeaveYellow = messagesConfig.getString("reasons.yellow");
 			reasonNotOnYellowList = messagesConfig.getString("reasons.notOnYellowList");
+			reasonNotOnYourYellowList = messagesConfig.getString("reasons.notOnYourYellowList");
 			reasonYouRed = messagesConfig.getString("reasons.youRed");
 			reasonYouYellow = messagesConfig.getString("reasons.youYellow");
 		} catch(Exception e) {
