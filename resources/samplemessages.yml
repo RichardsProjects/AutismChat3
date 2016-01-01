@@ -100,7 +100,7 @@ prefixMessageReceiving: '&3[PLAYER&3->You] &7'
 #
 # Login Messages:
 joinMessage: '&e{PLAYER} has joined the game.'
-joinMessageParty: '{PLAYER} &ehas joined the game and is in your party.'
+joinMessageParty: '&e{PLAYER} has joined the game and is in your party.'
 #
 # Help Menu
 help:
