@@ -14,7 +14,6 @@ import java.io.File;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import net.md_5.bungee.api.ChatColor;
 import net.richardprojects.autismchat3.commands.AutismChatCommand;
 import net.richardprojects.autismchat3.commands.BlueCommand;
 import net.richardprojects.autismchat3.commands.GcCommand;
@@ -59,18 +58,18 @@ public class AutismChat3 extends JavaPlugin {
 	
 	
 	public void onEnable() {
-		//Initialize Everything
+		// initialize Everything
 		dataFolder = getDataFolder();
 		pm = this.getServer().getPluginManager();
 		log = this.getLogger();
 		uuids.load("uuids.yml");
 		
-		//Check files and register everything
+		// check files and register everything
 		checkFiles();
 		registerEvents();
 		registerCommands();
 		
-		//Setup Teams
+		// setup teams
 		manager = Bukkit.getScoreboardManager();
 		board = manager.getNewScoreboard();
 		yellowTeam = board.registerNewTeam("yellowTeam");

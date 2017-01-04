@@ -59,8 +59,8 @@ public class Utils {
 			for(UUID member : yellowListMembers) {
 				String playerName = plugin.getName(member);
 				if(playerName != null) {
-					playerName = Color.colorCode(PlayerData.getPlayerColor(member)) + playerName;
-					yellowListString = yellowListString + ", " + playerName;
+					playerName = Utils.formatName(plugin, member, player.getUniqueId());
+					yellowListString += ", " + playerName;
 				}
 			}
 			if(yellowListMembers.size() > 0) {
@@ -89,7 +89,8 @@ public class Utils {
 			player.sendMessage(Utils.colorCodes(msg));
 		} else if(status.equals("partyMembers")) {
 			String msg = Messages.status_partyMembers;
-			msg = msg.replace("{TARGET}", "You");
+			String pName = Utils.formatName(plugin, player.getUniqueId(), player.getUniqueId());
+			msg = msg.replace("{TARGET}", pName);
 			msg = msg.replace("{BEINGVERB}", "are");
 			String partyMemberString = "";
 			String onlineMemberString = "";
@@ -105,13 +106,13 @@ public class Utils {
 					}
 				}
 				
-				//Create party list
+				// create party list
 				for(UUID member : partyMembers) {
 					if(!member.equals(uuid)) {
 						String playerName = plugin.getName(member);
 						if(playerName != null) {
-							playerName = Color.colorCode(PlayerData.getPlayerColor(member)) + playerName;
-							partyMemberString = partyMemberString + ", " + playerName;
+							playerName = Utils.formatName(plugin, member, player.getUniqueId());
+							partyMemberString += ", " + playerName;
 						}
 					}
 				}
@@ -127,8 +128,8 @@ public class Utils {
 					if(!member.equals(player.getUniqueId())) {
 						String playerName = plugin.getName(member);
 						if(playerName != null) {
-							playerName = Color.colorCode(PlayerData.getPlayerColor(member)) + playerName;
-							onlineMemberString = onlineMemberString + ", " + playerName;
+							playerName = Utils.formatName(plugin, member, player.getUniqueId());
+							onlineMemberString += ", " + playerName;
 						}
 					}
 				}
@@ -139,7 +140,7 @@ public class Utils {
 					onlineMemberString = "NONE";
 				}
 				
-				//Replace
+				// replace
 				msg = msg.replace("{PARTYMEMBERS}", partyMemberString);
 				msg = msg.replace("{ONLINEPARTYMEMBERS}", onlineMemberString);
 			} else {
@@ -147,7 +148,7 @@ public class Utils {
 				msg = msg.replace("{ONLINEPARTYMEMBERS}", "NONE");
 			}
 			
-			//Send Message to player
+			// send message to player
 			player.sendMessage(Utils.colorCodes(msg));
 		}
 	}
@@ -162,8 +163,8 @@ public class Utils {
 			for(UUID member : yellowListMembers) {
 				String playerName = plugin.getName(member);
 				if(playerName != null) {
-					playerName = Color.colorCode(PlayerData.getPlayerColor(member)) + playerName;
-					yellowListString = yellowListString + ", " + playerName;
+					playerName = Utils.formatName(plugin, member, receiver.getUniqueId());
+					yellowListString += ", " + playerName;
 				}
 			}
 			if(yellowListMembers.size() > 0) {
@@ -192,7 +193,8 @@ public class Utils {
 			receiver.sendMessage(Utils.colorCodes(msg));
 		} else if(status.equals("partyMembers")) {
 			String msg = Messages.status_partyMembers;
-			msg = msg.replace("{TARGET}", plugin.getName(uuid));
+			String name = Utils.formatName(plugin, uuid, receiver.getUniqueId());
+			msg = msg.replace("{TARGET}", name);
 			msg = msg.replace("{BEINGVERB}", "is");
 			String partyMemberString = "";
 			String onlineMemberString = "";
@@ -213,8 +215,8 @@ public class Utils {
 					if(!member.equals(uuid)) {
 						String playerName = plugin.getName(member);
 						if(playerName != null) {
-							playerName = Color.colorCode(PlayerData.getPlayerColor(member)) + playerName;
-							partyMemberString = partyMemberString + ", " + playerName;
+							playerName = Utils.formatName(plugin, member, receiver.getUniqueId());
+							partyMemberString += ", " + playerName;
 						}
 					}
 				}
@@ -230,8 +232,8 @@ public class Utils {
 					if(!member.equals(uuid)) {
 						String playerName = plugin.getName(member);
 						if(playerName != null) {
-							playerName = Color.colorCode(PlayerData.getPlayerColor(member)) + playerName;
-							onlineMemberString = onlineMemberString + ", " + playerName;
+							playerName = Utils.formatName(plugin, member, receiver.getUniqueId());
+							onlineMemberString += ", " + playerName;
 						}
 					}
 				}
@@ -253,5 +255,30 @@ public class Utils {
 			//Send Message to player
 			receiver.sendMessage(Utils.colorCodes(msg));
 		}
+	}
+	
+	/**
+	 * This method generates a formatted name with the proper color of the
+	 * player who's UUID is provided.
+	 * 
+	 * @param plugin an instance of the AutismChat3 plugin
+	 * @param player the UUID of the player's name to be formatted
+	 * @param perspective the perspective of the player to see the formatted 
+	 * name
+	 * @return formatted name
+	 */
+	public static String formatName(AutismChat3 plugin, UUID player, UUID perspective) {
+		if(perspective != null) {
+			if (player.equals(perspective)) {
+				// format player name from their perspective, so "You"
+				String name = "You";
+				name = Color.colorCode(PlayerData.getPlayerColor(player)) + name;
+				return colorCodes(name + "&r");
+			}
+		}
+		
+		String name = plugin.getName(player);
+		name = Color.colorCode(PlayerData.getPlayerColor(player)) + name;
+		return colorCodes(name + "&r");
 	}
 }

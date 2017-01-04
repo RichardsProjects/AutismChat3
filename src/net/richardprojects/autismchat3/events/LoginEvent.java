@@ -133,24 +133,26 @@ public class LoginEvent implements Listener {
 
 				if(cPlayer.getUniqueId().equals(e.getPlayer().getUniqueId())) {
 					String msg = Messages.message_joinMessage;
-					msg = msg.replace("{PLAYER}", player.getName());
+					String name = Utils.formatName(plugin, player.getUniqueId(), null);
+					msg = msg.replace("{PLAYER}", name);
 					cPlayer.sendMessage(Utils.colorCodes(msg));
 				} else {
 					int cPlayerPartyId = PlayerData.getPartyID(cPlayer.getUniqueId());
+					String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
 					if(cPlayerPartyId > 0) {
 						List<UUID> partyMembers = PartyUtils.partyMembers(cPlayerPartyId);
 						if(partyMembers.contains(e.getPlayer().getUniqueId())) {
 							String msg = Messages.message_joinMessageParty;
-							msg = msg.replace("{PLAYER}", player.getName());
+							msg = msg.replace("{PLAYER}", name);
 							cPlayer.sendMessage(Utils.colorCodes(msg));
 						} else {
 							String msg = Messages.message_joinMessage;
-							msg = msg.replace("{PLAYER}", player.getName());
+							msg = msg.replace("{PLAYER}", name);
 							cPlayer.sendMessage(Utils.colorCodes(msg));
 						}
 					} else {
 						String msg = Messages.message_joinMessage;
-						msg = msg.replace("{PLAYER}", player.getName());
+						msg = msg.replace("{PLAYER}", name);
 						cPlayer.sendMessage(Utils.colorCodes(msg));
 					}
 				}

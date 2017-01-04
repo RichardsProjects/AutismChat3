@@ -82,7 +82,7 @@ public class LeaveCommand implements CommandExecutor {
 									//Remove player from old party
 									PartyUtils.removePlayerParty(partyId, player.getUniqueId());
 									
-									//Notify old party member that they have left the party
+									// notify old party member that they have left the party
 									partyMembers = PartyUtils.partyMembers(partyId);
 									for(UUID uuid2 : partyMembers) {
 										if(!uuid2.equals(player.getUniqueId())) {
@@ -90,17 +90,21 @@ public class LeaveCommand implements CommandExecutor {
 											if(cPlayer != null) {
 												//Leave party message
 												String msg = Messages.message_leaveParty;
-												msg = msg.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
+												String pName = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
+												msg = msg.replace("{PLAYER}", pName);
 												msg = msg.replace(" {PLAYERS} {REASON}", "");
 												cPlayer.sendMessage(Utils.colorCodes(msg));
 											}
 										}
 									}
 									
-									//Send Message to player who just left
+									// send Message to player who just left
 									String partyMemberlist = "";
-									for(UUID playerUUID : partyMembers) {
-										partyMemberlist = partyMemberlist + ", " + Color.colorCode(PlayerData.getPlayerColor(playerUUID)) + plugin.getName(playerUUID);
+									for (UUID playerUUID : partyMembers) {
+										if (!playerUUID.equals(player.getUniqueId())) {
+											String pName = Utils.formatName(plugin, playerUUID, player.getUniqueId());
+											partyMemberlist += ", " + pName;
+										}
 									}
 									partyMemberlist = partyMemberlist.substring(2);
 									

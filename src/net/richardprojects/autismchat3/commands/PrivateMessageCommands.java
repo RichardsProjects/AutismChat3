@@ -38,11 +38,12 @@ public class PrivateMessageCommands implements CommandExecutor {
 					if((recipient = this.plugin.getServer().getPlayerExact(args[0])) != null) {
 						boolean sendMessage = true;
 
-						//Check if the receiving player is red
+						// check if the receiving player is red
 						if(PlayerData.getPlayerColor(recipient.getUniqueId()) == Color.RED) {
 							sendMessage = false;
 							String msg = Messages.prefix_Bad + Messages.error_noAcceptingRed;
-							msg = msg.replace("{RECEIVER}", recipient.getName());
+							String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+							msg = msg.replace("{RECEIVER}", name);
 							player.sendMessage(Utils.colorCodes(msg));
 							return true;
 						}
@@ -58,7 +59,8 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noAcceptingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 								return true;
 							}
@@ -82,7 +84,8 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noSendingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 							}
 						}
@@ -128,7 +131,8 @@ public class PrivateMessageCommands implements CommandExecutor {
 						if(PlayerData.getPlayerColor(recipient.getUniqueId()) == Color.RED) {
 							sendMessage = false;
 							String msg = Messages.prefix_Bad + Messages.error_noAcceptingRed;
-							msg = msg.replace("{RECEIVER}", recipient.getName());
+							String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+							msg = msg.replace("{RECEIVER}", name);
 							player.sendMessage(Utils.colorCodes(msg));
 							return true;
 						}
@@ -144,7 +148,8 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noAcceptingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 								return true;
 							}
@@ -168,7 +173,8 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noSendingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 							}
 						}
@@ -214,7 +220,8 @@ public class PrivateMessageCommands implements CommandExecutor {
 						if(PlayerData.getPlayerColor(recipient.getUniqueId()) == Color.RED) {
 							sendMessage = false;
 							String msg = Messages.prefix_Bad + Messages.error_noAcceptingRed;
-							msg = msg.replace("{RECEIVER}", recipient.getName());
+							String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+							msg = msg.replace("{RECEIVER}", name);
 							player.sendMessage(Utils.colorCodes(msg));
 							return true;
 						}
@@ -230,7 +237,8 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noAcceptingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 								return true;
 							}
@@ -254,7 +262,8 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noSendingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 							}
 						}

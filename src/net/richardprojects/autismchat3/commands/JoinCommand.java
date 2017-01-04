@@ -43,7 +43,7 @@ private AutismChat3 plugin;
 							
 							List<UUID> partyMembers = PartyUtils.partyMembers(partyId);
 							
-							//Check if the player is red - Check 1
+							// check if the player is red - Check 1
 							if(PlayerData.getPlayerColor(newUUID) == Color.RED) {
 								joinParty = false;
 								String msg = Messages.prefix_Bad + Messages.error_JoinParty1;
@@ -61,41 +61,71 @@ private AutismChat3 plugin;
 								return;
 							}
 							
-							//Check 2
+							// check 2
 							String partyMemberString = "";
-							//Create party list
+							
+							// create party list
 							for(UUID member : partyMembers) {
 								String playerName = plugin.getName(member);
 								if(playerName != null) {
-									playerName = Color.colorCode(PlayerData.getPlayerColor(member)) + playerName;
-									partyMemberString = partyMemberString + ", " + playerName;
+									playerName = Utils.formatName(plugin, member, player.getUniqueId());
+									partyMemberString += ", " + playerName;
 								}
 							}
 							partyMemberString = partyMemberString.substring(2);
-							for(UUID uuid : partyMembers) {
-								if(PlayerData.getPlayerColor(uuid) == Color.YELLOW) {
-									joinParty = false;
-									List<UUID> uuids = PlayerData.getYellowListMembers(uuid);
-									if(uuids.contains(player.getUniqueId())) {
+							
+							boolean joinPartyAltered = false;
+							joinParty = false;
+							for (UUID uuid : partyMembers) {
+								if (!uuid.equals(player.getUniqueId())) {
+									if (PlayerData.getPlayerColor(uuid) == Color.YELLOW) {
+										List<UUID> uuids = PlayerData.getYellowListMembers(uuid);
+										if (uuids.contains(player.getUniqueId())) {
+											if (joinPartyAltered && !joinParty) {
+												joinParty = false;
+											} else if (joinPartyAltered && joinParty) {
+												joinParty = true;
+											} else if (!joinPartyAltered) {
+												joinParty = true;
+											}
+											joinPartyAltered = true;
+										}
+									} else {
+										if (joinPartyAltered && !joinParty) {
+											joinParty = false;
+										} else if (joinPartyAltered && joinParty) {
+											joinParty = true;
+										} else if (!joinPartyAltered) {
+											joinParty = true;
+										}
+										joinPartyAltered = true;
+									}
+								} else {
+									if (joinPartyAltered && !joinParty) {
+										joinParty = false;
+									} else if (joinPartyAltered && joinParty) {
+										joinParty = true;
+									} else if (!joinPartyAltered) {
 										joinParty = true;
 									}
-								}
-								if(!joinParty) {
-									String msg = Messages.prefix_Bad + Messages.error_JoinParty2;
-									msg = msg.replace("{MEMBERS}", partyMemberString);
-									player.sendMessage(Utils.colorCodes(msg));
-									return;
+									joinPartyAltered = true;
 								}
 							}
+							if (!joinParty) {
+								String msg = Messages.prefix_Bad + Messages.error_JoinParty2;
+								msg = msg.replace("{MEMBERS}", partyMemberString);
+								player.sendMessage(Utils.colorCodes(msg));
+								return;
+							}
 							
-							//Check 3
+							// check 3
 							if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.RED) {
 								String msg = Messages.prefix_Bad + Messages.error_JoinParty3;
 								player.sendMessage(Utils.colorCodes(msg));
 								return;
 							}
 							
-							//Check 4
+							// check 4
 							String membersNotOnYellowList = "";
 							if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.YELLOW) {
 								List<UUID> yellowListMembers = PlayerData.getYellowListMembers(player.getUniqueId());
@@ -106,18 +136,18 @@ private AutismChat3 plugin;
 								// 2 - They can't join
 								int canJoinParty = 0;
 								for(UUID uuid : partyMembers) {
-									if(yellowListMembers.contains(uuid)) {
-										if(canJoinParty == 0 || canJoinParty == 1) 
-											canJoinParty = 1;
-									} else {
-										if(canJoinParty == 0 || canJoinParty == 1)
-											canJoinParty = 2;
-										String pName = Color.colorCode(PlayerData.getPlayerColor(uuid)) + plugin.getName(uuid);
-										membersNotOnYellowList = membersNotOnYellowList + ", " + pName;
+									if (!uuid.equals(player.getUniqueId())) {
+										if(yellowListMembers.contains(uuid)) {
+											if(canJoinParty == 0 || canJoinParty == 1) canJoinParty = 1;
+										} else {
+											if(canJoinParty == 0 || canJoinParty == 1) canJoinParty = 2;
+											String pName = Utils.formatName(plugin, uuid, player.getUniqueId());
+											membersNotOnYellowList += ", " + pName;
+										}
 									}
 								}
 								
-								// Removes ", " from the end
+								// remove ", " from the end
 								if(membersNotOnYellowList.length() > 0) {
 									membersNotOnYellowList = membersNotOnYellowList.substring(2);
 								}
@@ -134,7 +164,7 @@ private AutismChat3 plugin;
 								}
 							}
 							
-							//Check 5
+							// check 5
 							int currentPartyId = PlayerData.getPartyID(player.getUniqueId());
 							if(currentPartyId > 0) {
 								List<UUID> currentPartyMembers = PartyUtils.partyMembers(currentPartyId);
@@ -142,7 +172,7 @@ private AutismChat3 plugin;
 									if(uuid.equals(newUUID)) joinParty = false;
 								}
 								if(!joinParty) {
-									String pName = plugin.getName(newUUID);
+									String pName = Utils.formatName(plugin, newUUID, player.getUniqueId());
 									String msg = Messages.prefix_Bad + Messages.error_JoinParty5;
 									msg = msg.replace("{PLAYER}", pName);
 									player.sendMessage(Utils.colorCodes(msg));
@@ -151,74 +181,79 @@ private AutismChat3 plugin;
 							}
 							
 							
-							//Leave Party
+							// leave Party
 							List<UUID> currentPartyMembers = PartyUtils.partyMembers(currentPartyId);
 							File partyXml = new File(AutismChat3.dataFolder + File.separator + "parties" + File.separator + currentPartyId + ".xml");
 							if(partyXml.exists()) {
 								if(currentPartyMembers.size() > 1) {
-									//Send messages to other members of the party that they left
+									// send messages to other members of the party that they left
 									for(UUID playerId : currentPartyMembers) {
 										if(!playerId.equals(player.getUniqueId())) {
 											Player cPlayer = plugin.getServer().getPlayer(playerId);
 											if(cPlayer != null) {
 												String msg = Messages.message_leaveParty;
-												msg = msg.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
+												String pName = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
+												msg = msg.replace("{PLAYER}", pName);
 												msg = msg.replace(" {PLAYERS} {REASON}", " because they have joined another party.");
 												cPlayer.sendMessage(Utils.colorCodes(msg));
 											}
 										} else {
 											String msg = Messages.message_leaveParty;
+											
+											// create party list
 											String partyMemberString2 = "";
-											//Create party list
 											for(UUID member : currentPartyMembers) {
 												String playerName = plugin.getName(member);
 												if(playerName != null) {
-													playerName = Color.colorCode(PlayerData.getPlayerColor(member)) + playerName;
-													partyMemberString2 = partyMemberString2 + ", " + playerName;
+													playerName = Utils.formatName(plugin, member, player.getUniqueId());
+													partyMemberString2 += ", " + playerName;
 												}
 											}
 											partyMemberString2 = partyMemberString2.substring(2);
-											msg = msg.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + "You&r");
+											
+											String pName = Utils.formatName(plugin, player.getUniqueId(), player.getUniqueId());
+											msg = msg.replace("{PLAYER}", pName);
 											msg = msg.replace("{PLAYERS} {REASON}", partyMemberString2);
 											player.sendMessage(Utils.colorCodes(msg));
 										}
 									}
 								} else {
-									//Delete the file
+									// delete the file
 									partyXml.delete();
 								}
 							}
 							
 							
-							//Join the party
+							// join the party
 							PartyUtils.joinParty(partyId, player.getUniqueId());
 							
-							//Have player leave their current party
+							// have player leave their current party
 							PartyUtils.removePlayerParty(currentPartyId, player.getUniqueId());
 							
-							//Send Join Messages
+							// send Join Messages
 							int newPartyId = PlayerData.getPartyID(player.getUniqueId());
 							List<UUID> newPartyMemberlist = PartyUtils.partyMembers(newPartyId);
 							for(UUID member : newPartyMemberlist) {
 								if(!member.equals(player.getUniqueId())) {
-									//Send join message to member
+									// send join message to member
 									Player cPlayer = plugin.getServer().getPlayer(member);
 									if(cPlayer != null) {
 										String msg = Messages.message_joinParty;
-										msg = msg.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
+										String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
+										msg = msg.replace("{PLAYER}", name);
 										msg = msg.replace(" {MEMBERS}", "");
 										cPlayer.sendMessage(Utils.colorCodes(msg));
 									}
 								} else {
-									//Send join message to player
+									// send join message to player
 									Player cPlayer = plugin.getServer().getPlayer(member);
 									if(cPlayer != null) {
-										//Create members list
+										// create members list
 										String partyMemberlist = "";
 										for(UUID playerUUID : newPartyMemberlist) {
 											String name = plugin.getName(playerUUID);
 											if(!name.equalsIgnoreCase(player.getName())) {
-												partyMemberlist = partyMemberlist + ", " + Color.colorCode(PlayerData.getPlayerColor(playerUUID)) + name;
+												partyMemberlist += ", " + Utils.formatName(plugin, playerUUID, player.getUniqueId());
 											}
 										}
 										partyMemberlist = partyMemberlist.substring(2);
