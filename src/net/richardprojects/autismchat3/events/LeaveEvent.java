@@ -26,9 +26,7 @@ public class LeaveEvent implements Listener {
 			e.setQuitMessage("");
 			
 			for(Player p : plugin.getServer().getOnlinePlayers()) {
-				if(PlayerData.getPlayerColor(p.getUniqueId()) == Color.RED) {
-
-				} else {
+				if(plugin.getACPlayer(p.getUniqueId()).getColor() != Color.RED) {
 					p.sendMessage(msg);
 				}
 			}

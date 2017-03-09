@@ -13,6 +13,7 @@ package net.richardprojects.autismchat3.events;
 import java.util.UUID;
 
 import net.md_5.bungee.api.ChatColor;
+import net.richardprojects.autismchat3.ACPlayer;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Color;
 import net.richardprojects.autismchat3.Messages;
@@ -38,16 +39,17 @@ public class ChatEvent implements Listener {
 	public void chatEvent(AsyncPlayerChatEvent e) {
 		String chatMsg = e.getMessage();
 		e.setCancelled(true);
-		Player player2 = (Player) e.getPlayer();
-		UUID uuid1 = player2.getUniqueId();
-		String playerName = Color.colorCode(PlayerData.getPlayerColor(uuid1)) + player2.getName();
+		Player player = e.getPlayer();
+		UUID uuid = player.getUniqueId();
+		ACPlayer acPlayer = plugin.getACPlayer(uuid);
+		String playerName = Color.colorCode(acPlayer.getColor()) + player.getName();
 		
-		int partyID = PlayerData.getPartyID(player2.getUniqueId());
+		int partyID = acPlayer.getPartyId();
 		
 		if(partyID > 0) {
 			int playersSentTo = 0;
-			for(UUID uuid : PartyUtils.partyMembers(partyID)) {
-				Player cPlayer = plugin.getServer().getPlayer(uuid);
+			for(UUID cUUID : PartyUtils.partyMembers(partyID)) {
+				Player cPlayer = plugin.getServer().getPlayer(cUUID);
 				if(cPlayer != null) {
 					String msg = Messages.partyChatFormat;
 					msg = msg.replace("%name%", playerName + ChatColor.RESET);
@@ -60,7 +62,7 @@ public class ChatEvent implements Listener {
 			
 			if(playersSentTo == 1 || playersSentTo == 0) {
 				String msg = Messages.prefix_Bad + Messages.message_nobodyHeardMessage;
-				player2.sendMessage(Utils.colorCodes(msg));
+				player.sendMessage(Utils.colorCodes(msg));
 			}
 		}
 	}

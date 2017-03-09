@@ -22,11 +22,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import net.richardprojects.autismchat3.ACPlayer;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Color;
 import net.richardprojects.autismchat3.Messages;
 import net.richardprojects.autismchat3.PartyUtils;
-import net.richardprojects.autismchat3.PlayerData;
 import net.richardprojects.autismchat3.Utils;
 
 import org.bukkit.command.Command;
@@ -50,9 +50,11 @@ public class RedCommand implements CommandExecutor {
 			String[] args) {
 		if(sender instanceof Player) {
 			final Player player = (Player) sender;
+			final ACPlayer acPlayer = plugin.getACPlayer(player.getUniqueId());
+			
 			if(args.length == 0)
 			{
-				PlayerData.setColor(player.getUniqueId(), Color.RED);
+				acPlayer.setColor(Color.RED);
 				String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_setRed);
 				Team playerTeam = AutismChat3.board.getPlayerTeam(player);
 				if(playerTeam != null) {
@@ -74,8 +76,9 @@ public class RedCommand implements CommandExecutor {
 				}
 				plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 					public void run() {
+						
 						//Remove player from their party if there is more than just them in it
-						int currentPartyId = PlayerData.getPartyID(player.getUniqueId());
+						int currentPartyId = acPlayer.getPartyId();
 						List<UUID> currentPartyMemberList = PartyUtils.partyMembers(currentPartyId);
 						if(currentPartyMemberList.size() > 1) {
 							try {
@@ -85,14 +88,16 @@ public class RedCommand implements CommandExecutor {
 										Player cPlayer = plugin.getServer().getPlayer(member);
 										if(cPlayer != null) {
 											String msg2 = Messages.message_leaveParty;
-											msg2 = msg2.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
+											String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
+											msg2 = msg2.replace("{PLAYER}", name);
 											msg2 = msg2.replace("{PLAYERS} {REASON}", Messages.reasonLeaveRed);
 											cPlayer.sendMessage(Utils.colorCodes(msg2));
 										}
 									} else {
 										String partyMemberlist = "";
 										for(UUID playerUUID : currentPartyMemberList) {
-											partyMemberlist = partyMemberlist + ", " + plugin.getName(playerUUID);
+											String name = Utils.formatName(plugin, playerUUID, player.getUniqueId());
+											partyMemberlist += ", " + name;
 										}
 										partyMemberlist = partyMemberlist.substring(2);
 										
@@ -103,30 +108,11 @@ public class RedCommand implements CommandExecutor {
 									}
 								}
 								
-								//Remove player from old party
+								// remove player from old party and create a new one
 								PartyUtils.removePlayerParty(currentPartyId, player.getUniqueId());
-								
-								//Create a new party
 								int newPartyId = PartyUtils.createParty(player.getName(), player.getUniqueId());
 								
-								//Update party id
-								File xml = new File(AutismChat3.dataFolder + File.separator + "userdata" + File.separator + player.getUniqueId().toString() + ".xml");
-								DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-								DocumentBuilder docBuilder = docFactory.newDocumentBuilder();			
-								Document doc = docBuilder.parse(xml);
-								
-								NodeList nList = doc.getElementsByTagName("party");
-								Node tempNode = nList.item(0);
-								tempNode.setTextContent(newPartyId + "");
-								
-								//Save
-								TransformerFactory transformerFactory = TransformerFactory.newInstance();
-								Transformer transformer = transformerFactory.newTransformer();
-								DOMSource source = new DOMSource(doc);
-								StreamResult result = new StreamResult(xml);
-								transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-								transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-								transformer.transform(source, result);
+								acPlayer.setPartyId(newPartyId); // update party id
 							} catch(Exception e) {
 								e.printStackTrace();
 							}

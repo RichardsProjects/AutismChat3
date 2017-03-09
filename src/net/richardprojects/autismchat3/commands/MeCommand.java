@@ -34,13 +34,14 @@ public class MeCommand implements CommandExecutor {
 							msg = msg + args[i] + " ";
 						}
 						
-						int partyId = PlayerData.getPartyID(player.getUniqueId());
+						int partyId = plugin.getACPlayer(player.getUniqueId()).getPartyId();
 						if(partyId > 0) {
 							List<UUID> partyMembers = PartyUtils.partyMembers(partyId);
 							for(UUID uuid : partyMembers) {
 								Player cPlayer = plugin.getServer().getPlayer(uuid);
 								if(cPlayer != null) {
-									cPlayer.sendMessage(player.getName() + " " +  msg);
+									String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
+									cPlayer.sendMessage(name + " " +  msg);
 								}
 							}
 						}

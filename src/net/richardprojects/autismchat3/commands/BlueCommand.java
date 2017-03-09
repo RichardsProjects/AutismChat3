@@ -3,7 +3,6 @@ package net.richardprojects.autismchat3.commands;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Color;
 import net.richardprojects.autismchat3.Messages;
-import net.richardprojects.autismchat3.PlayerData;
 import net.richardprojects.autismchat3.Utils;
 
 import org.bukkit.command.Command;
@@ -27,7 +26,7 @@ public class BlueCommand implements CommandExecutor {
 			if(player.hasPermission("autismchat.admin.blue")) {
 				if(args.length == 0)
 				{
-					PlayerData.setColor(player.getUniqueId(), Color.BLUE);
+					plugin.getACPlayer(player.getUniqueId()).setColor(Color.BLUE);
 					String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_setBlue);
 					player.sendMessage(msg);
 					Team playerTeam = AutismChat3.board.getPlayerTeam(player);

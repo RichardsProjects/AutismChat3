@@ -33,24 +33,25 @@ public class PrivateMessageCommands implements CommandExecutor {
 					player.sendMessage(msg);
 					return false;
 				} else {
-					//Check if player is online
+					// check if player is online
 					Player recipient;
-					if((recipient = this.plugin.getServer().getPlayerExact(args[0])) != null) {
+					if ((recipient = this.plugin.getServer().getPlayerExact(args[0])) != null) {
 						boolean sendMessage = true;
 
-						//Check if the receiving player is red
-						if(PlayerData.getPlayerColor(recipient.getUniqueId()) == Color.RED) {
+						// check if the receiving player is red
+						if (plugin.getACPlayer(recipient.getUniqueId()).getColor() == Color.RED) {
 							sendMessage = false;
 							String msg = Messages.prefix_Bad + Messages.error_noAcceptingRed;
-							msg = msg.replace("{RECEIVER}", recipient.getName());
+							String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+							msg = msg.replace("{RECEIVER}", name);
 							player.sendMessage(Utils.colorCodes(msg));
 							return true;
 						}
 						
-						//Check if the receiving player is yellow
-						if(PlayerData.getPlayerColor(recipient.getUniqueId()) == Color.YELLOW) {
+						// check if the receiving player is yellow
+						if (plugin.getACPlayer(recipient.getUniqueId()).getColor() == Color.YELLOW) {
 							sendMessage = false;
-							List<UUID> uuids = PlayerData.getYellowListMembers(recipient.getUniqueId());
+							List<UUID> uuids = plugin.getACPlayer(recipient.getUniqueId()).getYellowList();
 							for(UUID currentUUID : uuids) {
 								if(currentUUID.equals(player.getUniqueId())) {
 									sendMessage = true;
@@ -58,23 +59,24 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noAcceptingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 								return true;
 							}
 						}
 						
 						//Check if the sending player is red
-						if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.RED) {
+						if(plugin.getACPlayer(player.getUniqueId()).getColor() == Color.RED) {
 							sendMessage = false;
 							String msg = Messages.prefix_Bad + Messages.error_noSendingRed;
 							player.sendMessage(Utils.colorCodes(msg));
 						}
 						
 						//Check if the sending player is yellow
-						if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.YELLOW) {
+						if(plugin.getACPlayer(player.getUniqueId()).getColor() == Color.YELLOW) {
 							sendMessage = false;
-							List<UUID> uuids = PlayerData.getYellowListMembers(player.getUniqueId());
+							List<UUID> uuids = plugin.getACPlayer(player.getUniqueId()).getYellowList();
 							for(UUID currentUUID : uuids) {
 								if(currentUUID.equals(recipient.getUniqueId())) {
 									sendMessage = true;
@@ -82,61 +84,62 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noSendingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 							}
 						}
 						
-						//Create message
+						// create message
 						String message = "";
 						for(int i = 0; i < args.length; i++) {
 							if(i != 0) message += args[i] + " ";
 						}
 						message = message.trim();
 						
-						//Send Message
-						if(sendMessage) {
-							//Show messge for recipient
+						// send message
+						if (sendMessage) {
+							// show message for recipient
 							String msg1 = Messages.prefix_MessageReceiving + message;
-							msg1 = msg1.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
+							msg1 = msg1.replace("PLAYER", Color.colorCode(plugin.getACPlayer(player.getUniqueId()).getColor()) + player.getName());
 							recipient.sendMessage(Utils.colorCodes(msg1));
 							
-							//Show message for sender
+							// show message for sender
 							String msg2 = Messages.prefix_MessageSending + message;
-							msg2 = msg2.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
+							msg2 = msg2.replace("PLAYER", Color.colorCode(plugin.getACPlayer(player.getUniqueId()).getColor()) + recipient.getName());
 							player.sendMessage(Utils.colorCodes(msg2));							
 						}
 					} else {
-						//Return an error message
+						// return an error message
 						player.sendMessage(Utils.colorCodes(Messages.prefix_Bad + " The specified player is not online."));
 					}
 				}
 			} else if(cmd.getName().equalsIgnoreCase("tell")) {
-				//tell command
-				//Msg command
+				// tell command
 				if(args.length < 2) {
 					String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs);
 					player.sendMessage(msg);
 					return false;
 				} else {
-					//Check if player is online
+					// check if player is online
 					Player recipient;
 					if((recipient = this.plugin.getServer().getPlayerExact(args[0])) != null) {
 						boolean sendMessage = true;
 
-						//Check if the receiving player is red
-						if(PlayerData.getPlayerColor(recipient.getUniqueId()) == Color.RED) {
+						// check if the receiving player is red
+						if (plugin.getACPlayer(recipient.getUniqueId()).getColor() == Color.RED) {
 							sendMessage = false;
 							String msg = Messages.prefix_Bad + Messages.error_noAcceptingRed;
-							msg = msg.replace("{RECEIVER}", recipient.getName());
+							String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+							msg = msg.replace("{RECEIVER}", name);
 							player.sendMessage(Utils.colorCodes(msg));
 							return true;
 						}
 						
-						//Check if the receiving player is yellow
-						if(PlayerData.getPlayerColor(recipient.getUniqueId()) == Color.YELLOW) {
+						// check if the receiving player is yellow
+						if (plugin.getACPlayer(recipient.getUniqueId()).getColor() == Color.YELLOW) {
 							sendMessage = false;
-							List<UUID> uuids = PlayerData.getYellowListMembers(recipient.getUniqueId());
+							List<UUID> uuids = plugin.getACPlayer(recipient.getUniqueId()).getYellowList();
 							for(UUID currentUUID : uuids) {
 								if(currentUUID.equals(player.getUniqueId())) {
 									sendMessage = true;
@@ -144,23 +147,24 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noAcceptingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 								return true;
 							}
 						}
 						
 						//Check if the sending player is red
-						if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.RED) {
+						if(plugin.getACPlayer(player.getUniqueId()).getColor() == Color.RED) {
 							sendMessage = false;
 							String msg = Messages.prefix_Bad + Messages.error_noSendingRed;
 							player.sendMessage(Utils.colorCodes(msg));
 						}
 						
 						//Check if the sending player is yellow
-						if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.YELLOW) {
+						if(plugin.getACPlayer(player.getUniqueId()).getColor() == Color.YELLOW) {
 							sendMessage = false;
-							List<UUID> uuids = PlayerData.getYellowListMembers(player.getUniqueId());
+							List<UUID> uuids = plugin.getACPlayer(player.getUniqueId()).getYellowList();
 							for(UUID currentUUID : uuids) {
 								if(currentUUID.equals(recipient.getUniqueId())) {
 									sendMessage = true;
@@ -168,28 +172,29 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noSendingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 							}
 						}
 						
-						//Create message
+						// create message
 						String message = "";
 						for(int i = 0; i < args.length; i++) {
 							if(i != 0) message += args[i] + " ";
 						}
 						message = message.trim();
 						
-						//Send Message
+						// send message
 						if(sendMessage) {
-							//Show messge for recipient
+							// show message for recipient
 							String msg1 = Messages.prefix_MessageReceiving + message;
-							msg1 = msg1.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
+							msg1 = msg1.replace("PLAYER", Color.colorCode(plugin.getACPlayer(player.getUniqueId()).getColor()) + player.getName());
 							recipient.sendMessage(Utils.colorCodes(msg1));
 							
-							//Show message for sender
+							// show message for sender
 							String msg2 = Messages.prefix_MessageSending + message;
-							msg2 = msg2.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
+							msg2 = msg2.replace("PLAYER", Color.colorCode(plugin.getACPlayer(player.getUniqueId()).getColor()) + recipient.getName());
 							player.sendMessage(Utils.colorCodes(msg2));							
 						}
 					} else {
@@ -198,31 +203,31 @@ public class PrivateMessageCommands implements CommandExecutor {
 					}
 				}
 			} else if(cmd.getName().equalsIgnoreCase("w")) {
-				//w command
-				//Msg command
+				// w command
 				if(args.length < 2) {
 					String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs);
 					player.sendMessage(msg);
 					return false;
 				} else {
-					//Check if player is online
+					// check if player is online
 					Player recipient;
 					if((recipient = this.plugin.getServer().getPlayerExact(args[0])) != null) {
 						boolean sendMessage = true;
 
-						//Check if the receiving player is red
-						if(PlayerData.getPlayerColor(recipient.getUniqueId()) == Color.RED) {
+						// check if the receiving player is red
+						if(plugin.getACPlayer(recipient.getUniqueId()).getColor() == Color.RED) {
 							sendMessage = false;
 							String msg = Messages.prefix_Bad + Messages.error_noAcceptingRed;
-							msg = msg.replace("{RECEIVER}", recipient.getName());
+							String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+							msg = msg.replace("{RECEIVER}", name);
 							player.sendMessage(Utils.colorCodes(msg));
 							return true;
 						}
 						
-						//Check if the receiving player is yellow
-						if(PlayerData.getPlayerColor(recipient.getUniqueId()) == Color.YELLOW) {
+						// check if the receiving player is yellow
+						if(plugin.getACPlayer(recipient.getUniqueId()).getColor() == Color.YELLOW) {
 							sendMessage = false;
-							List<UUID> uuids = PlayerData.getYellowListMembers(recipient.getUniqueId());
+							List<UUID> uuids = plugin.getACPlayer(recipient.getUniqueId()).getYellowList();
 							for(UUID currentUUID : uuids) {
 								if(currentUUID.equals(player.getUniqueId())) {
 									sendMessage = true;
@@ -230,23 +235,24 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noAcceptingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 								return true;
 							}
 						}
 						
-						//Check if the sending player is red
-						if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.RED) {
+						// check if the sending player is red
+						if(plugin.getACPlayer(player.getUniqueId()).getColor() == Color.RED) {
 							sendMessage = false;
 							String msg = Messages.prefix_Bad + Messages.error_noSendingRed;
 							player.sendMessage(Utils.colorCodes(msg));
 						}
 						
-						//Check if the sending player is yellow
-						if(PlayerData.getPlayerColor(player.getUniqueId()) == Color.YELLOW) {
+						// check if the sending player is yellow
+						if(plugin.getACPlayer(player.getUniqueId()).getColor() == Color.YELLOW) {
 							sendMessage = false;
-							List<UUID> uuids = PlayerData.getYellowListMembers(player.getUniqueId());
+							List<UUID> uuids = plugin.getACPlayer(player.getUniqueId()).getYellowList();
 							for(UUID currentUUID : uuids) {
 								if(currentUUID.equals(recipient.getUniqueId())) {
 									sendMessage = true;
@@ -254,32 +260,33 @@ public class PrivateMessageCommands implements CommandExecutor {
 							}
 							if(!sendMessage) {
 								String msg = Messages.prefix_Bad + Messages.error_noSendingYellow;
-								msg = msg.replace("{RECEIVER}", recipient.getName());
+								String name = Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId());
+								msg = msg.replace("{RECEIVER}", name);
 								player.sendMessage(Utils.colorCodes(msg));
 							}
 						}
 						
-						//Create message
+						// create message
 						String message = "";
 						for(int i = 0; i < args.length; i++) {
 							if(i != 0) message += args[i] + " ";
 						}
 						message = message.trim();
 						
-						//Send Message
+						// send message
 						if(sendMessage) {
-							//Show messge for recipient
+							// show message for recipient
 							String msg1 = Messages.prefix_MessageReceiving + message;
-							msg1 = msg1.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
+							msg1 = msg1.replace("PLAYER", Utils.formatName(plugin, player.getUniqueId(), recipient.getUniqueId()));
 							recipient.sendMessage(Utils.colorCodes(msg1));
 							
-							//Show message for sender
+							// show message for sender
 							String msg2 = Messages.prefix_MessageSending + message;
-							msg2 = msg2.replace("PLAYER", Color.colorCode(PlayerData.getPlayerColor(recipient.getUniqueId())) + recipient.getName());
+							msg2 = msg2.replace("PLAYER", Utils.formatName(plugin, recipient.getUniqueId(), player.getUniqueId()));
 							player.sendMessage(Utils.colorCodes(msg2));							
 						}
 					} else {
-						//Return an error message
+						// return an error message
 						player.sendMessage(Utils.colorCodes(Messages.prefix_Bad + " The specified player is not online."));
 					}
 				}

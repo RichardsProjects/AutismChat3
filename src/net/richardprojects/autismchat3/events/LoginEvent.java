@@ -13,6 +13,7 @@ package net.richardprojects.autismchat3.events;
 import java.util.List;
 import java.util.UUID;
 
+import net.richardprojects.autismchat3.ACPlayer;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Color;
 import net.richardprojects.autismchat3.Config;
@@ -39,61 +40,58 @@ public class LoginEvent implements Listener {
 	public void loginEvent(final PlayerJoinEvent e) {
 		e.setJoinMessage("");
 		Player player = e.getPlayer();
+		UUID uuid = player.getUniqueId();
 		
 		// Update the UUID's file every time a player joins
 		plugin.updateUUID(player.getName(), player.getUniqueId());
 
 		boolean playerJoinedBefore = true;
 
-		// Handle New User creation
-		if (!PlayerData.playerExist(player.getUniqueId())) {
+		// handle new user creation
+		if (plugin.getACPlayer(player.getUniqueId()) == null) {
 			playerJoinedBefore = false;
-			// Handle party creation
+			// handle party creation
 			if (Config.template_partyID == 0) {
-				// Create new party
+				// create new party
 				int partyID = 0;
 				try {
-					partyID = PartyUtils.createParty(player.getName(),
-							player.getUniqueId());
+					partyID = PartyUtils.createParty(player.getName(), uuid);
 				} catch (Exception ex) {
-					AutismChat3.log
-							.info("An error occurred while creating a new party... Please check your file permissions.");
+					String err = "An error occurred while creating a new party... ";
+					AutismChat3.log.info(err + " Please check your file permissions.");
 					ex.printStackTrace();
 				}
 				if (partyID != 0)
-					PlayerData.newUser(player.getName(), player.getUniqueId(),
-							partyID);
+					plugin.createNewPlayer(uuid, partyID);
 			} else {
 				if (PartyUtils.partyExists(Config.template_partyID)) {
-					PlayerData.newUser(player.getName(), player.getUniqueId(),
-							Config.template_partyID);
-					PartyUtils.joinParty(Config.template_partyID,
-							player.getUniqueId());
+					plugin.createNewPlayer(uuid, Config.template_partyID);
+					PartyUtils.joinParty(plugin, Config.template_partyID, player.getUniqueId());
 				} else {
 					int partyID = 0;
 					try {
 						partyID = PartyUtils.createParty(player.getName(),
 								player.getUniqueId());
 					} catch (Exception ex) {
-						AutismChat3.log
-								.info("An error occurred while creating a new party... Please check your file permissions.");
+						String err = "An error occurred while creating a new party... ";
+						AutismChat3.log.info(err + " Please check your file permissions.");
 						ex.printStackTrace();
 					}
 					if (partyID != 0)
-						PlayerData.newUser(player.getName(),
-								player.getUniqueId(), partyID);
+						plugin.createNewPlayer(uuid, partyID);
 				}
 			}
 		}
 
-		Color playerColor = PlayerData.getPlayerColor(player.getUniqueId());
-		if (playerColor == Color.RED) {
+		ACPlayer acPlayer = plugin.getACPlayer(uuid);
+		Color pColor = acPlayer.getColor();
+		if (pColor == Color.RED) {
 			AutismChat3.redTeam.addPlayer(player);
-		} else if (playerColor == Color.BLUE) {
+		} else if (pColor == Color.BLUE) {
 			AutismChat3.blueTeam.addPlayer(player);
-		} else if (playerColor == Color.GREEN) {
+		} else if (pColor == Color.GREEN) {
 			AutismChat3.greenTeam.addPlayer(player);
-		} else if (playerColor == Color.YELLOW) {
+		} else if (pColor == Color.YELLOW) {
 			AutismChat3.yellowTeam.addPlayer(player);
 		}
 		player.setScoreboard(AutismChat3.board);
@@ -109,8 +107,8 @@ public class LoginEvent implements Listener {
 		// Show loginreport
 		if (Config.loginReport) {
 			// Loading Settings transition message
-			player.sendMessage(Utils
-					.colorCodes(Messages.message_loadingSettings));
+			String msg = Utils.colorCodes(Messages.message_loadingSettings);
+			player.sendMessage(msg);
 
 			// Send Statuses for login report
 			String[] loginReport = Config.loginReportStatuses.split(",");
@@ -124,7 +122,7 @@ public class LoginEvent implements Listener {
 			boolean displayMessage = true;
 			
 			if(Config.redHidesLoginNotification) {
-				if(PlayerData.getPlayerColor(cPlayer.getUniqueId()) == Color.RED) {
+				if(pColor == Color.RED) {
 					displayMessage = false;
 				}
 			}
@@ -133,24 +131,26 @@ public class LoginEvent implements Listener {
 
 				if(cPlayer.getUniqueId().equals(e.getPlayer().getUniqueId())) {
 					String msg = Messages.message_joinMessage;
-					msg = msg.replace("{PLAYER}", player.getName());
+					String name = Utils.formatName(plugin, player.getUniqueId(), null);
+					msg = msg.replace("{PLAYER}", name);
 					cPlayer.sendMessage(Utils.colorCodes(msg));
 				} else {
-					int cPlayerPartyId = PlayerData.getPartyID(cPlayer.getUniqueId());
+					int cPlayerPartyId = plugin.getACPlayer(cPlayer.getUniqueId()).getPartyId();
+					String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
 					if(cPlayerPartyId > 0) {
 						List<UUID> partyMembers = PartyUtils.partyMembers(cPlayerPartyId);
 						if(partyMembers.contains(e.getPlayer().getUniqueId())) {
 							String msg = Messages.message_joinMessageParty;
-							msg = msg.replace("{PLAYER}", player.getName());
+							msg = msg.replace("{PLAYER}", name);
 							cPlayer.sendMessage(Utils.colorCodes(msg));
 						} else {
 							String msg = Messages.message_joinMessage;
-							msg = msg.replace("{PLAYER}", player.getName());
+							msg = msg.replace("{PLAYER}", name);
 							cPlayer.sendMessage(Utils.colorCodes(msg));
 						}
 					} else {
 						String msg = Messages.message_joinMessage;
-						msg = msg.replace("{PLAYER}", player.getName());
+						msg = msg.replace("{PLAYER}", name);
 						cPlayer.sendMessage(Utils.colorCodes(msg));
 					}
 				}

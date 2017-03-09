@@ -2,7 +2,6 @@ package net.richardprojects.autismchat3.commands;
 
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Messages;
-import net.richardprojects.autismchat3.PlayerData;
 import net.richardprojects.autismchat3.Utils;
 
 import org.bukkit.command.Command;
@@ -27,11 +26,11 @@ public class GcCommand implements CommandExecutor {
 			{
 				if(args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off")) {
 					if(args[0].equalsIgnoreCase("on")) {
-						PlayerData.setGlobalChatEnabled(player.getUniqueId(), true);
+						plugin.getACPlayer(player.getUniqueId()).setGlobalChat(true);
 						String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_globalChatOn);
 						player.sendMessage(msg);
 					} else if(args[0].equalsIgnoreCase("off")) {
-						PlayerData.setGlobalChatEnabled(player.getUniqueId(), false);
+						plugin.getACPlayer(player.getUniqueId()).setGlobalChat(false);
 						String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_globalChatOff);
 						player.sendMessage(msg);
 					}

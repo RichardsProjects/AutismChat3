@@ -91,7 +91,7 @@ public class PartyUtils {
 		return nextId;
 	}
 
-	public static boolean joinParty(int partyId, UUID player) {
+	public static boolean joinParty(AutismChat3 plugin, int partyId, UUID player) {
 		boolean result = false;
 		//Update the member list in the party
 		File xml = new File(AutismChat3.dataFolder + File.separator + "parties" + File.separator + partyId + ".xml");
@@ -122,35 +122,13 @@ public class PartyUtils {
 		} else {
 			return result;
 		}		
-		File xml2 = new File(AutismChat3.dataFolder + File.separator + "userdata" + File.separator + player.toString() + ".xml");
-		if(xml2.exists()) {
-			try {
-				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder docBuilder;
-				docBuilder = docFactory.newDocumentBuilder();
-				Document doc = docBuilder.parse(xml2);
-				
-				NodeList nList = doc.getElementsByTagName("party");
-				Node node = nList.item(0);
-				node.setTextContent(partyId + "");
-				
-				//Save
-				TransformerFactory transformerFactory = TransformerFactory
-						.newInstance();
-				Transformer transformer = transformerFactory.newTransformer();
-				DOMSource source = new DOMSource(doc);
-				StreamResult sResult = new StreamResult(xml2);
-				transformer.setOutputProperty(OutputKeys.INDENT, "no");
-				transformer.transform(source, sResult);
-				result = true;
-				return result;
-			} catch(Exception e) {
-				e.printStackTrace();
-				return false;
-			}
-		} else {
-			return false;
-		}		
+		
+		// update the player's partyId
+		ACPlayer acPlayer = plugin.getACPlayer(player);
+		acPlayer.setPartyId(partyId);
+		result = true;
+		
+		return result;
 	}
 	
 	public static List<UUID> partyMembers(int partyID) {
@@ -198,7 +176,7 @@ public class PartyUtils {
 					}
 				}
 				
-				//Save XML
+				// save XML
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
 				Transformer transformer = transformerFactory.newTransformer();
 				DOMSource source = new DOMSource(doc);

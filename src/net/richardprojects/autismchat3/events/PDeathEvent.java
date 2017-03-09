@@ -45,7 +45,7 @@ public class PDeathEvent implements Listener {
 		plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 
 			public void run() {
-				int partyID = PlayerData.getPartyID(player.getUniqueId());
+				int partyID = plugin.getACPlayer(player.getUniqueId()).getPartyId();
 				
 				if(partyID > 0) {
 					for(UUID uuid : PartyUtils.partyMembers(partyID)) {

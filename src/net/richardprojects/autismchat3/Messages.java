@@ -76,6 +76,7 @@ public class Messages {
 	public static String reasonYouRed;
 	public static String reasonYouYellow;
 	public static String reasonNotOnYourYellowList;
+	public static String reasonJoinedAnotherParty;
 	public static String message_youJoinParty;
 	public static String message_youLeaveParty;
 	public static List<String> motd = new ArrayList<String>();
@@ -151,36 +152,37 @@ public class Messages {
 			error_JoinParty5 = messagesConfig.getString("partyJoinErrorMessages.5");
 			error_JoinParty6 = messagesConfig.getString("partyJoinErrorMessages.6");
 			
-			//Load Chat Formats
+			// load chat formats
 			partyChatFormat = messagesConfig.getString("partyChatFormat");
 			globalChatFormat = messagesConfig.getString("globalChatFormat");
 			
 			motd = messagesConfig.getStringList("motd");
 			help = messagesConfig.getStringList("help");
 			
-			//Load Colors
+			// load colors
 			color_blue = messagesConfig.getString("blue");
 			color_yellow = messagesConfig.getString("yellow");
 			color_red = messagesConfig.getString("red");
 			color_green = messagesConfig.getString("green");
 			
-			//Load Status Messages
+			// load status messages
 			status_colorSetting = messagesConfig.getString("status.colourSetting");
 			status_yellowList = messagesConfig.getString("status.yellowList");
 			status_globalChat = messagesConfig.getString("status.globalChat");
 			status_partyMembers = messagesConfig.getString("status.partyMembers");
 			
-			//Load Join Messages
+			// load join messages
 			message_joinMessage = messagesConfig.getString("joinMessage");
 			message_joinMessageParty = messagesConfig.getString("joinMessageParty");
 			
-			//Reasons
+			// reasons
 			reasonLeaveRed = messagesConfig.getString("reasons.red");
 			reasonLeaveYellow = messagesConfig.getString("reasons.yellow");
 			reasonNotOnYellowList = messagesConfig.getString("reasons.notOnYellowList");
 			reasonNotOnYourYellowList = messagesConfig.getString("reasons.notOnYourYellowList");
 			reasonYouRed = messagesConfig.getString("reasons.youRed");
 			reasonYouYellow = messagesConfig.getString("reasons.youYellow");
+			reasonJoinedAnotherParty = messagesConfig.getString("reasons.joinedAnotherParty");
 		} catch(Exception e) {
 			AutismChat3.log.info("There was an error while loading data from the messages...");
 			e.printStackTrace();

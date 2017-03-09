@@ -34,9 +34,10 @@ public class WhiteCommand implements CommandExecutor {
 			String[] args) {
 		if(sender instanceof Player) {
 			final Player player = (Player) sender;
+			
 			if(args.length == 0)
 			{
-				PlayerData.setColor(player.getUniqueId(), Color.WHITE);
+				plugin.getACPlayer(player.getUniqueId()).setColor(Color.WHITE);
 				String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_setWhite);
 				player.sendMessage(msg);
 				Team playerTeam = AutismChat3.board.getPlayerTeam(player);

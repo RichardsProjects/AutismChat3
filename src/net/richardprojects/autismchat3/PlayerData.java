@@ -10,29 +10,16 @@
 
 package net.richardprojects.autismchat3;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.bukkit.craftbukkit.libs.jline.internal.Log;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
+/**
+ * This class is no longer used, however the code will be kept temporarily in
+ * case it is needed for reference while testing the new system.
+ * 
+ * @author RichardB122
+ * @version 3/9/17
+ */
 public class PlayerData {
 	
+	/*
 	public static void newUser(String name, UUID uuid, int partyID) {
 		try {
 			File xml = new File(AutismChat3.dataFolder + File.separator + "userdata" + File.separator + uuid.toString() + ".xml");
@@ -78,8 +65,9 @@ public class PlayerData {
 			Log.info("An error occured while creating a new user...");
 			e.printStackTrace();
 		}
-	}
+	}*/
 
+	/*
 	public static void setColor(UUID uuid, Color color) {
 		String colorString = Color.toString(color);
 		
@@ -293,5 +281,5 @@ public class PlayerData {
 		} else {
 			return 0;
 		}
-	}
+	}*/
 }

@@ -23,11 +23,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import net.richardprojects.autismchat3.AutismChat3;
-import net.richardprojects.autismchat3.Color;
-import net.richardprojects.autismchat3.Config;
 import net.richardprojects.autismchat3.Messages;
 import net.richardprojects.autismchat3.PartyUtils;
-import net.richardprojects.autismchat3.PlayerData;
 import net.richardprojects.autismchat3.Utils;
 
 import org.bukkit.command.Command;
@@ -53,36 +50,19 @@ public class LeaveCommand implements CommandExecutor {
 			this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, new Runnable() {
 				public void run() {
 					if(args.length == 0) {
-						int partyId = PlayerData.getPartyID(player.getUniqueId());
+						int partyId = plugin.getACPlayer(player.getUniqueId()).getPartyId();
 						if(partyId > 0) {
 							List<UUID> partyMembers = PartyUtils.partyMembers(partyId);
 							if(partyMembers.size() > 1) {
 								try {
-									//Create a new party
+									// create a new party and update id
 									int newPartyId = PartyUtils.createParty(player.getName(), player.getUniqueId());
+									plugin.getACPlayer(player.getUniqueId()).setPartyId(newPartyId);
 									
-									//Update party id
-									File xml = new File(AutismChat3.dataFolder + File.separator + "userdata" + File.separator + player.getUniqueId().toString() + ".xml");
-									DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-									DocumentBuilder docBuilder = docFactory.newDocumentBuilder();			
-									Document doc = docBuilder.parse(xml);
-									
-									NodeList nList = doc.getElementsByTagName("party");
-									Node tempNode = nList.item(0);
-									tempNode.setTextContent(newPartyId + "");
-									
-									//Save
-									TransformerFactory transformerFactory = TransformerFactory.newInstance();
-									Transformer transformer = transformerFactory.newTransformer();
-									DOMSource source = new DOMSource(doc);
-									StreamResult result = new StreamResult(xml);
-									transformer.setOutputProperty(OutputKeys.INDENT, "no");
-									transformer.transform(source, result);
-									
-									//Remove player from old party
+									// remove player from old party
 									PartyUtils.removePlayerParty(partyId, player.getUniqueId());
 									
-									//Notify old party member that they have left the party
+									// notify old party member that they have left the party
 									partyMembers = PartyUtils.partyMembers(partyId);
 									for(UUID uuid2 : partyMembers) {
 										if(!uuid2.equals(player.getUniqueId())) {
@@ -90,17 +70,21 @@ public class LeaveCommand implements CommandExecutor {
 											if(cPlayer != null) {
 												//Leave party message
 												String msg = Messages.message_leaveParty;
-												msg = msg.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
+												String pName = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
+												msg = msg.replace("{PLAYER}", pName);
 												msg = msg.replace(" {PLAYERS} {REASON}", "");
 												cPlayer.sendMessage(Utils.colorCodes(msg));
 											}
 										}
 									}
 									
-									//Send Message to player who just left
+									// send Message to player who just left
 									String partyMemberlist = "";
-									for(UUID playerUUID : partyMembers) {
-										partyMemberlist = partyMemberlist + ", " + Color.colorCode(PlayerData.getPlayerColor(playerUUID)) + plugin.getName(playerUUID);
+									for (UUID playerUUID : partyMembers) {
+										if (!playerUUID.equals(player.getUniqueId())) {
+											String pName = Utils.formatName(plugin, playerUUID, player.getUniqueId());
+											partyMemberlist += ", " + pName;
+										}
 									}
 									partyMemberlist = partyMemberlist.substring(2);
 									
