@@ -40,8 +40,7 @@ public class MeCommand implements CommandExecutor {
 							for(UUID uuid : partyMembers) {
 								Player cPlayer = plugin.getServer().getPlayer(uuid);
 								if(cPlayer != null) {
-									String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
-									cPlayer.sendMessage(name + " " +  msg);
+									cPlayer.sendMessage(player.getName() + " " +  msg);
 								}
 							}
 						}

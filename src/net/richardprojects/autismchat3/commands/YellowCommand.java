@@ -55,15 +55,15 @@ public class YellowCommand implements CommandExecutor {
 			if(args.length == 0)
 			{
 				PlayerData.setColor(player.getUniqueId(), Color.YELLOW);
-				// replace the Yellow list variable with the names of people on their yellow list
+				//Replace the Yellow list variable with the names of people on their yellow list
 				String yellowList = "";
 				for(UUID uuid : PlayerData.getYellowListMembers(player.getUniqueId())) {
-					String yellowName = Utils.formatName(plugin, uuid, player.getUniqueId());
+					String yellowName = plugin.getName(uuid);
 					if(yellowName != null) {
 						if(yellowList.equals("")) {
 							yellowList = yellowName;
 						} else {
-							yellowList += ", " + yellowName;
+							yellowList = yellowList + ", " + yellowName;
 						}
 					}
 				}
@@ -114,23 +114,20 @@ public class YellowCommand implements CommandExecutor {
 						
 						if(!stayInParty) {
 							try {
-								// message everyone
-								for (UUID member : currentPartyMemberlist) {
-									if (!member.equals(player.getUniqueId())) {
+								//Message everyone
+								for(UUID member : currentPartyMemberlist) {
+									if(!member.equals(player.getUniqueId())) {
 										Player cPlayer = plugin.getServer().getPlayer(member);
-										if (cPlayer != null) {
+										if(cPlayer != null) {
 											String msg2 = Messages.message_leaveParty;
-											String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
-											msg2 = msg2.replace("{PLAYER}", name);
-											msg2 = msg2.replace("{PLAYERS} {REASON}", Messages.reasonLeaveYellow);
+											msg2 = msg2.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
+											msg2 = msg2.replace(" {PLAYERS} {REASON}", Messages.reasonLeaveYellow);
 											cPlayer.sendMessage(Utils.colorCodes(msg2));
 										}
 									} else {
 										String partyMemberlist = "";
-										for (UUID playerUUID : currentPartyMemberlist) {
-											if (!playerUUID.equals(player.getUniqueId())) {
-												partyMemberlist += ", " + Utils.formatName(plugin, playerUUID, player.getUniqueId());
-											}
+										for(UUID playerUUID : currentPartyMemberlist) {
+											partyMemberlist = partyMemberlist + ", " + plugin.getName(playerUUID);
 										}
 										partyMemberlist = partyMemberlist.substring(2);
 										
@@ -142,13 +139,13 @@ public class YellowCommand implements CommandExecutor {
 									}
 								}
 								
-								// remove player from old party
+								//Remove player from old party
 								PartyUtils.removePlayerParty(currentPartyId, player.getUniqueId());
 								
-								// create a new party
+								//Create a new party
 								int newPartyId = PartyUtils.createParty(player.getName(), player.getUniqueId());
 								
-								// update party id
+								//Update party id
 								File xml = new File(AutismChat3.dataFolder + File.separator + "userdata" + File.separator + player.getUniqueId().toString() + ".xml");
 								DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 								DocumentBuilder docBuilder = docFactory.newDocumentBuilder();			
@@ -203,7 +200,7 @@ public class YellowCommand implements CommandExecutor {
 							
 							List<UUID> yellowListMembers = PlayerData.getYellowListMembers(player.getUniqueId());	
 							if(newUUID != null) {
-								playerName = Utils.formatName(plugin, newUUID, player.getUniqueId());
+								playerName = plugin.getName(newUUID);
 								
 								boolean addPersonToList = true;
 								for(UUID member : yellowListMembers) {
@@ -242,7 +239,7 @@ public class YellowCommand implements CommandExecutor {
 
 							List<UUID> yellowListMembers = PlayerData.getYellowListMembers(player.getUniqueId());							
 							if(newUUID != null) {
-								playerName = Utils.formatName(plugin, newUUID, player.getUniqueId());
+								playerName = plugin.getName(newUUID);
 								boolean removePersonFromList = false;
 								for(UUID member : yellowListMembers) {
 									if(member.equals(newUUID)) {
@@ -287,31 +284,27 @@ public class YellowCommand implements CommandExecutor {
 													//Remove player from old party
 													PartyUtils.removePlayerParty(partyId, player.getUniqueId());
 													
-													// notify old party members that they have left the party
+													//Notify old party member that they have left the party
 													for(UUID uuid2 : partyMembers) {
 														if(!uuid2.equals(player.getUniqueId())) {
 															Player cPlayer = plugin.getServer().getPlayer(uuid2);
 															if(cPlayer != null) {
-																// leave party message
+																//Leave party message
 																String msg = Messages.message_leaveParty;
-																String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
-																msg = msg.replace("{PLAYER}", name);
+																msg = msg.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
 																String reason = Messages.reasonNotOnYellowList;
-																String name2 = Utils.formatName(plugin, newUUID, cPlayer.getUniqueId());
-																reason = reason.replace("{Player}", name2);
+																reason = reason.replace("{Player}", Color.colorCode(PlayerData.getPlayerColor(newUUID)) + playerName);
 																msg = msg.replace(" {PLAYERS} {REASON}", ChatColor.RESET + reason);
 																cPlayer.sendMessage(Utils.colorCodes(msg));
 															}
 														}
 													}
 													
-													// send Message to player who just left
+													//Send Message to player who just left
 													String partyMemberlist = "";
 													for(UUID playerUUID : partyMembers) {
-														if(!playerUUID.equals(player.getUniqueId())) {
-															String name = Utils.formatName(plugin, playerUUID, player.getUniqueId());
-															partyMemberlist += ", " + name;
-														}
+														if(!playerUUID.equals(player.getUniqueId()))
+														partyMemberlist = partyMemberlist + ", " + Color.colorCode(PlayerData.getPlayerColor(playerUUID)) + plugin.getName(playerUUID);
 													}
 													partyMemberlist = partyMemberlist.substring(2);
 													
@@ -319,8 +312,7 @@ public class YellowCommand implements CommandExecutor {
 													msg = msg.replace("has", "have");
 													msg = msg.replace("{PLAYERS}", partyMemberlist);
 													String reason = Messages.reasonNotOnYourYellowList;
-													String name = Utils.formatName(plugin, newUUID, player.getUniqueId());
-													reason = reason.replace("{Player}", name);
+													reason = reason.replace("{Player}", Color.colorCode(PlayerData.getPlayerColor(newUUID)) + playerName);
 													msg = msg.replace("{REASON}", ChatColor.RESET + reason);
 													player.sendMessage(Utils.colorCodes(msg));
 													

@@ -85,16 +85,14 @@ public class RedCommand implements CommandExecutor {
 										Player cPlayer = plugin.getServer().getPlayer(member);
 										if(cPlayer != null) {
 											String msg2 = Messages.message_leaveParty;
-											String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
-											msg2 = msg2.replace("{PLAYER}", name);
+											msg2 = msg2.replace("{PLAYER}", Color.colorCode(PlayerData.getPlayerColor(player.getUniqueId())) + player.getName());
 											msg2 = msg2.replace("{PLAYERS} {REASON}", Messages.reasonLeaveRed);
 											cPlayer.sendMessage(Utils.colorCodes(msg2));
 										}
 									} else {
 										String partyMemberlist = "";
 										for(UUID playerUUID : currentPartyMemberList) {
-											String name = Utils.formatName(plugin, playerUUID, player.getUniqueId());
-											partyMemberlist += ", " + name;
+											partyMemberlist = partyMemberlist + ", " + plugin.getName(playerUUID);
 										}
 										partyMemberlist = partyMemberlist.substring(2);
 										

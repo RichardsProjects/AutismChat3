@@ -14,6 +14,7 @@ import java.io.File;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import net.md_5.bungee.api.ChatColor;
 import net.richardprojects.autismchat3.commands.AutismChatCommand;
 import net.richardprojects.autismchat3.commands.BlueCommand;
 import net.richardprojects.autismchat3.commands.GcCommand;
@@ -58,18 +59,18 @@ public class AutismChat3 extends JavaPlugin {
 	
 	
 	public void onEnable() {
-		// initialize Everything
+		//Initialize Everything
 		dataFolder = getDataFolder();
 		pm = this.getServer().getPluginManager();
 		log = this.getLogger();
 		uuids.load("uuids.yml");
 		
-		// check files and register everything
+		//Check files and register everything
 		checkFiles();
 		registerEvents();
 		registerCommands();
 		
-		// setup teams
+		//Setup Teams
 		manager = Bukkit.getScoreboardManager();
 		board = manager.getNewScoreboard();
 		yellowTeam = board.registerNewTeam("yellowTeam");
@@ -152,12 +153,12 @@ public class AutismChat3 extends JavaPlugin {
 		getCommand("autismchat").setExecutor(new AutismChatCommand(this));
 		getCommand("status").setExecutor(new StatusCommand(this));
 		
-		//Override Vanilla private message commands
+		// override vanilla private message commands
 		getCommand("w").setExecutor(new PrivateMessageCommands(this));
 		getCommand("tell").setExecutor(new PrivateMessageCommands(this));
 		getCommand("msg").setExecutor(new PrivateMessageCommands(this));
 		
-		//Override Vanilla me commmand
+		// override vanilla me commmand
 		getCommand("me").setExecutor(new MeCommand(this));
 	}
 	
