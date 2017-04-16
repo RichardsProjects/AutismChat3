@@ -17,6 +17,12 @@ import java.util.UUID;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+/**
+ * A simple class that represents an AutismChat3 player.
+ * 
+ * @author RichardB122
+ * @version 4/15/17
+ */
 public class ACPlayer {
 
 	private UUID uuid;

@@ -3,7 +3,6 @@ package net.richardprojects.autismchat3.events;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Color;
 import net.richardprojects.autismchat3.Config;
-import net.richardprojects.autismchat3.PlayerData;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

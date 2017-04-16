@@ -14,26 +14,15 @@ import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import net.richardprojects.autismchat3.AutismChat3;
+import net.richardprojects.autismchat3.ACParty;
 import net.richardprojects.autismchat3.Messages;
-import net.richardprojects.autismchat3.PartyUtils;
 import net.richardprojects.autismchat3.Utils;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class LeaveCommand implements CommandExecutor {
 
@@ -51,24 +40,24 @@ public class LeaveCommand implements CommandExecutor {
 				public void run() {
 					if(args.length == 0) {
 						int partyId = plugin.getACPlayer(player.getUniqueId()).getPartyId();
-						if(partyId > 0) {
-							List<UUID> partyMembers = PartyUtils.partyMembers(partyId);
-							if(partyMembers.size() > 1) {
+						ACParty party = plugin.getACParty(partyId);
+						
+						if (party != null) {
+							if (party.getMembers().size() > 1) {
 								try {
 									// create a new party and update id
-									int newPartyId = PartyUtils.createParty(player.getName(), player.getUniqueId());
+									int newPartyId = plugin.createNewParty(player.getUniqueId());
 									plugin.getACPlayer(player.getUniqueId()).setPartyId(newPartyId);
 									
-									// remove player from old party
-									PartyUtils.removePlayerParty(partyId, player.getUniqueId());
+									party.removeMember(player.getUniqueId()); // remove player from old party
 									
 									// notify old party member that they have left the party
-									partyMembers = PartyUtils.partyMembers(partyId);
-									for(UUID uuid2 : partyMembers) {
-										if(!uuid2.equals(player.getUniqueId())) {
-											Player cPlayer = plugin.getServer().getPlayer(uuid2);
-											if(cPlayer != null) {
-												//Leave party message
+									for (UUID uuid : party.getMembers()) {
+										if (!uuid.equals(player.getUniqueId())) {
+											Player cPlayer = plugin.getServer().getPlayer(uuid);
+											
+											// send leave party message
+											if (cPlayer != null) {												
 												String msg = Messages.message_leaveParty;
 												String pName = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
 												msg = msg.replace("{PLAYER}", pName);
@@ -78,19 +67,11 @@ public class LeaveCommand implements CommandExecutor {
 										}
 									}
 									
-									// send Message to player who just left
-									String partyMemberlist = "";
-									for (UUID playerUUID : partyMembers) {
-										if (!playerUUID.equals(player.getUniqueId())) {
-											String pName = Utils.formatName(plugin, playerUUID, player.getUniqueId());
-											partyMemberlist += ", " + pName;
-										}
-									}
-									partyMemberlist = partyMemberlist.substring(2);
-									
+									// send message to player who just left
+									String memberList = Utils.partyMembersString(plugin, partyId, player.getUniqueId());								
 									String msg = Messages.message_youLeaveParty;
 									msg = msg.replace("has", "have");
-									msg = msg.replace("{PLAYERS}", partyMemberlist);
+									msg = msg.replace("{PLAYERS}", memberList);
 									msg = msg.replace(" {REASON}", "");
 									player.sendMessage(Utils.colorCodes(msg));
 									

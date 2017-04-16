@@ -37,9 +37,9 @@ public class Config {
 	
 	private static YamlConfiguration config;
 	
-	public static void setupConfig() {
+	public static void setupConfig(AutismChat3 plugin) {
 		try {
-			PrintWriter out = new PrintWriter(AutismChat3.config);
+			PrintWriter out = new PrintWriter(plugin.config);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					AutismChat3.class.getResourceAsStream("/sampleconfig.yml")));
 
@@ -51,18 +51,18 @@ public class Config {
 			reader.close();
 			
 			config = new YamlConfiguration();
-			config.load(AutismChat3.config);
+			config.load(plugin.config);
 		} catch (Exception e) {
 			Log.info(" There was an error setting up the config file...");
 			e.printStackTrace();
 		}
 	}
 
-	public static void loadValues() {
+	public static void loadValues(AutismChat3 plugin) {
 		//Load in case it wasn't done already
 		try {
 			config = new YamlConfiguration();
-			config.load(AutismChat3.config);
+			config.load(plugin.config);
 	
 			displayLoginMesagesToRedPlayers = !config.getBoolean("redhidesloginnotify");
 			

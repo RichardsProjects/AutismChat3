@@ -10,17 +10,8 @@
 
 package net.richardprojects.autismchat3;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class SaveDataTask extends BukkitRunnable {
@@ -43,14 +34,24 @@ public class SaveDataTask extends BukkitRunnable {
 	
 	private void save(boolean flag) throws Exception {		
 		// loop through all the players and save them if needed
-		for (Object uuid : plugin.players.keySet().toArray()) {
-		    ACPlayer player = plugin.getACPlayer((UUID) uuid);
+		for (UUID uuid : plugin.playersUUIDs()) {
+		    ACPlayer player = plugin.getACPlayer(uuid);
 		    if (player != null) {
 		    	if (player.needsUpdate || flag) {
 		    		player.save(plugin);
 		    	}
 		    }
-		}		
+		}
+		
+		// loop through all parties and save them if needed
+		for (int id : plugin.partyIDs()) {
+		    ACParty party = plugin.getACParty(id);
+		    if (party != null) {
+		    	if (party.needsUpdate || flag) {
+		    		party.save(plugin);
+		    	}
+		    }
+		}
 	}
 
 }

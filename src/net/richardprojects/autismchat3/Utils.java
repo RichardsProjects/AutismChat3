@@ -21,28 +21,7 @@ import net.md_5.bungee.api.ChatColor;
 public class Utils {
 
 	public static String colorCodes(String msg) {
-		msg = msg.replace("&0", ChatColor.BLACK + "");
-		msg = msg.replace("&1", ChatColor.DARK_BLUE + "");
-		msg = msg.replace("&2", ChatColor.DARK_GREEN + "");
-		msg = msg.replace("&3", ChatColor.DARK_AQUA + "");
-		msg = msg.replace("&4", ChatColor.DARK_RED + "");
-		msg = msg.replace("&5", ChatColor.DARK_PURPLE + "");
-		msg = msg.replace("&6", ChatColor.GOLD + "");
-		msg = msg.replace("&7", ChatColor.GRAY + "");
-		msg = msg.replace("&8", ChatColor.DARK_GRAY + "");
-		msg = msg.replace("&9", ChatColor.BLUE + "");
-		msg = msg.replace("&a", ChatColor.GREEN + "");
-		msg = msg.replace("&b", ChatColor.AQUA + "");
-		msg = msg.replace("&c", ChatColor.RED + "");
-		msg = msg.replace("&d", ChatColor.LIGHT_PURPLE + "");
-		msg = msg.replace("&e", ChatColor.YELLOW + "");
-		msg = msg.replace("&f", ChatColor.WHITE + "");
-		msg = msg.replace("&l", ChatColor.BOLD + "");
-		msg = msg.replace("&m", ChatColor.STRIKETHROUGH + "");
-		msg = msg.replace("&n", ChatColor.UNDERLINE + "");
-		msg = msg.replace("&o", ChatColor.ITALIC + "");
-		msg = msg.replace("&r", ChatColor.RESET + "");
-		return msg;
+		return ChatColor.translateAlternateColorCodes('&', msg);
 	}
 	
 	public static void sendStatus(String status, UUID uuid, AutismChat3 plugin) {
@@ -96,8 +75,8 @@ public class Utils {
 			String onlineMemberString = "";
 			
 			int partyId = acPlayer.getPartyId();
-			if(partyId > 0) {
-				List<UUID> partyMembers = PartyUtils.partyMembers(partyId);
+			if(plugin.getACParty(partyId) != null) {
+				List<UUID> partyMembers = plugin.getACParty(partyId).getMembers();
 				List<UUID> onlineMembers = new ArrayList<UUID>();
 				for(UUID member : partyMembers) {
 					Player cPlayer = plugin.getServer().getPlayer(member);
@@ -152,21 +131,21 @@ public class Utils {
 					yellowListString += ", " + playerName;
 				}
 			}
-			if(yellowListMembers.size() > 0) {
+			if (yellowListMembers.size() > 0) {
 				yellowListString = yellowListString.substring(2);
 				msg = msg.replace("{yellow_list}", yellowListString);
 			} else {
 				msg = msg.replace("{yellow_list}", "NONE");
 			}
 			receiver.sendMessage(Utils.colorCodes(msg));
-		} else if(status.equals("colourSetting")) {
+		} else if (status.equals("colourSetting")) {
 			Color playersColor = uuidPlayer.getColor();
 			String msg = Messages.status_colorSetting;
 			
 			msg = msg.replace("{COLORSTATUS}", Color.colorCode(playersColor) + Color.toString(playersColor));
 			
 			receiver.sendMessage(Utils.colorCodes(msg));
-		} else if(status.equals("globalChat")) {
+		} else if (status.equals("globalChat")) {
 			String msg = Messages.status_globalChat;
 			
 			if(uuidPlayer.isGlobalChatEnabled()) {
@@ -176,7 +155,7 @@ public class Utils {
 			}
 			
 			receiver.sendMessage(Utils.colorCodes(msg));
-		} else if(status.equals("partyMembers")) {
+		} else if (status.equals("partyMembers")) {
 			String msg = Messages.status_partyMembers;
 			String name = Utils.formatName(plugin, uuid, receiver.getUniqueId());
 			msg = msg.replace("{TARGET}", name);
@@ -185,8 +164,8 @@ public class Utils {
 			String onlineMemberString = "";
 			
 			int partyId = uuidPlayer.getPartyId();
-			if(partyId > 0) {
-				List<UUID> partyMembers = PartyUtils.partyMembers(partyId);
+			if (plugin.getACParty(partyId) != null) {
+				List<UUID> partyMembers = plugin.getACParty(partyId).getMembers();
 				List<UUID> onlineMembers = new ArrayList<UUID>();
 				for(UUID member : partyMembers) {
 					Player cPlayer = plugin.getServer().getPlayer(member);
@@ -195,8 +174,8 @@ public class Utils {
 					}
 				}
 				
-				//Create party list
-				for(UUID member : partyMembers) {
+				// create party list
+				for (UUID member : partyMembers) {
 					if(!member.equals(uuid)) {
 						String playerName = plugin.getName(member);
 						if(playerName != null) {
@@ -205,15 +184,15 @@ public class Utils {
 						}
 					}
 				}
-				if(partyMembers.size() > 1) {
+				if (partyMembers.size() > 1) {
 					partyMemberString = partyMemberString.substring(2);
 					partyMemberString = partyMemberString + "&r";
 				} else {
 					partyMemberString = "NONE";
 				}
 				
-				//Create list of players in the party who are online
-				for(UUID member : onlineMembers) {
+				// create list of players in the party who are online
+				for (UUID member : onlineMembers) {
 					if(!member.equals(uuid)) {
 						String playerName = plugin.getName(member);
 						if(playerName != null) {
@@ -222,14 +201,14 @@ public class Utils {
 						}
 					}
 				}
-				if(onlineMembers.size() > 1) {
+				if (onlineMembers.size() > 1) {
 					onlineMemberString = onlineMemberString.substring(2);
 					onlineMemberString = onlineMemberString + "&r";
 				} else {
 					onlineMemberString = "NONE";
 				}
 				
-				//Replace
+				// replace variables
 				msg = msg.replace("{PARTYMEMBERS}", partyMemberString);
 				msg = msg.replace("{ONLINEPARTYMEMBERS}", onlineMemberString);
 			} else {
@@ -249,22 +228,20 @@ public class Utils {
 	 * @param plugin an instance of the AutismChat3 plugin
 	 * @param player the UUID of the player's name to be formatted
 	 * @param perspective the perspective of the player to see the formatted 
-	 * name
+	 * name (can be null)
 	 * @return formatted name
 	 */
 	public static String formatName(AutismChat3 plugin, UUID player, UUID perspective) {
-		if(perspective != null) {
-			if (player.equals(perspective)) {
-				// format player name from their perspective, so "You"
-				String name = "You";
-				name = Color.colorCode(plugin.getACPlayer(player).getColor()) + name;
-				return colorCodes(name + "&r");
-			}
+		if (perspective != null && player.equals(perspective)) {
+			// format player name from their perspective, so "You"
+			String name = "You";
+			name = Color.colorCode(plugin.getACPlayer(player).getColor()) + name;
+			return colorCodes(name + "&r");
+		} else {
+			String name = plugin.getName(player);
+			name = Color.colorCode(plugin.getACPlayer(player).getColor()) + name;
+			return colorCodes(name + "&r");
 		}
-		
-		String name = plugin.getName(player);
-		name = Color.colorCode(plugin.getACPlayer(player).getColor()) + name;
-		return colorCodes(name + "&r");
 	}
 	
 	/**
@@ -276,9 +253,10 @@ public class Utils {
 	 * @return
 	 */
 	public static String partyMembersString(AutismChat3 plugin, int partyId, UUID uuid) {
-		String partyMemberString = "";
+		if (plugin.getACParty(partyId) == null) return null;
 		
-		List<UUID> partyMembers = PartyUtils.partyMembers(partyId);
+		String partyMemberString = "";
+		List<UUID> partyMembers = plugin.getACParty(partyId).getMembers();
 		for(UUID member : partyMembers) {
 			if(!member.equals(uuid)) {
 				String playerName = plugin.getName(member);
@@ -288,7 +266,7 @@ public class Utils {
 				}
 			}
 		}
-		if(partyMembers.size() > 1) {
+		if (!partyMemberString.equals("")) {
 			partyMemberString = partyMemberString.substring(2);
 			partyMemberString = partyMemberString + "&r";
 		} else {
@@ -296,6 +274,36 @@ public class Utils {
 		}
 		
 		return partyMemberString;
+	}
+	
+	/**
+	 * Takes a list of UUIDs, intended to be the player's yellow list, and 
+	 * returns a String with formatted names
+	 * 
+	 * @param plugin an instance of the AutismChat3 plugin
+	 * @param list the list of UUIDs
+	 * @return the formatted String
+	 */
+	public static String UUIDListToFormattedString(AutismChat3 plugin, List<UUID> list) {
+		String result = "";
+		
+		for (UUID member : list) {
+			String playerName = plugin.getName(member);
+			
+			if (playerName != null) {
+				playerName = Utils.formatName(plugin, member, null);
+				result += ", " + playerName;
+			}
+		}
+		
+		if (list.size() > 1) {
+			result = result.substring(2);
+			result += "&r";
+		} else {
+			result = "NONE";
+		}
+		
+		return result;
 	}
 	
 	/**

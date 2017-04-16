@@ -62,7 +62,8 @@ public class AutismChat3 extends JavaPlugin {
 	private final UUIDs uuids = new UUIDs(this);
 	private ScoreboardManager manager;
 	
-	public HashMap<UUID, ACPlayer> players = new HashMap<UUID, ACPlayer>();
+	private HashMap<UUID, ACPlayer> players = new HashMap<>();
+	private HashMap<Integer, ACParty> parties = new HashMap<>();
 	
 	private SaveDataTask saveDataTask;
 	
@@ -91,8 +92,9 @@ public class AutismChat3 extends JavaPlugin {
 		greenTeam.setPrefix(Utils.colorCodes(Messages.color_green));
 		
 		loadPlayerData();
+		loadPartyData();
 		
-		// save player data every 30 seconds if it has changed
+		// save player & party data every 30 seconds if it has changed
 		saveDataTask = new SaveDataTask(this, false);
 		saveDataTask.runTaskTimerAsynchronously(this, 600, 600);
 	}
@@ -111,19 +113,18 @@ public class AutismChat3 extends JavaPlugin {
 		if (!(getDataFolder().exists())) {
 			// Create the data folder
 			getDataFolder().mkdirs();
-		}
-		
+		}		
 	
 		if(!config.exists()) {
 			try {
 				config.createNewFile();
 				log.info("Created config.yml file...");
-				Config.setupConfig();
+				Config.setupConfig(this);
 			} catch (Exception e) {
 				log.info("Error occurred while creating config.yml file... Please check your permissions.");
 			}
 		}
-		Config.loadValues();
+		Config.loadValues(this);
 		
 		if(!messages.exists()) {
 			try {
@@ -149,8 +150,7 @@ public class AutismChat3 extends JavaPlugin {
 			try {
 				if (playerFile.getName().endsWith(".yml")) {
 					FileConfiguration playerConfig = new YamlConfiguration();
-					playerConfig.load(playerFile);
-					
+					playerConfig.load(playerFile);					
 					
 					int partyId = playerConfig.getInt("partyId");
 					List<UUID> yellowList = Utils.convertStringToList((String) playerConfig.get("yellowList"));
@@ -168,6 +168,30 @@ public class AutismChat3 extends JavaPlugin {
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.info("[AutismChat3] There was a problem reading " + playerFile.getName() + ". Skipping...");
+			}
+		}
+	}
+	
+	/**
+	 * Loads party data from yml files.
+	 */
+	public void loadPartyData() {
+		File[] partyDataFiles = new File(getDataFolder().getAbsolutePath() + File.separator + "parties").listFiles();
+		for(File partyFile : partyDataFiles) {
+			try {
+				if (partyFile.getName().endsWith(".yml")) {
+					FileConfiguration partyConfig = new YamlConfiguration();
+					partyConfig.load(partyFile);					
+					
+					int partyId = Integer.parseInt(partyFile.getName().replaceAll(".yml", ""));
+					List<UUID> memberList = Utils.convertStringToList((String) partyConfig.get("members"));
+										
+					ACParty p = new ACParty(memberList, partyId);
+					parties.put(partyId, p);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.info("[AutismChat3] There was a problem reading " + partyFile.getName() + ". Skipping...");
 			}
 		}
 	}
@@ -269,10 +293,160 @@ public class AutismChat3 extends JavaPlugin {
 		}
 	}
 	
-	public boolean createNewPlayer(UUID uuid, int partyId) {
+	/**
+	 * Instantiates a new ACPlayer and adds it to the players HashMap.
+	 * 
+	 * @param uuid player's UUID
+	 * @param partyId the id of the party the player belongs to
+	 */
+	public void createNewPlayer(UUID uuid, int partyId) {
 		ACPlayer acPlayer = new ACPlayer(uuid, partyId);
 		players.put(uuid, acPlayer);
+	}
+	
+	/**
+	 * Gets an ACParty from the parties list if it exists. Otherwise the method
+	 * returns null.
+	 * 
+	 * @param id the party's id
+	 * @return the ACParty object or null if none
+	 */
+	public ACParty getACParty(int id) {
+		if (parties.containsKey(id)) {
+			return parties.get(id);
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Instantiates a new ACParty and adds it to the parties HashMap.
+	 * 
+	 * @param firstMember the party's first member's uuid
+	 * @return the new party's id
+	 */
+	public int createNewParty(UUID firstMember) {
+		ACParty acParty = new ACParty(firstMember, this);
+		parties.put(acParty.getId(), acParty);
+		return acParty.getId();
+	}
+	
+	/**
+	 * Returns a list of all the UUIDs of the current players.
+	 * 
+	 * @return current ACPlayer's UUIDs
+	 */
+	public ArrayList<UUID> playersUUIDs() {
+		return new ArrayList<UUID>(players.keySet());
+	}
+	
+	/**
+	 * Returns a list of all the IDs of the current parties.
+	 * 
+	 * @return current party IDs
+	 */
+	public ArrayList<Integer> partyIDs() {
+		return new ArrayList<Integer>(parties.keySet());
+	}
+	
+	/**
+	 * Deletes the specified party from disk and removes it from the HashMap
+	 * 
+	 * @param partyId the id of the party to delete
+	 */
+	public void deleteParty(int partyId) {
+		if (parties.containsKey(partyId)) {
+			parties.remove(partyId);
+		}
+		
+		String path = dataFolder + File.separator + "parties" + File.separator + partyId + ".yml";
+		File party = new File(path);
+		if (party.exists()) {
+			party.delete();
+		}
+	}
+	
+	/**
+	 * Adds a player to an existing party's member list and sets their party 
+	 * id to match the specified party.
+	 * 
+	 * @param partyId id of the party to join
+	 * @param player player's UUID
+	 * @return
+	 */
+	public boolean joinParty(int partyId, UUID player) {
+		ACPlayer acPlayer = getACPlayer(player);
+		if (acPlayer == null) return false;
+		
+		// have player leave their current party
+		int currentPartyId = acPlayer.getPartyId();	
+		ACParty oldParty = getACParty(currentPartyId);
+		if (oldParty != null) {
+			
+			// notify everyone in the party that the player left
+			for (UUID playerId : oldParty.getMembers()) {
+				Player cPlayer = getServer().getPlayer(playerId);
+				
+				if (cPlayer != null) {
+					String msg = "";
+					
+					if (!playerId.equals(player)) {
+						msg = Messages.message_leaveParty;
+						String pName = Utils.formatName(this, player, cPlayer.getUniqueId());
+						msg = msg.replace("{PLAYER}", pName);
+						msg = msg.replace("{PLAYERS} {REASON}", Messages.reasonJoinedAnotherParty);
+					} else {
+						msg = Messages.message_youLeaveParty;
+						String partyMemberList = Utils.partyMembersString(this, currentPartyId, player);
+						msg = msg.replace("{PLAYERS} {REASON}", partyMemberList);
+					}
+					
+					cPlayer.sendMessage(Utils.colorCodes(msg));
+				}
+			}	
+			
+			// remove the player and delete the party
+			oldParty.removeMember(player);			
+			if (oldParty.getMembers().isEmpty()) {
+				// delete party because it is empty
+				deleteParty(currentPartyId);
+			}
+		}
+		
+		// add member to the specified party
+		ACParty newParty = getACParty(partyId);
+		if (newParty != null) {
+			newParty.addMember(player);
+			
+			for (UUID member : newParty.getMembers()) {
+				Player cPlayer = getServer().getPlayer(member);
+							
+				if (cPlayer != null) {
+					String msg = "";
+					
+					if (!member.equals(player)) {
+						// send join message to member
+						msg = Messages.message_joinParty;
+						String name = Utils.formatName(this, player, member);
+						msg = msg.replace("{PLAYER}", name);
+						msg = msg.replace(" {MEMBERS}", "");
+					} else {
+						String partyMemberList = Utils.partyMembersString(this, partyId, member);
+						msg = Messages.message_youJoinParty;
+						msg = msg.replace("has", "have");
+						msg = msg.replace("{MEMBERS}", partyMemberList);
+					}
+					
+					cPlayer.sendMessage(Utils.colorCodes(msg));
+				}
+			}
+		} else {
+			return false;
+		}
+		
+		// update the player's partyId
+		acPlayer.setPartyId(partyId);		
+		
 		return true;
 	}
-
 }

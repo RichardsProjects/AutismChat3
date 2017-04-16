@@ -22,17 +22,18 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import net.richardprojects.autismchat3.ACParty;
 import net.richardprojects.autismchat3.ACPlayer;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Color;
 import net.richardprojects.autismchat3.Messages;
-import net.richardprojects.autismchat3.PartyUtils;
 import net.richardprojects.autismchat3.Utils;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -48,14 +49,18 @@ public class RedCommand implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2,
 			String[] args) {
-		if(sender instanceof Player) {
+		if (sender instanceof Player) {
 			final Player player = (Player) sender;
 			final ACPlayer acPlayer = plugin.getACPlayer(player.getUniqueId());
 			
-			if(args.length == 0)
-			{
+			if (args.length == 0) {
 				acPlayer.setColor(Color.RED);
+				
+				// send message
 				String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_setRed);
+				player.sendMessage(msg);
+				
+				// update teams
 				Team playerTeam = AutismChat3.board.getPlayerTeam(player);
 				if(playerTeam != null) {
 					String name = playerTeam.getName();
@@ -70,55 +75,14 @@ public class RedCommand implements CommandExecutor {
 					}
 				}
 				AutismChat3.redTeam.addPlayer(player);
-				player.sendMessage(msg);
+				
+				// update scoreboards
 				for(Player cPlayer : plugin.getServer().getOnlinePlayers()) {
 					cPlayer.setScoreboard(AutismChat3.board);
 				}
-				plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-					public void run() {
-						
-						//Remove player from their party if there is more than just them in it
-						int currentPartyId = acPlayer.getPartyId();
-						List<UUID> currentPartyMemberList = PartyUtils.partyMembers(currentPartyId);
-						if(currentPartyMemberList.size() > 1) {
-							try {
-								//Message everyone
-								for(UUID member : currentPartyMemberList) {
-									if(!member.equals(player.getUniqueId())) {
-										Player cPlayer = plugin.getServer().getPlayer(member);
-										if(cPlayer != null) {
-											String msg2 = Messages.message_leaveParty;
-											String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
-											msg2 = msg2.replace("{PLAYER}", name);
-											msg2 = msg2.replace("{PLAYERS} {REASON}", Messages.reasonLeaveRed);
-											cPlayer.sendMessage(Utils.colorCodes(msg2));
-										}
-									} else {
-										String partyMemberlist = "";
-										for(UUID playerUUID : currentPartyMemberList) {
-											String name = Utils.formatName(plugin, playerUUID, player.getUniqueId());
-											partyMemberlist += ", " + name;
-										}
-										partyMemberlist = partyMemberlist.substring(2);
-										
-										String msg2 = Messages.message_youLeaveParty;
-										msg2 = msg2.replace("{PLAYERS}", partyMemberlist);
-										msg2 = msg2.replace("{REASON}", Messages.reasonYouRed);
-										player.sendMessage(Utils.colorCodes(msg2));
-									}
-								}
-								
-								// remove player from old party and create a new one
-								PartyUtils.removePlayerParty(currentPartyId, player.getUniqueId());
-								int newPartyId = PartyUtils.createParty(player.getName(), player.getUniqueId());
-								
-								acPlayer.setPartyId(newPartyId); // update party id
-							} catch(Exception e) {
-								e.printStackTrace();
-							}
-						}
-					}
-				});
+				
+				new SwitchRedTask(player.getUniqueId()).runTaskAsynchronously(plugin);
+					
 			} else {
 				String msg = Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs);
 				player.sendMessage(msg);
@@ -128,5 +92,63 @@ public class RedCommand implements CommandExecutor {
 			sender.sendMessage("Only a player can execute this command.");
 		}		
 		return true;
+	}
+	
+	/**
+	 * Helper task that updates the player's party when they switch to red.
+	 * 
+	 * @author RichardB122
+	 * @version 4/15/17
+	 */
+	private class SwitchRedTask extends BukkitRunnable {
+		
+		UUID player;
+		
+		public SwitchRedTask(UUID player) {
+			this.player = player;
+		}
+		
+		public void run() {
+			
+			ACPlayer acPlayer = plugin.getACPlayer(player);
+			int cPartyId = acPlayer.getPartyId();
+			ACParty party = plugin.getACParty(cPartyId);
+			
+			if (party != null && party.getMembers().size() > 1) {
+				try {
+					// message everyone
+					for (UUID member : party.getMembers()) {
+						Player cPlayer = plugin.getServer().getPlayer(member);
+											
+						if (cPlayer != null) {
+							String msg = "";
+							
+							if (!member.equals(player)) {
+								msg = Messages.message_leaveParty;
+								String name = Utils.formatName(plugin, player, cPlayer.getUniqueId());
+								msg = msg.replace("{PLAYER}", name);
+								msg = msg.replace("{PLAYERS} {REASON}", Messages.reasonLeaveRed);
+							} else {
+								String list = Utils.partyMembersString(plugin, cPartyId, player);						
+								String msg2 = Messages.message_youLeaveParty;
+								msg2 = msg2.replace("{PLAYERS}", list);
+								msg2 = msg2.replace("{REASON}", Messages.reasonYouRed);
+							}
+							
+							cPlayer.sendMessage(Utils.colorCodes(msg));
+						}
+					}
+					
+					party.removeMember(player); // remove player from old party
+					
+					// create a new party for the player
+					int newPartyId = plugin.createNewParty(player);					
+					acPlayer.setPartyId(newPartyId);
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 	}
 }

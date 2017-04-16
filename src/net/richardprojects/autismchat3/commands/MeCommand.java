@@ -3,10 +3,9 @@ package net.richardprojects.autismchat3.commands;
 import java.util.List;
 import java.util.UUID;
 
+import net.richardprojects.autismchat3.ACParty;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Messages;
-import net.richardprojects.autismchat3.PartyUtils;
-import net.richardprojects.autismchat3.PlayerData;
 import net.richardprojects.autismchat3.Utils;
 
 import org.bukkit.command.Command;
@@ -24,8 +23,8 @@ public class MeCommand implements CommandExecutor {
 
 	public boolean onCommand(final CommandSender sender, Command arg1, String arg2,
 			final String[] args) {
-		if(sender instanceof Player) {
-			if(args.length > 0) {
+		if (sender instanceof Player) {
+			if (args.length > 0) {
 				plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 					public void run() {
 						Player player = (Player) sender;
@@ -35,11 +34,13 @@ public class MeCommand implements CommandExecutor {
 						}
 						
 						int partyId = plugin.getACPlayer(player.getUniqueId()).getPartyId();
-						if(partyId > 0) {
-							List<UUID> partyMembers = PartyUtils.partyMembers(partyId);
-							for(UUID uuid : partyMembers) {
+						ACParty party = plugin.getACParty(partyId);
+						
+						if (party != null) {
+							for (UUID uuid : party.getMembers()) {
 								Player cPlayer = plugin.getServer().getPlayer(uuid);
-								if(cPlayer != null) {
+								
+								if (cPlayer != null) {
 									String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
 									cPlayer.sendMessage(name + " " +  msg);
 								}

@@ -13,12 +13,11 @@ package net.richardprojects.autismchat3.events;
 import java.util.UUID;
 
 import net.md_5.bungee.api.ChatColor;
+import net.richardprojects.autismchat3.ACParty;
 import net.richardprojects.autismchat3.ACPlayer;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Color;
 import net.richardprojects.autismchat3.Messages;
-import net.richardprojects.autismchat3.PartyUtils;
-import net.richardprojects.autismchat3.PlayerData;
 import net.richardprojects.autismchat3.Utils;
 
 import org.bukkit.entity.Player;
@@ -45,12 +44,14 @@ public class ChatEvent implements Listener {
 		String playerName = Color.colorCode(acPlayer.getColor()) + player.getName();
 		
 		int partyID = acPlayer.getPartyId();
+		ACParty party = plugin.getACParty(partyID);
 		
-		if(partyID > 0) {
+		if (party != null) {
 			int playersSentTo = 0;
-			for(UUID cUUID : PartyUtils.partyMembers(partyID)) {
+			for (UUID cUUID : party.getMembers()) {
 				Player cPlayer = plugin.getServer().getPlayer(cUUID);
-				if(cPlayer != null) {
+				
+				if (cPlayer != null) {
 					String msg = Messages.partyChatFormat;
 					msg = msg.replace("%name%", playerName + ChatColor.RESET);
 					msg = msg.replace("%message%", chatMsg);
@@ -60,6 +61,7 @@ public class ChatEvent implements Listener {
 				}
 			}
 			
+			// notify the player if nobody heard their message
 			if(playersSentTo == 1 || playersSentTo == 0) {
 				String msg = Messages.prefix_Bad + Messages.message_nobodyHeardMessage;
 				player.sendMessage(Utils.colorCodes(msg));

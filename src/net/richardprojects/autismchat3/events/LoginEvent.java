@@ -13,13 +13,12 @@ package net.richardprojects.autismchat3.events;
 import java.util.List;
 import java.util.UUID;
 
+import net.richardprojects.autismchat3.ACParty;
 import net.richardprojects.autismchat3.ACPlayer;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Color;
 import net.richardprojects.autismchat3.Config;
 import net.richardprojects.autismchat3.Messages;
-import net.richardprojects.autismchat3.PartyUtils;
-import net.richardprojects.autismchat3.PlayerData;
 import net.richardprojects.autismchat3.Utils;
 
 import org.bukkit.entity.Player;
@@ -42,7 +41,7 @@ public class LoginEvent implements Listener {
 		Player player = e.getPlayer();
 		UUID uuid = player.getUniqueId();
 		
-		// Update the UUID's file every time a player joins
+		// update the UUID's file every time a player joins
 		plugin.updateUUID(player.getName(), player.getUniqueId());
 
 		boolean playerJoinedBefore = true;
@@ -50,35 +49,19 @@ public class LoginEvent implements Listener {
 		// handle new user creation
 		if (plugin.getACPlayer(player.getUniqueId()) == null) {
 			playerJoinedBefore = false;
+			
 			// handle party creation
 			if (Config.template_partyID == 0) {
 				// create new party
-				int partyID = 0;
-				try {
-					partyID = PartyUtils.createParty(player.getName(), uuid);
-				} catch (Exception ex) {
-					String err = "An error occurred while creating a new party... ";
-					AutismChat3.log.info(err + " Please check your file permissions.");
-					ex.printStackTrace();
-				}
-				if (partyID != 0)
-					plugin.createNewPlayer(uuid, partyID);
+				int partyID = plugin.createNewParty(uuid);				
+				if (partyID > -1) plugin.createNewPlayer(uuid, partyID);
 			} else {
-				if (PartyUtils.partyExists(Config.template_partyID)) {
+				if (plugin.getACParty(Config.template_partyID) != null) {
 					plugin.createNewPlayer(uuid, Config.template_partyID);
-					PartyUtils.joinParty(plugin, Config.template_partyID, player.getUniqueId());
+					plugin.joinParty(Config.template_partyID, player.getUniqueId());
 				} else {
-					int partyID = 0;
-					try {
-						partyID = PartyUtils.createParty(player.getName(),
-								player.getUniqueId());
-					} catch (Exception ex) {
-						String err = "An error occurred while creating a new party... ";
-						AutismChat3.log.info(err + " Please check your file permissions.");
-						ex.printStackTrace();
-					}
-					if (partyID != 0)
-						plugin.createNewPlayer(uuid, partyID);
+					int partyID = plugin.createNewParty(player.getUniqueId());					
+					if (partyID > -1) plugin.createNewPlayer(uuid, partyID);
 				}
 			}
 		}
@@ -127,9 +110,8 @@ public class LoginEvent implements Listener {
 				}
 			}
 			
-			if(displayMessage) {
-
-				if(cPlayer.getUniqueId().equals(e.getPlayer().getUniqueId())) {
+			if (displayMessage) {
+				if (cPlayer.getUniqueId().equals(e.getPlayer().getUniqueId())) {
 					String msg = Messages.message_joinMessage;
 					String name = Utils.formatName(plugin, player.getUniqueId(), null);
 					msg = msg.replace("{PLAYER}", name);
@@ -137,9 +119,11 @@ public class LoginEvent implements Listener {
 				} else {
 					int cPlayerPartyId = plugin.getACPlayer(cPlayer.getUniqueId()).getPartyId();
 					String name = Utils.formatName(plugin, player.getUniqueId(), cPlayer.getUniqueId());
-					if(cPlayerPartyId > 0) {
-						List<UUID> partyMembers = PartyUtils.partyMembers(cPlayerPartyId);
-						if(partyMembers.contains(e.getPlayer().getUniqueId())) {
+					ACParty cPlayerParty = plugin.getACParty(cPlayerPartyId);
+					
+					if (cPlayerParty != null) {
+						List<UUID> partyMembers = cPlayerParty.getMembers();
+						if (partyMembers.contains(e.getPlayer().getUniqueId())) {
 							String msg = Messages.message_joinMessageParty;
 							msg = msg.replace("{PLAYER}", name);
 							cPlayer.sendMessage(Utils.colorCodes(msg));

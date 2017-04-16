@@ -12,21 +12,14 @@ package net.richardprojects.autismchat3.events;
 
 import java.util.UUID;
 
-import net.md_5.bungee.api.ChatColor;
+import net.richardprojects.autismchat3.ACParty;
 import net.richardprojects.autismchat3.AutismChat3;
-import net.richardprojects.autismchat3.Color;
-import net.richardprojects.autismchat3.Config;
-import net.richardprojects.autismchat3.Messages;
-import net.richardprojects.autismchat3.PartyUtils;
-import net.richardprojects.autismchat3.PlayerData;
-import net.richardprojects.autismchat3.Utils;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class PDeathEvent implements Listener {
 	
@@ -46,9 +39,10 @@ public class PDeathEvent implements Listener {
 
 			public void run() {
 				int partyID = plugin.getACPlayer(player.getUniqueId()).getPartyId();
+				ACParty party = plugin.getACParty(partyID);
 				
-				if(partyID > 0) {
-					for(UUID uuid : PartyUtils.partyMembers(partyID)) {
+				if(party != null) {
+					for(UUID uuid : party.getMembers()) {
 						Player cPlayer = plugin.getServer().getPlayer(uuid);
 						if(cPlayer != null) {
 							cPlayer.sendMessage(chatMsg);
