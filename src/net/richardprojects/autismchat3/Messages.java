@@ -28,6 +28,7 @@ public class Messages {
 	public static String status_yellowList;
 	public static String status_globalChat;
 	public static String status_partyMembers;
+	public static String status_othersYellowList;
 	public static String prefix_Bad;
 	public static String prefix_Good;
 	public static String prefix_MessageReceiving;
@@ -57,6 +58,8 @@ public class Messages {
 	public static String message_setBlue;
 	public static String message_globalChatOff;
 	public static String message_globalChatOn;
+	public static String message_motdOn;
+	public static String message_motdOff;
 	public static String message_yellowListAdd;
 	public static String message_yellowListRemove;
 	public static String message_gcAutoEnabled;
@@ -125,6 +128,8 @@ public class Messages {
 			message_reload = messagesConfig.getString("reload");
 			message_globalChatOff = messagesConfig.getString("globalChatOff");
 			message_globalChatOn = messagesConfig.getString("globalChatOn");
+			message_motdOn = messagesConfig.getString("motdOn");
+			message_motdOff = messagesConfig.getString("motdOff");
 			error_noAcceptingRed = messagesConfig.getString("noAcceptingRed");
 			error_noAcceptingYellow = messagesConfig.getString("noAcceptingYellow");
 			error_noSendingRed = messagesConfig.getString("noSendingRed");
@@ -170,6 +175,7 @@ public class Messages {
 			status_yellowList = messagesConfig.getString("status.yellowList");
 			status_globalChat = messagesConfig.getString("status.globalChat");
 			status_partyMembers = messagesConfig.getString("status.partyMembers");
+			status_othersYellowList = messagesConfig.getString("status.othersYellowList");
 			
 			// load join messages
 			message_joinMessage = messagesConfig.getString("joinMessage");

@@ -51,14 +51,14 @@ public class LoginEvent implements Listener {
 			playerJoinedBefore = false;
 			
 			// handle party creation
-			if (Config.template_partyID == 0) {
+			if (Config.templatePartyID == 0) {
 				// create new party
 				int partyID = plugin.createNewParty(uuid);				
 				if (partyID > -1) plugin.createNewPlayer(uuid, partyID);
 			} else {
-				if (plugin.getACParty(Config.template_partyID) != null) {
-					plugin.createNewPlayer(uuid, Config.template_partyID);
-					plugin.joinParty(Config.template_partyID, player.getUniqueId());
+				if (plugin.getACParty(Config.templatePartyID) != null) {
+					plugin.createNewPlayer(uuid, Config.templatePartyID);
+					plugin.joinParty(Config.templatePartyID, player.getUniqueId());
 				} else {
 					int partyID = plugin.createNewParty(player.getUniqueId());					
 					if (partyID > -1) plugin.createNewPlayer(uuid, partyID);
@@ -79,8 +79,8 @@ public class LoginEvent implements Listener {
 		}
 		player.setScoreboard(AutismChat3.board);
 
-		// Show Message of the Day
-		if (!(playerJoinedBefore && Config.firstJoin)) {
+		// show message of the day
+		if (acPlayer.getDispalyMotd()) {
 			for (String msg : Messages.motd) {
 				msg = Utils.colorCodes(msg);
 				player.sendMessage(msg);

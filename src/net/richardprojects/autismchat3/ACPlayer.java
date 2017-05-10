@@ -30,6 +30,7 @@ public class ACPlayer {
 	private Color color;
 	private boolean globalChat;
 	private ArrayList<UUID> yellowList;
+	private boolean displayMotd;
 	public boolean needsUpdate;
 	
 	/**
@@ -45,8 +46,9 @@ public class ACPlayer {
 		this.partyId = partyId;
 		this.needsUpdate = true;
 		
-		this.color = Config.template_color;
-		this.globalChat = Config.template_globalChat;
+		this.color = Config.templateColor;
+		this.globalChat = Config.templateGlobalChat;
+		this.displayMotd = Config.templateMotd;
 		this.yellowList = new ArrayList<UUID>();
 	}
 	
@@ -54,12 +56,13 @@ public class ACPlayer {
 	 * Constructor for an ACPlayer that is being loaded. In this constructor 
 	 * you must provide all variables.
 	 */
-	public ACPlayer(UUID uuid, int partyId, Color color, boolean globalChat, ArrayList<UUID> yellowList) {
+	public ACPlayer(UUID uuid, int partyId, Color color, boolean globalChat, ArrayList<UUID> yellowList, boolean displayMotd) {
 		this.uuid = uuid;
 		this.partyId = partyId;
 		this.color = color;
 		this.globalChat = globalChat;
 		this.yellowList = yellowList;
+		this.displayMotd = displayMotd;
 		this.needsUpdate = false;
 	}
 	
@@ -90,6 +93,15 @@ public class ACPlayer {
 		this.needsUpdate = true;
 	}
 
+	public boolean getDispalyMotd() {
+		return displayMotd;
+	}
+	
+	public void setDisplayMotd(boolean motd) {
+		this.displayMotd = motd;
+		this.needsUpdate = true;
+	}
+	
 	public ArrayList<UUID> getYellowList() {
 		return yellowList;
 	}
@@ -134,6 +146,7 @@ public class ACPlayer {
 			playerFile.set("color", Color.toString(color));
 			playerFile.set("globalChat", globalChat);
 			playerFile.set("yellowList", Utils.convertListToString(yellowList));
+			playerFile.set("displayMotd", displayMotd);
 			playerFile.save(file);
 			
 			this.needsUpdate = false;			

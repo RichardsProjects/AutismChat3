@@ -113,6 +113,30 @@ public class Utils {
 			
 			// send message to player
 			player.sendMessage(Utils.colorCodes(msg));
+		} else if (status.equals("othersYellowList")) {
+			String msg = Messages.status_othersYellowList;			
+			String othersYellowList = "";
+			
+			// loop through all players and check their yellow lists.
+			for (UUID playerUUID : plugin.playersUUIDs()) {
+				ACPlayer currentACPlayer = plugin.getACPlayer(playerUUID);
+				if (currentACPlayer == null) continue;
+				
+				if (currentACPlayer.getYellowList().contains(player.getUniqueId())) {
+					String name = Utils.formatName(plugin, playerUUID, player.getUniqueId());
+					othersYellowList += "&r, " + name;
+				}
+			}
+			
+			// clean up the list
+			if (othersYellowList.length() > 3) {
+				othersYellowList = othersYellowList.substring(4);
+			} else {
+				othersYellowList = "&rNONE";
+			}
+			
+			msg = msg.replace("{others_yellow_list}", othersYellowList);			
+			player.sendMessage(colorCodes(msg));
 		}
 	}
 	

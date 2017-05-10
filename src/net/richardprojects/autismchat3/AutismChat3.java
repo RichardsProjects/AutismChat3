@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import net.richardprojects.autismchat3.commands.AutismChatCommand;
@@ -62,8 +63,8 @@ public class AutismChat3 extends JavaPlugin {
 	private final UUIDs uuids = new UUIDs(this);
 	private ScoreboardManager manager;
 	
-	private HashMap<UUID, ACPlayer> players = new HashMap<>();
-	private HashMap<Integer, ACParty> parties = new HashMap<>();
+	private ConcurrentHashMap<UUID, ACPlayer> players = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<Integer, ACParty> parties = new ConcurrentHashMap<>();
 	
 	private SaveDataTask saveDataTask;
 	
@@ -156,13 +157,15 @@ public class AutismChat3 extends JavaPlugin {
 					List<UUID> yellowList = Utils.convertStringToList((String) playerConfig.get("yellowList"));
 					boolean globalChat = playerConfig.getBoolean("globalChat");
 					Color color = Color.parseString(playerConfig.getString("color"));
+					boolean displayMotd = playerConfig.getBoolean("displayMotd");
 					
 					// uuid
 					String strUUID = playerFile.getName();
 					strUUID = strUUID.replace(".yml", "");
 					UUID uuid = UUID.fromString(strUUID);
 					
-					ACPlayer p = new ACPlayer(uuid, partyId, color, globalChat, (ArrayList<UUID>) yellowList);
+					ACPlayer p = new ACPlayer(uuid, partyId, color, globalChat, 
+							(ArrayList<UUID>) yellowList, displayMotd);
 					players.put(uuid, p);
 				}
 			} catch (Exception e) {

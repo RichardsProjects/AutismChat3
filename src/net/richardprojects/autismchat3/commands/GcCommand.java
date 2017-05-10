@@ -22,14 +22,14 @@ public class GcCommand implements CommandExecutor {
 		if(sender instanceof Player)
 		{
 			Player player = (Player) sender;
-			if(args.length == 1)
+			if (args.length == 1)
 			{
-				if(args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off")) {
-					if(args[0].equalsIgnoreCase("on")) {
+				if (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off")) {
+					if (args[0].equalsIgnoreCase("on")) {
 						plugin.getACPlayer(player.getUniqueId()).setGlobalChat(true);
 						String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_globalChatOn);
 						player.sendMessage(msg);
-					} else if(args[0].equalsIgnoreCase("off")) {
+					} else if (args[0].equalsIgnoreCase("off")) {
 						plugin.getACPlayer(player.getUniqueId()).setGlobalChat(false);
 						String msg = Utils.colorCodes(Messages.prefix_Good + Messages.message_globalChatOff);
 						player.sendMessage(msg);

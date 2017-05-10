@@ -50,7 +50,7 @@ commands:
     usage: /<command> <player> <message>
   autismchat:
     description: 'Manage the autismchat plugin. Just "/autismchat" displays a help menu and "/autismchat reload" reloads the plugin'
-    usage: /<command> [reload]
+    usage: /<command> <reload|motd> [on|off]
     aliases: [ac]
   me:
     description: Displays a message about yourself.

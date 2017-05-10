@@ -25,15 +25,16 @@ public class Config {
 	public static ChatColor red;
 	public static ChatColor green;
 	public static ChatColor yellow;
-	public static int template_partyID;
-	public static Color template_color;
-	public static boolean template_globalChat;
+	public static int templatePartyID;
+	public static Color templateColor;
+	public static boolean templateGlobalChat;
+	public static boolean templateMotd;
 	public static boolean displayLoginMesagesToRedPlayers;
-	public static boolean firstJoin;
 	public static boolean redHidesLoginNotification = false;
 	public static boolean loginReport = true;
 	public static String loginReportStatuses;
 	public static String statusStatuses;
+	public static String yellowStatuses;
 	
 	private static YamlConfiguration config;
 	
@@ -69,16 +70,15 @@ public class Config {
 			redHidesLoginNotification = config.getBoolean("redhidesloginnotify");
 			loginReport = config.getBoolean("showLoginReport");
 						
-			template_partyID = config.getInt("templateForFirstLogin.partyID");
-			template_color = Color.parseString(config.getString("templateForFirstLogin.color"));
-			template_globalChat = config.getBoolean("templateForFirstLogin.globalChat");
+			templatePartyID = config.getInt("templateForFirstLogin.partyID");
+			templateColor = Color.parseString(config.getString("templateForFirstLogin.color"));
+			templateGlobalChat = config.getBoolean("templateForFirstLogin.globalChat");
+			templateMotd = config.getBoolean("templateForFirstLogin.displayMotd");
 			
-			//First join value sets if the motd should only be displayed on first join
-			firstJoin = config.getBoolean("firstJoin");
-			
-			//Load Statuses
+			// load status information
 			loginReportStatuses = config.getString("loginReport");
 			statusStatuses = config.getString("status");
+			yellowStatuses = config.getString("yellowListCommand");
 		} catch(Exception e) {
 			AutismChat3.log.info("There was an error while loading data from the configuration...");
 			e.printStackTrace();

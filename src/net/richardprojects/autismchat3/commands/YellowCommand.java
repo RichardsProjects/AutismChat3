@@ -18,6 +18,7 @@ import net.richardprojects.autismchat3.ACParty;
 import net.richardprojects.autismchat3.ACPlayer;
 import net.richardprojects.autismchat3.AutismChat3;
 import net.richardprojects.autismchat3.Color;
+import net.richardprojects.autismchat3.Config;
 import net.richardprojects.autismchat3.Messages;
 import net.richardprojects.autismchat3.Utils;
 
@@ -75,20 +76,12 @@ public class YellowCommand implements CommandExecutor {
 			} else {
 				if (args.length == 1) {
 					if (args[0].equalsIgnoreCase("list")) {
-						//Replace the Yellow list variable with the names of people on their yellow list
-						String yellowList = "";
-						for (UUID uuid : acPlayer.getYellowList()) {
-							String yellowName = plugin.getName(uuid);
-							if (yellowName != null) {
-								if (yellowList.equals("")) {
-									yellowList = yellowName;
-								} else {
-									yellowList = yellowList + ", " + yellowName;
-								}
-							}
+						// send yellow statuses
+						String[] statuses = Config.yellowStatuses.split(",");
+						for (String status : statuses) {
+							Utils.sendStatus(status, player.getUniqueId(), plugin);
 						}
-						String msg = Messages.prefix_Good + "Yellow List Members: " + yellowList;
-						player.sendMessage(Utils.colorCodes(msg));
+						
 						return true;
 					} else {
 						sender.sendMessage(Utils.colorCodes(Messages.prefix_Bad + Messages.error_invalidArgs));

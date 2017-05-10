@@ -10,15 +10,14 @@ templateForFirstLogin:
   partyID: 0
   color: WHITE
   globalChat: true
+  displayMotd: true
 #
 # Players login/logoff messages are not displayed to red players
 redhidesloginnotify: false
-#
-# Changes whether the MOTD is displayed every join or just on the first one
-firstJoin: false
 #
 # If this setting is enabled it will display all the user's settings to them when they login
 showLoginReport: true
 #
 status: 'globalChat,partyMembers'
-loginReport: 'colourSetting,yellowList,globalChat,partyMembers'
+loginReport: 'colourSetting,yellowList,othersYellowList,globalChat,partyMembers'
+yellowListCommand: 'yellowList,othersYellowList'
