@@ -8,4 +8,4 @@ AutismChat is a Free/Libre Open Source Bukkit/Spigot 1.8 (works with 1.13) plugi
 
 Download
 ========
-This plugin is still under development and bugfixes are being added daily, but you can download the lastest pre-release [here](https://github.com/RichardsProjects/AutismChat3/releases).
+This plugin is no longer maintained, but you can download the lastest version [here](https://github.com/RichardsProjects/AutismChat3/releases).
