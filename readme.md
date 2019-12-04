@@ -1,5 +1,7 @@
 AutismChat3
 ===========
+**This plugin is nolonger maintained. Development has moved to [AutismChat 4](https://github.com/fallerOfFalls/AutismChat4).**
+
 User Guide [here](https://docs.google.com/document/d/1IBBq-ru-qQn3SEVy5342BEs_77vo94biNJ3_XFtjFyM/edit?usp=sharing)
 
 Official homepage of AutismChat is [here](http://beeminecraftserver.weebly.com/autismchat.html).
